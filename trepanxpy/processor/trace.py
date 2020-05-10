@@ -55,7 +55,7 @@ class XPyPrintProcessor(object):
     whether it wants any printed at all.
     """
 
-    def __init__(self, core_obj, debugger, opts=None):
+    def __init__(self, core_obj, opts=None):
         self.core = core_obj
         self.debugger = core_obj.debugger
         return

@@ -44,8 +44,8 @@ class Debugger(object):
         self.filename_cache = {}
         self.settings = DEBUGGER_SETTINGS
         self.core = TrepanXPyCore(self, {})
-        # processor = XPyPrintProcessor(self.core, self)
-        processor = XPyCommandProcessor(self.core, self)
+        # processor = XPyPrintProcessor(self.core)
+        processor = XPyCommandProcessor(self.core)
         self.callback_hook = processor.event_hook
 
         # Save information for restarting

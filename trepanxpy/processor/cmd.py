@@ -31,6 +31,7 @@ from trepanxpy.processor.trace import EVENT2SHORT
 
 import trepan.lib.bytecode as Mbytecode
 import trepan.lib.display as Mdisplay
+import trepan.misc as Mmisc
 import trepan.lib.thred as Mthread
 import trepan.processor.complete as Mcomplete
 
@@ -123,9 +124,10 @@ class XPyCommandProcessor(CommandProcessor):
         self.thread_name = None
         self.frame_thread_name = None
 
-        # initfile_list = get_option("initfile_list")
-        # for init_cmdfile in initfile_list:
-        #     self.queue_startfile(init_cmdfile)
+        get_option = lambda key: Mmisc.option_set(opts, key, DEFAULT_PROC_OPTS)
+        initfile_list = get_option("initfile_list")
+        for init_cmdfile in initfile_list:
+            self.queue_startfile(init_cmdfile)
 
 
         # FIXME: This doesn't work
