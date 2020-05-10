@@ -85,7 +85,8 @@ class XPyCommandProcessor(CommandProcessor):
         self.last_command = None  # Initially a no-op
         self.precmd_hooks = []
 
-        self.location = lambda: print_location(self)
+        # FIXME: can we adjust this to also show the instruction?
+        self.location = lambda: self
 
         self.preloop_hooks = []
         self.postcmd_hooks = []
@@ -233,6 +234,7 @@ class XPyCommandProcessor(CommandProcessor):
         self.frame = vm.frame
         self.event = event
         self.event_arg = event_arg
+        self.core.execution_status = "Running"
 
         filename = self.frame.f_code.co_filename
         lineno = self.frame.f_lineno
@@ -256,6 +258,12 @@ class XPyCommandProcessor(CommandProcessor):
             pass
         self.thread_name = Mthread.current_thread_name()
         self.frame_thread_name = self.thread_name
+
+        self.setup()
+        print_location(self)
+        if offset >= 0:
+            self.msg("%s" % self.vm.instruction_info(byteName, event_arg, offset))
+
         self.set_prompt(prompt)
         self.process_commands()
         if filename == "<string>":
@@ -298,16 +306,19 @@ class XPyCommandProcessor(CommandProcessor):
             pass
         self.curindex = 0
         if self.frame or exc_traceback:
-            stack = self.vm.frame.stack
+            stack = self.vm.frames
             if stack == []:
                 # FIXME: Just starting up - should there be an event for this
                 # Or do we need to do this for all call events?
                 stack = [self.frame]
-            self.stack = [(frame, frame.line_number()) for frame in stack]
+            try:
+                self.stack = [(frame, frame.line_number()) for frame in stack]
+            except:
+                from trepan.api import debug; debug()
             self.curframe = self.frame
             # FIXME
             # self.thread_name = Mthread.current_thread_name()
-            self.thread_name = "Main"
+            self.thread_name = "MainThread"
             if exc_traceback:
                 self.list_lineno = self.frame.line_number()
                 self.list_offset = self.curframe.f_lasti

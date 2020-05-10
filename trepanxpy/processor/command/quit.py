@@ -16,10 +16,7 @@
 import os, threading
 import ctypes
 
-# Our local modules
-from trepan.processor.command import base_cmd as Mbase_cmd
-import trepan.exception as Mexcept
-
+from trepan.processor.command.base_cmd import DebuggerCommand
 
 def ctype_async_raise(thread_obj, exception):
     found = False
@@ -47,7 +44,7 @@ def ctype_async_raise(thread_obj, exception):
         raise SystemError("PyThreadState_SetAsyncExc failed")
 
 
-class QuitCommand(Mbase_cmd.DebuggerCommand):
+class QuitCommand(DebuggerCommand):
     """**quit** [**unconditionally**]
 
 Gently terminate the debugged program.
