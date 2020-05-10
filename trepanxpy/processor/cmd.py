@@ -15,8 +15,10 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import linecache, sys, re
+import linecache, sys, re, inspect
+import importlib
 import pyficache
+import os.path as osp
 
 from typing import Any
 
@@ -41,6 +43,9 @@ from trepan.processor.cmdproc import (
 
 warned_file_mismatches = set()
 
+def get_srcdir():
+    filename = osp.normcase(osp.dirname(osp.abspath(__file__)))
+    return osp.realpath(filename)
 
 # Default settings for command processor method call
 DEFAULT_PROC_OPTS = {
@@ -147,10 +152,59 @@ class XPyCommandProcessor(CommandProcessor):
         #         ):
         #     setattr(self, method, getattr(cmdproc, method))
 
-        self.cmd_instances = self._populate_additional_commands()
-        # self._populate_cmd_lists(cmdproc)
+        # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
+        remove_commands = ("quit", "step", "next", "finish", "break", "tbreak")
+        self.cmd_instances = [cmd for cmd in self.cmd_instances
+                              if cmd.name not in
+                              remove_commands]
+
+        self.cmd_instances += self._update_commands()
+        self._populate_cmd_lists()
 
         return
+
+    def update_commands_easy_install(self, Mcommand):
+        """
+        Add files in filesystem to self.commands.
+        If running from source or from an easy_install'd package, this is used.
+        """
+        cmd_instances = []
+
+        for mod_name in Mcommand.__modules__:
+            if mod_name in ("info_sub", "set_sub", "show_sub",):
+                pass
+            import_name = "%s.%s" % (Mcommand.__name__, mod_name)
+            try:
+                command_mod = importlib.import_module(import_name)
+            except:
+                if mod_name not in self.optional_modules:
+                    print("Error importing %s: %s" % (mod_name, sys.exc_info()[0]))
+                    pass
+                continue
+
+            classnames = [
+                tup[0]
+                for tup in inspect.getmembers(command_mod, inspect.isclass)
+                if ("DebuggerCommand" != tup[0] and tup[0].endswith("Command"))
+            ]
+            for classname in classnames:
+                if False:
+                    instance = getattr(command_mod, classname)(self)
+                    cmd_instances.append(instance)
+                else:
+                    try:
+                        instance = getattr(command_mod, classname)(self)
+                        cmd_instances.append(instance)
+                    except:
+                        print(
+                            "Error loading %s from %s: %s"
+                            % (classname, mod_name, sys.exc_info()[0])
+                        )
+                        pass
+                    pass
+                pass
+            pass
+        return cmd_instances
 
     def set_prompt(self, prompt="trepan-xpy"):
         if self.thread_name and self.thread_name != "MainThread":
@@ -206,7 +260,7 @@ class XPyCommandProcessor(CommandProcessor):
             pyficache.remove_remap_file("<string>")
         return True
 
-    def _populate_additional_commands(self):
+    def _update_commands(self):
         """ Create an instance of each of the debugger
         commands. Commands are found by importing files in the
         directory 'command'. Some files are excluded via an array set
@@ -215,8 +269,13 @@ class XPyCommandProcessor(CommandProcessor):
         name, we will create an instance of that class. The set of
         DebuggerCommand class instances form set of possible debugger
         commands."""
-        # FIXME: Fill on when we have additional commands like stepi
-        return
+        from trepanxpy.processor import command as Mcommand
+
+        if hasattr(Mcommand, "__modules__"):
+            # This is also used when installing from source
+            return self.update_commands_easy_install(Mcommand)
+        else:
+            return self.populate_commands_pip(Mcommand, "trepanxpy")
 
     def setup(self):
         """Initialization done before entering the debugger-command

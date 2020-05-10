@@ -29,6 +29,7 @@ import os, sys, threading
 
 import trepan.misc as Mmisc
 import trepan.clifns as Mclifns
+import trepan.lib.breakpoint as breakpoint
 
 # Our local modules
 from trepanxpy.processor import trace as Mtrace
@@ -57,7 +58,7 @@ class TrepanXPyCore(object):
 
         get_option = lambda key: Mmisc.option_set(opts, key, self.DEFAULT_INIT_OPTS)
 
-        # self.bpmgr = breakpoint.BreakpointManager()
+        self.bpmgr = breakpoint.BreakpointManager()
         self.current_bp = None
         self.debugger = debugger
 
@@ -243,26 +244,12 @@ class TrepanXPyCore(object):
     #         self.trace_hook_suspend = False
     #     return
 
-    # def stop(self, options=None):
-    #     # Our version of:
-    #     #    sys.settrace(None)
-    #     try:
-    #         self.trace_hook_suspend = True
-    #         get_option = lambda key: Mmisc.option_set(options, key, default.STOP_OPTS)
-    #         args = [self.trace_dispatch]
-    #         remove = get_option("remove")
-    #         if remove:
-    #             args.append(remove)
-    #             pass
-    #         if tracer.is_started():
-    #             try:
-    #                 tracer.remove_hook(*args)
-    #             except LookupError:
-    #                 pass
-    #             pass
-    #     finally:
-    #         self.trace_hook_suspend = False
-    #     return
+    def stop(self, options=None):
+        """Remove trace hooks. In other words, our version of:
+              sys.settrace(None)
+        """
+        # Nothing needs to be done
+        return
 
     def is_break_here(self, frame, arg):
         filename = self.canonic(frame.f_code.co_filename)
