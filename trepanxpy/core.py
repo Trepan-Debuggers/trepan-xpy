@@ -25,11 +25,13 @@ handling what to do when an event is triggered."""
 # Common Python packages
 import os, sys, threading
 
+# import trepan.processor.cmdproc as Mcmdproc
+
+import trepan.misc as Mmisc
+import trepan.clifns as Mclifns
+
 # Our local modules
-# from trepan.lib import breakpoint, default, stack as Mstack
-import trepanxpy.misc as Mmisc
-import trepanxpy.clifns as Mclifns
-# from trepan.processor import trace as Mtrace, cmdproc as Mcmdproc
+from trepanxpy.processor import trace as Mtrace
 
 
 class TrepanXPyCore(object):
@@ -111,7 +113,7 @@ class TrepanXPyCore(object):
         # 'finish', 'step', or 'exception'.
         self.stop_reason = ""
 
-        # self.trace_processor = Mtrace.PrintProcessor(self)
+        self.trace_processor = Mtrace.XPyPrintProcessor(self, debugger)
 
         # What routines (keyed by f_code) will we not trace into?
         self.ignore_filter = get_option("ignore_filter")

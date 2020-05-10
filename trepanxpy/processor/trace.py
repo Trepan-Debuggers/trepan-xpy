@@ -47,7 +47,7 @@ EVENT2SHORT = {
 ALL_EVENTS = frozenset(ALL_EVENT_NAMES)
 
 
-class PrintProcessor(object):
+class XPyPrintProcessor(object):
     """
     A processor that just prints out events as we see them. This
     is suitable for example for line/call tracing. We assume that the

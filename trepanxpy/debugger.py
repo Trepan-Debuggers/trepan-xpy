@@ -5,24 +5,38 @@ from typing import List
 import os
 from xpython.execfile import run_python_file
 
-from trepanxpy.lib.core import TrepanXPyCore
-from trepanxpy.processor.trace import PrintProcessor
+# Default settings used here
+from trepan.lib.default import DEBUGGER_SETTINGS
+import trepan.interfaces.user as Muser
 
-
-DEFAULT_SETTINGS = {"basename": False}
+from trepanxpy.core import TrepanXPyCore
+# from trepanxpy.processor.trace import XPyPrintProcessor
+from trepanxpy.processor.cmd import XPyCommandProcessor
 
 
 class Debugger(object):
     def __init__(self, path: str, args: List[str]):
+        """Create a debugger object. But depending on the value of
+        key 'start' inside hash 'opts', we may or may not initially
+        start debugging.
+
+        See also Debugger.start and Debugger.stop.
+        """
+
+        completer  = lambda text, state: self.complete(text, state)
+        interface_opts={'complete': completer}
+        interface = Muser.UserInterface(opts=interface_opts)
+        self.intf = [interface]
 
         # main_dirname is the directory where the script resides.
         # Filenames in co_filename are often relative to this.
         self.main_dirname = os.curdir
 
         self.filename_cache = {}
-        self.settings = DEFAULT_SETTINGS
+        self.settings = DEBUGGER_SETTINGS
         self.core = TrepanXPyCore(self, {})
-        processor = PrintProcessor(self.core, self)
+        # processor = XPyPrintProcessor(self.core, self)
+        processor = XPyCommandProcessor(self.core, self)
         self.callback_hook = processor.event_hook
 
         if path:
