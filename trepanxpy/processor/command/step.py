@@ -16,11 +16,11 @@
 import os.path as osp
 
 from xpython.vmtrace import (
-    PyVMEVENT_INSTRUCTION,
     PyVMEVENT_LINE,
     PyVMEVENT_CALL,
     PyVMEVENT_RETURN,
-    PyVMEVENT_EXCEPTION
+    PyVMEVENT_EXCEPTION,
+    PyVMEVENT_YIELD
     )
 
 from trepan.processor.command.base_cmd import DebuggerCommand
@@ -81,14 +81,14 @@ See also:
     short_help    = 'Step program (possibly entering called functions)'
 
     def run(self, args):
-        step_events  = []
-        if args[0][-1] == '>':
-            step_events  = ['call']
-        elif args[0][-1] == '<':
-            step_events  = ['return']
-        elif args[0][-1] == '!':
-            step_events  = ['exception']
-            pass
+        # step_events  = []
+        # if args[0][-1] == '>':
+        #     step_events  = ['call']
+        # elif args[0][-1] == '<':
+        #     step_events  = ['return']
+        # elif args[0][-1] == '!':
+        #     step_events  = ['exception']
+        #     pass
         if len(args) <= 1:
             self.proc.debugger.core.step_ignore = 0
         else:
@@ -110,7 +110,8 @@ See also:
             PyVMEVENT_LINE |
             PyVMEVENT_CALL |
             PyVMEVENT_RETURN |
-            PyVMEVENT_EXCEPTION
+            PyVMEVENT_EXCEPTION |
+            PyVMEVENT_YIELD
             )
 
         self.core.different_line   = True # Mcmdfns.want_different_line(args[0], self.settings['different'])

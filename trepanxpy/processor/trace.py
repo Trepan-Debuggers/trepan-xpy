@@ -30,6 +30,7 @@ ALL_EVENT_NAMES = (
     "line",
     "return",
     "instruction",
+    "yield",
 )
 
 # If you want short strings for the above event names
@@ -42,6 +43,7 @@ EVENT2SHORT = {
     "line": "--",
     "instruction": "..",
     "return": "<-",
+    "yield": "<>",
 }
 
 ALL_EVENTS = frozenset(ALL_EVENT_NAMES)

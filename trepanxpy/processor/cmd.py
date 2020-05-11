@@ -27,8 +27,6 @@ from reprlib import Repr
 
 from pygments.console import colorize
 
-from trepanxpy.processor.trace import EVENT2SHORT
-
 import trepan.lib.bytecode as Mbytecode
 import trepan.lib.display as Mdisplay
 import trepan.misc as Mmisc
@@ -42,11 +40,16 @@ from trepan.processor.cmdproc import (
     print_location,
 )
 
+from trepanxpy.processor.trace import EVENT2SHORT
+
+
 warned_file_mismatches = set()
+
 
 def get_srcdir():
     filename = osp.normcase(osp.dirname(osp.abspath(__file__)))
     return osp.realpath(filename)
+
 
 # Default settings for command processor method call
 DEFAULT_PROC_OPTS = {
@@ -130,7 +133,6 @@ class XPyCommandProcessor(CommandProcessor):
         for init_cmdfile in initfile_list:
             self.queue_startfile(init_cmdfile)
 
-
         # FIXME: This doesn't work
         # # Delegate functions here:
         # self.cmdproc = CommandProcessor(self)
@@ -157,9 +159,9 @@ class XPyCommandProcessor(CommandProcessor):
 
         # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
         remove_commands = ("quit", "step", "next", "finish", "break", "tbreak")
-        self.cmd_instances = [cmd for cmd in self.cmd_instances
-                              if cmd.name not in
-                              remove_commands]
+        self.cmd_instances = [
+            cmd for cmd in self.cmd_instances if cmd.name not in remove_commands
+        ]
 
         self.cmd_instances += self._update_commands()
         self._populate_cmd_lists()
@@ -223,18 +225,25 @@ class XPyCommandProcessor(CommandProcessor):
             self.prompt_str = colorize("underline", self.prompt_str)
         self.prompt_str += " "
 
-    def event_hook(self,
-                   event: str,
-                   offset: int,
-                   byteName: str,
-                   event_arg: Any,
-                   vm: Any, prompt="trepan-xpy"):
+    def event_hook(
+        self,
+        event: str,
+        offset: int,
+        byteName: str,
+        event_arg: Any,
+        vm: Any,
+        prompt="trepan-xpy",
+    ):
         "command event processor: reading a commands do something with them."
         self.vm = vm
         self.frame = vm.frame
         self.event = event
         self.event_arg = event_arg
-        self.core.execution_status = "Running"
+        if self.vm.frame:
+            self.core.execution_status = "Running"
+        else:
+            self.core.execution_status = "Terminated"
+            return
 
         filename = self.frame.f_code.co_filename
         lineno = self.frame.f_lineno
@@ -306,16 +315,16 @@ class XPyCommandProcessor(CommandProcessor):
             pass
         self.curindex = 0
         if self.frame or exc_traceback:
-            stack = self.vm.frames
-            if stack == []:
-                # FIXME: Just starting up - should there be an event for this
-                # Or do we need to do this for all call events?
-                stack = [self.frame]
-            try:
-                self.stack = [(frame, frame.line_number()) for frame in stack]
-            except:
-                from trepan.api import debug; debug()
-            self.curframe = self.frame
+            if self.frame:
+                stack = self.vm.frames
+                if stack == []:
+                    # FIXME: Just starting up - should there be an event for this
+                    # Or do we need to do this for all call events?
+                    stack = [self.frame]
+                    pass
+                self.stack = [(frame, frame.line_number()) for frame in reversed(stack)]
+                self.curframe = self.frame
+
             # FIXME
             # self.thread_name = Mthread.current_thread_name()
             self.thread_name = "MainThread"

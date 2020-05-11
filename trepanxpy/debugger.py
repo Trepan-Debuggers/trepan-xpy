@@ -77,7 +77,12 @@ class Debugger(object):
                 except SystemExit:
                     # In most cases SystemExit does not warrant a post-mortem session.
                     break
-
+                else:
+                    msg = "The program finished - press enter to restart; anything else terminates. ? "
+                    response = input(msg)
+                    if response != "":
+                        break
+                    pass
         else:
             print("Hi, rocky!, you typed: path: %s, args: %s" % (path, args))
 
