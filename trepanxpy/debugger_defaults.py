@@ -36,94 +36,71 @@ width = computed_displaywidth()
 
 DEBUGGER_SETTINGS = {
     # Eval as Python the unrecognized debugger commands?
-    'autoeval'      : True,
-
+    "autoeval": True,
     # Run 'list' command every time we enter the debugger?
-    'autolist'      : False,
-
+    "autolist": False,
     # Enter IPython every time we enter the debugger?
     # Note: only relevant if we have ipython installed. This takes
     # precidence over autopython.
-    'autoipython'   : False,
-
+    "autoipython": False,
     # Enter Python every time we enter the debugger?
-    'autopython'    : False,
-
+    "autopython": False,
     # Show basename only on filename output?
     # This opiton is useful in integration testing and
     # possibly to prepare example output for publication
-    'basename'      : False,
-
+    "basename": False,
     # Set echoing lines read from debugger?
-    'cmdtrace'      : False,
-
+    "cmdtrace": False,
     # confirm potentially dangerous operations?
-    'confirm'       : True,
-
+    "confirm": True,
     # Debug macros?
-    'debugmacro'    : False,
-
+    "debugmacro": False,
     # When True, consecutive stops must be on different
     # file/line positions.
-    'different'     : True,
-
+    "different": True,
     # Use terminal highlight? Acceptable values are
     #  'plain'   : no highlighting
     #  'dark'    : terminal highlighting for a dark background
     #  'light'   : terminal highlighting for a light background
-    'highlight'     : is_dark_background(),
-
+    "highlight": is_dark_background(),
     # Save debugger history?
-    'hist_save'     : False,
-
+    "hist_save": False,
     # Where do we save the history?
-    'histfile'     : None,
-
+    "histfile": None,
     # Save debugger history?
-    'hist_save'     : True,
-
+    "hist_save": True,
     # Show function calls/returns?
-    'fntrace'       : False,
-
+    "fntrace": False,
     # Number of lines to show by default in a 'list' command.
-    'listsize'      : 10,
-
+    "listsize": 10,
     # PyVM logger messages?
-    'loggtrace'      : False,
-
+    "loggtrace": False,
     # max length to show of parameter string
-    'maxargstrsize' : 100,
-
+    "maxargstrsize": 100,
     # max length to in other strings
-    'maxstring'     : 150,
-
+    "maxstring": 150,
     # If this is set True, debugger startup file, e.g. .trepanrc will
     # not be read/run.
-    'nostartup'     : False,
-
+    "nostartup": False,
     # Reread source file if we determine it has changed?
-    'reload'        : False,
-
-    # Stop at 'def' and 'class' statements?
-    'skip'          : True,
-
+    "reload": False,
+    # Skip instructions that make clases, functions, and closures?
+    # (In the Python they are "class" and "def" statments)
+    "skip": False,
     # print trace output?
-    'trace'         : False,
-
+    "trace": False,
     # The target maximum print length. Used for example in listing
     # arrays which are columnized.
-    'width'         : width
+    "width": width,
 }
 
 # Show it:
-if __name__=='__main__':
+if __name__ == "__main__":
     import pprint
-    for val in ['DEBUGGER_SETTINGS',
-                'START_OPTS',
-                'STOP_OPTS']:
+
+    for val in ["DEBUGGER_SETTINGS", "START_OPTS", "STOP_OPTS"]:
         print("%s:" % val)
         print(pprint.pformat(eval(val)))
-        print('-' * 10)
+        print("-" * 10)
         pass
     pass
-2

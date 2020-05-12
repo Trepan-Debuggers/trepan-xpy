@@ -16,46 +16,38 @@
 
 import os.path as osp
 
-from trepan.processor.command.set import SetCommand as Trepan3kSetCommand
-from trepan.processor.subcmd import Subcmd as Trepan3kSubcmd
+from trepan.processor.command.info import InfoCommand as Trepan3kInfoCommand
 
-class SetCommand(Trepan3kSetCommand):
-    """**set** *set subcommand*
-
-Modifies parts of the debugger environment.
+class InfoCommand(Trepan3kInfoCommand):
+    """Generic command for showing things about the program being debugged.
 
 You can give unique prefix of the name of a subcommand to get
 information about just that subcommand.
 
-Type `set` for a list of *set* subcommands and what they do.
-Type `help set *` for just the list of *set* subcommands.
+Type `info` for a list of *info* subcommands and what they do.
+Type `help info *` for just a list of *info* subcommands.
 """
 
-    category      = 'data'
+    aliases       = ('i',)
+    category      = 'status'
     min_args      = 0
     max_args      = None
     name          = osp.basename(__file__).split('.')[0]
     need_stack    = False
-    short_help    = 'Modify parts of the debugger environment'
+    short_help    = 'Information about debugged program and its environment'
 
-    def __init__(self, proc, name="set"):
-        """Initialize show subcommands. Note: instance variable name
+    def __init__(self, proc, name="info"):
+        """Initialize info subcommands. Note: instance variable name
         has to be setcmds ('set' + 'cmds') for subcommand completion
         to work."""
 
         super().__init__(proc, name)
         self._load_debugger_subcommands(name, "trepanxpy")
-        new_cmdlist = []
-        for subname in self.cmds.cmdlist:
-            if subname in ("dbg_trepan", "events"):
-                del self.cmds.subcmds[subname]
-            else:
-                new_cmdlist.append(subname)
-        self.cmds.cmdlist = new_cmdlist
+
 
 if __name__ == '__main__':
     from trepan.processor.command import mock
     d, cp = mock.dbg_setup()
-    command = SetCommand(cp, 'set')
-    command.run(['set'])
+    command = InfoCommand(cp, 'info')
+    command.run(['info'])
     pass
