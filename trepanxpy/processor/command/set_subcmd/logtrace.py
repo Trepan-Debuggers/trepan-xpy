@@ -20,8 +20,8 @@ import logging
 from trepan.processor.command.base_subcmd import DebuggerSetBoolSubcommand
 
 
-class SetLogging(DebuggerSetBoolSubcommand):
-    """**set logging** [ **on** | **off** ]
+class SetLogTrace(DebuggerSetBoolSubcommand):
+    """**set logtrace** [ **on** | **off** ]
 
 Show logtrace PyVM "debug" and "info" messages.
 """
@@ -34,10 +34,13 @@ Show logtrace PyVM "debug" and "info" messages.
         super().run(args)
         if self.debugger.settings["logtrace"]:
             logging.basicConfig(level=logging.DEBUG)
+        else:
+            logging.basicConfig(level=logging.WARNING)
         return
 
     pass
 
 if __name__ == '__main__':
-    Mhelper.demo_run(SetLogging)
+    from trepan.processor.command.set_subcmd.__demo_helper__ import demo_run
+    demo_run(SetLogTrace)
     pass

@@ -17,7 +17,6 @@
 import inspect
 from dis import findlinestarts
 
-# Our local modules
 from trepan.processor.command.base_subcmd import DebuggerSubcommand
 from trepan.lib.disassemble import disassemble_bytes
 

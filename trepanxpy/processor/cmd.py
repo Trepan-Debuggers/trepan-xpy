@@ -279,7 +279,7 @@ class XPyCommandProcessor(CommandProcessor):
                 while tb:
                     self.vm.frames.insert(0, tb.tb_frame)
                     tb = tb.tb_next
-                self.frame = self.vm.frames[0]
+                self.curframe = self.frame = self.vm.frames[0]
                 self.setup()
                 self.curindex = len(vm.frames)-1
                 print_location(self)
