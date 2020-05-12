@@ -44,6 +44,7 @@ EVENT2SHORT = {
     "instruction": "..",
     "return": "<-",
     "yield": "<>",
+    "fatal": "XX",
 }
 
 ALL_EVENTS = frozenset(ALL_EVENT_NAMES)

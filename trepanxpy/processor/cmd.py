@@ -245,30 +245,55 @@ class XPyCommandProcessor(CommandProcessor):
         prompt="trepan-xpy",
     ):
         "command event processor: reading a commands do something with them."
+
+        def frame_setup(frame):
+            filename = frame.f_code.co_filename
+            lineno = frame.f_lineno
+            line = linecache.getline(filename, lineno, frame.f_globals)
+            if not line:
+                opts = {
+                    "output": "plain",
+                    "reload_on_change": self.settings("reload"),
+                    "strip_nl": False,
+                }
+                m = re.search("^<frozen (.*)>", filename)
+                if m and m.group(1):
+                    filename = pyficache.unmap_file(m.group(1))
+                line = pyficache.getline(filename, lineno, opts)
+            self.current_source_text = line
+            return line, filename
+
         self.vm = vm
         self.frame = vm.frame
         self.event = event
         self.event_arg = event_arg
+
+        if event == "fatal":
+            self.core.execution_status = "Terminated"
+            # One last hurrah!
+
+            tb = vm.last_traceback
+            if tb:
+                frame_setup(tb.tb_frame)
+                self.frame = tb.tb_frame
+                self.vm.frames = []
+                while tb:
+                    self.vm.frames.insert(0, tb.tb_frame)
+                    tb = tb.tb_next
+                self.setup()
+                print_location(self)
+
+            self.set_prompt("trepan-xpy:pm")
+            self.process_commands()
+            return
+
         if self.vm.frame:
             self.core.execution_status = "Running"
         else:
             self.core.execution_status = "Terminated"
             return
 
-        filename = self.frame.f_code.co_filename
-        lineno = self.frame.f_lineno
-        line = linecache.getline(filename, lineno, self.frame.f_globals)
-        if not line:
-            opts = {
-                "output": "plain",
-                "reload_on_change": self.settings("reload"),
-                "strip_nl": False,
-            }
-            m = re.search("^<frozen (.*)>", filename)
-            if m and m.group(1):
-                filename = pyficache.unmap_file(m.group(1))
-            line = pyficache.getline(filename, lineno, opts)
-        self.current_source_text = line
+        line, filename = frame_setup(self.frame)
         if self.settings("skip") is not None:
             if Mbytecode.is_def_stmt(line, self.frame):
                 return True
@@ -314,34 +339,17 @@ class XPyCommandProcessor(CommandProcessor):
         We return True if we should NOT enter the debugger-command
         loop."""
         self.forget()
-        if self.event in ["exception", "c_exception"]:
-            exc_type, exc_value, exc_traceback = self.event_arg
-        else:
-            _, _, exc_traceback = (
-                None,
-                None,
-                None,
-            )  # NOQA
-            pass
         self.curindex = 0
-        if self.frame or exc_traceback:
-            if self.frame:
-                stack = self.vm.frames
-                if stack == []:
-                    # FIXME: Just starting up - should there be an event for this
-                    # Or do we need to do this for all call events?
-                    stack = [self.frame]
-                    pass
-                self.stack = [(frame, frame.line_number()) for frame in reversed(stack)]
-                self.curframe = self.frame
-
-            # FIXME
-            # self.thread_name = Mthread.current_thread_name()
+        if self.vm.frames:
+            stack = self.vm.frames
+            if stack == []:
+                # FIXME: Just starting up - should there be an event for this
+                # Or do we need to do this for all call events?
+                stack = [self.frame]
+                pass
+            self.stack = [(frame, frame.line_number()) for frame in reversed(stack)]
+            self.curframe = self.frame
             self.thread_name = "MainThread"
-            if exc_traceback:
-                self.list_lineno = self.frame.line_number()
-                self.list_offset = self.curframe.f_lasti
-                self.list_object = self.curframe
         else:
             self.stack = self.curframe = self.botframe = None
             pass
@@ -352,8 +360,6 @@ class XPyCommandProcessor(CommandProcessor):
             self.list_object = self.curframe
         else:
             self.list_object = None
-            if not exc_traceback:
-                self.list_lineno = None
             pass
         # if self.execRcLines()==1: return True
 

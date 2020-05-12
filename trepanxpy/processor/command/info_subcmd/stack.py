@@ -38,12 +38,16 @@ See also:
 
     def run(self, args):
         """Evaluation Stack."""
-        eval_stack = self.proc.vm.frame.stack
-        if len(eval_stack) == 0:
-            self.msg("Evaluation stack is empty")
+        frame = self.proc.vm.frame
+        if not hasattr(frame, "stack"):
+            self.errmsg("frame %s doesn't have an evaluation stack" % frame)
         else:
-            for i, obj in enumerate(reversed(eval_stack)):
-                self.msg("%2d: %s %s" % (i, type(obj), Mrepr.repr(obj)))
+            eval_stack = frame.stack
+            if len(eval_stack) == 0:
+                self.msg("Evaluation stack is empty")
+            else:
+                for i, obj in enumerate(reversed(eval_stack)):
+                    self.msg("%2d: %s %s" % (i, type(obj), Mrepr.repr(obj)))
         return False
 
     pass
