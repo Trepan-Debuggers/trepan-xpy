@@ -172,7 +172,7 @@ class XPyCommandProcessor(CommandProcessor):
         new_commands = self._update_commands()
         for new_command in new_commands:
             self.commands[new_command.name] = new_command
-        self.cmd_instances += self._update_commands()
+        self.cmd_instances += new_commands
         self._populate_cmd_lists()
 
         return
@@ -275,12 +275,13 @@ class XPyCommandProcessor(CommandProcessor):
             tb = vm.last_traceback
             if tb:
                 frame_setup(tb.tb_frame)
-                self.frame = tb.tb_frame
                 self.vm.frames = []
                 while tb:
                     self.vm.frames.insert(0, tb.tb_frame)
                     tb = tb.tb_next
+                self.frame = self.vm.frames[0]
                 self.setup()
+                self.curindex = len(vm.frames)-1
                 print_location(self)
 
             self.set_prompt("trepan-xpy:pm")
@@ -294,7 +295,7 @@ class XPyCommandProcessor(CommandProcessor):
             return
 
         line, filename = frame_setup(self.frame)
-        if self.settings("skip") is not None:
+        if self.settings("skip"):
             if Mbytecode.is_def_stmt(line, self.frame):
                 return True
             if Mbytecode.is_class_def(line, self.frame):

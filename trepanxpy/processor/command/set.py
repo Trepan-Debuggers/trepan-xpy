@@ -17,7 +17,6 @@
 import os.path as osp
 
 from trepan.processor.command.set import SetCommand as Trepan3kSetCommand
-from trepan.processor.subcmd import Subcmd as Trepan3kSubcmd
 
 class SetCommand(Trepan3kSetCommand):
     """**set** *set subcommand*
@@ -44,7 +43,6 @@ Type `help set *` for just the list of *set* subcommands.
         to work."""
 
         super().__init__(proc, name)
-        self._load_debugger_subcommands(name, "trepanxpy")
         new_cmdlist = []
         for subname in self.cmds.cmdlist:
             if subname in ("dbg_trepan", "events"):
@@ -52,6 +50,7 @@ Type `help set *` for just the list of *set* subcommands.
             else:
                 new_cmdlist.append(subname)
         self.cmds.cmdlist = new_cmdlist
+        self._load_debugger_subcommands(name, "trepanxpy")
 
 if __name__ == '__main__':
     from trepan.processor.command import mock

@@ -18,6 +18,7 @@ import os.path as osp
 
 from trepan.processor.command.info import InfoCommand as Trepan3kInfoCommand
 
+
 class InfoCommand(Trepan3kInfoCommand):
     """Generic command for showing things about the program being debugged.
 
@@ -28,13 +29,13 @@ Type `info` for a list of *info* subcommands and what they do.
 Type `help info *` for just a list of *info* subcommands.
 """
 
-    aliases       = ('i',)
-    category      = 'status'
-    min_args      = 0
-    max_args      = None
-    name          = osp.basename(__file__).split('.')[0]
-    need_stack    = False
-    short_help    = 'Information about debugged program and its environment'
+    aliases = ("i",)
+    category = "status"
+    min_args = 0
+    max_args = None
+    name = osp.basename(__file__).split(".")[0]
+    need_stack = False
+    short_help = "Information about debugged program and its environment"
 
     def __init__(self, proc, name="info"):
         """Initialize info subcommands. Note: instance variable name
@@ -42,12 +43,22 @@ Type `help info *` for just a list of *info* subcommands.
         to work."""
 
         super().__init__(proc, name)
+        new_cmdlist = []
+        for subname in self.cmds.cmdlist:
+            if subname in ("pc"):
+                del self.cmds.subcmds[subname]
+            else:
+                new_cmdlist.append(subname)
+        self.cmds.cmdlist = new_cmdlist
         self._load_debugger_subcommands(name, "trepanxpy")
+        return
+        self.cmds.cmdlist = new_cmdlist
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from trepan.processor.command import mock
+
     d, cp = mock.dbg_setup()
-    command = InfoCommand(cp, 'info')
-    command.run(['info'])
+    command = InfoCommand(cp, "info")
+    command.run(["info"])
     pass
