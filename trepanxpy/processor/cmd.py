@@ -158,11 +158,20 @@ class XPyCommandProcessor(CommandProcessor):
         #     setattr(self, method, getattr(cmdproc, method))
 
         # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
-        remove_commands = ("quit", "step", "next", "finish", "break", "tbreak")
-        self.cmd_instances = [
-            cmd for cmd in self.cmd_instances if cmd.name not in remove_commands
-        ]
+        remove_commands = ("quit", "set", "step", "continue", "next", "finish", "break", "tbreak")
+        new_instances = []
+        for cmd in self.cmd_instances:
+            if cmd.name in remove_commands:
+                del self.commands[cmd.name]
+            else:
+                new_instances.append(cmd)
+                pass
+            pass
+        self.cmd_instances = new_instances
 
+        new_commands = self._update_commands()
+        for new_command in new_commands:
+            self.commands[new_command.name] = new_command
         self.cmd_instances += self._update_commands()
         self._populate_cmd_lists()
 
@@ -190,7 +199,8 @@ class XPyCommandProcessor(CommandProcessor):
             classnames = [
                 tup[0]
                 for tup in inspect.getmembers(command_mod, inspect.isclass)
-                if ("DebuggerCommand" != tup[0] and tup[0].endswith("Command"))
+                if (tup[0] != "DebuggerCommand" and
+                    not tup[0].startswith("Trepan3k") and tup[0].endswith("Command"))
             ]
             for classname in classnames:
                 if False:

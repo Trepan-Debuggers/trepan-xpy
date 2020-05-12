@@ -14,6 +14,8 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 # Our local modules
 from trepan.processor.command.base_subcmd import DebuggerSetBoolSubcommand
 
@@ -21,7 +23,7 @@ from trepan.processor.command.base_subcmd import DebuggerSetBoolSubcommand
 class SetLogging(DebuggerSetBoolSubcommand):
     """**set logging** [ **on** | **off** ]
 
-Show logging PyVM "debug" and "info" messages.
+Show logtrace PyVM "debug" and "info" messages.
 """
 
     in_list    = True
@@ -29,13 +31,13 @@ Show logging PyVM "debug" and "info" messages.
 
 
     def run(self, args):
-        from trepan.api import debug; debug()
-        super().__init__(args)
+        super().run(args)
+        if self.debugger.settings["logtrace"]:
+            logging.basicConfig(level=logging.DEBUG)
         return
 
     pass
 
 if __name__ == '__main__':
-    from trepan.processor.command.set_subcmd import __demo_helper__ as Mhelper
     Mhelper.demo_run(SetLogging)
     pass

@@ -7,7 +7,7 @@ import sys
 from xpython.execfile import run_python_file, NoSourceError
 
 # Default settings used here
-from trepan.lib.default import DEBUGGER_SETTINGS
+from trepanxpy.debugger_defaults import DEBUGGER_SETTINGS
 import trepan.interfaces.user as Muser
 import trepan.misc as Mmisc
 from trepan.exception import DebuggerQuit, DebuggerRestart

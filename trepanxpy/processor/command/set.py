@@ -43,7 +43,7 @@ Type `help set *` for just the list of *set* subcommands.
         has to be setcmds ('set' + 'cmds') for subcommand completion
         to work."""
 
-        super().__init__(proc, name)
+        super(Trepan3kSetCommand, self).__init__(proc, name)
         self._load_debugger_subcommands(name, "trepanxpy")
         new_cmdlist = []
         for subname in self.cmds.cmdlist:
