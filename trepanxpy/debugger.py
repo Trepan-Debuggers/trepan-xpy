@@ -4,7 +4,7 @@
 from typing import List
 import os
 import sys
-from xpython.execfile import run_python_file, NoSourceError
+from xpython.execfile import run_python_file, run_python_string, NoSourceError
 
 # Default settings used here
 from trepanxpy.debugger_defaults import DEBUGGER_SETTINGS
@@ -18,7 +18,7 @@ from trepanxpy.processor.cmd import XPyCommandProcessor
 
 
 class Debugger(object):
-    def __init__(self, path: str, args: List[str]):
+    def __init__(self, string_or_path: str, is_file: bool, args: List[str]):
         """Create a debugger object. But depending on the value of
         key 'start' inside hash 'opts', we may or may not initially
         start debugging.
@@ -49,42 +49,45 @@ class Debugger(object):
         self.callback_hook = processor.event_hook
 
         # Save information for restarting
-        mainpyfile = self.core.canonic(path)
         self.program_sys_argv = None
         self.orig_sys_argv = list(sys.argv)
 
-        if path:
-            while True:
-                print("Running x-python %s with %s" % (path, args))
-                try:
-                    run_python_file(path, args, callback=self.callback_hook)
-                except DebuggerQuit:
-                    break
-                except DebuggerRestart:
-                    self.core.execution_status = "Restart requested"
-                    if self.program_sys_argv:
-                        sys.argv = list(self.program_sys_argv)
-                        part1 = "Restarting %s with arguments:" % self.core.filename(mainpyfile)
-                        args = " ".join(self.program_sys_argv[1:])
-                        self.intf[-1].msg(
-                            Mmisc.wrapped_lines(part1, args, self.settings["width"])
-                        )
-                    else:
-                        break
-                except (FileNotFoundError, NoSourceError) as e:
-                    self.intf[-1].msg(str(e))
-                    sys.exit(1)
-                except SystemExit:
-                    # In most cases SystemExit does not warrant a post-mortem session.
-                    break
-                else:
-                    msg = "The program finished - press enter to restart; anything else terminates. ? "
-                    response = input(msg)
-                    if response != "":
-                        break
-                    pass
+        if is_file:
+            mainpyfile = self.core.canonic(string_or_path)
+            run_fn = run_python_file
         else:
-            print("Hi, rocky!, you typed: path: %s, args: %s" % (path, args))
+            mainpyfile = string_or_path
+            run_fn = run_python_string
+
+        while True:
+            print("Running x-python %s with %s" % (string_or_path, args))
+            try:
+                run_fn(string_or_path, args, callback=self.callback_hook)
+            except DebuggerQuit:
+                break
+            except DebuggerRestart:
+                self.core.execution_status = "Restart requested"
+                if self.program_sys_argv:
+                    sys.argv = list(self.program_sys_argv)
+                    part1 = "Restarting %s with arguments:" % self.core.filename(mainpyfile)
+                    args = " ".join(self.program_sys_argv[1:])
+                    self.intf[-1].msg(
+                        Mmisc.wrapped_lines(part1, args, self.settings["width"])
+                    )
+                else:
+                    break
+            except (FileNotFoundError, NoSourceError) as e:
+                self.intf[-1].msg(str(e))
+                sys.exit(1)
+            except SystemExit:
+                # In most cases SystemExit does not warrant a post-mortem session.
+                break
+            else:
+                msg = "The program finished - press enter to restart; anything else terminates. ? "
+                response = input(msg)
+                if response != "":
+                    break
+                pass
 
     def restart_argv(self):
         '''Return an array that would be execv-ed  to restart the program'''
