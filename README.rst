@@ -3,201 +3,187 @@
 Abstract
 ========
 
-This is a gdb-like debugger for x-python, the Python Interpeter written in Python.
+This is a gdb-like debugger for `x-python <https://github.com/rocky/x-python>`_, the Python Interpeter written in Python.
 
-Features
-========
+Example
+=======
 
-Since this debugger is similar to other_ trepanning_ debuggers_ and *gdb*
-in general, knowledge gained by learning this is transferable to those
-debuggers and vice versa.
+::
 
-Exact location information
---------------------------
+   $ trepan-xpy test/example/gcd.py
+   Running x-python test/example/gcd.py with ()
+   (test/example/gcd.py:10): <module>
+   -> 10 """
+   (trepan-xpy) step
+   (test/example/gcd.py:10): <module>
+   -- 10 """
+   L. 10  @  0: LOAD_CONST Greatest Common Divisor
 
-Python reports line information on the granularity of a line. To get
-more precise information, we can (de)parse into Python the byte code
-around a bytecode offset such as the place you are stopped at.
+   Some characterstics of this program used for testing:
+   * check_args() does not have a 'return' statement.
+   * check_args() raises an uncaught exception when given the wrong number
+     of parameters.
 
-So far as I know, there is no other debugger that can do this.
+   (trepan-xpy) set autopc
+   Run `info pc` on debugger entry is on.
+   (trepan-xpy) stepi
+   (test/example/gcd.py:10 @2): <module>
+   .. 10 """
+          @  2: STORE_NAME __doc__
+   PC offset is 2.
+     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characterstics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+       -->     2 STORE_NAME          0          0
 
+     11        4 LOAD_CONST          1          0
+               6 LOAD_CONST          2          None
+               8 IMPORT_NAME         1          1
+              10 STORE_NAME          1          1
 
-Debugging Python bytecode (no source available)
------------------------------------------------
+   (trepan-xpy) stepi
+   (test/example/gcd.py:11 @4): <module>
+   -- 11 import sys
+   L. 11  @  4: LOAD_CONST 0
+   PC offset is 4.
+     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characterstics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+               2 STORE_NAME          0          0
 
-You can pass the debugger the name of Python bytecode and many times,
-the debugger will merrily proceed.  This debugger tries very hard find
-the source code. Either by using the current executable search path
-(e.g. ``PATH``) or for some by looking inside the bytecode for a
-filename in the main code object (``co_filename``) and applying that
-with a search path which takes into account directory where the
-bytecode lives.
+     11-->     4 LOAD_CONST          1          0
+               6 LOAD_CONST          2          None
+               8 IMPORT_NAME         1          1
+              10 STORE_NAME          1          1
 
-Failing to find source code this way, and in other situations where
-source code can't be found, the debugger will decompile the bytecode
-and use that for showing source test. *This allows us to debug `eval`'d
-or `exec''d code.*
+   (trepan-xpy) info stack
+   Evaluation stack is empty
+   (trepan-xpy) stepi
+   (test/example/gcd.py:11 @6): <module>
+   .. 11 import sys
+          @  6: LOAD_CONST None
+   PC offset is 6.
+     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characterstics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+               2 STORE_NAME          0          0
 
-But if you happen to know where the source code is located, you can
-associate a file source code with the current name listed in the
-bytecode. See the set_substitute_ command for details here.
+     11        4 LOAD_CONST          1          0
+       -->     6 LOAD_CONST          2          None
+               8 IMPORT_NAME         1          1
+              10 STORE_NAME          1          1
 
+   (trepan-xpy) info stack
+    0: <class 'int'> 0
+   (trepan-xpy) stepi
+   (test/example/gcd.py:11 @8): <module>
+   .. 11 import sys
+          @  8: IMPORT_NAME sys
+   PC offset is 8.
+     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characterstics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+               2 STORE_NAME          0          0
 
-GNU Readline command completion has been added. Command completion is
-not just a simple static list, but varies depending on the
-context. For example, for frame-changing commands which take optional
-numbers, on the list of *valid numbers* is considered.
+     11        4 LOAD_CONST          1          0
+               6 LOAD_CONST          2          None
+       -->     8 IMPORT_NAME         1          1
+              10 STORE_NAME          1          1
 
-Terminal Handling
------------------
+   (trepan-xpy) info stack
+    0: <class 'NoneType'> None
+    1: <class 'int'> 0
+   (trepan-xpy) stepi
+   (test/example/gcd.py:11 @10): <module>
+   .. 11 import sys
+          @ 10: STORE_NAME sys
+   PC offset is 10.
+     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characterstics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+               2 STORE_NAME          0          0
 
-We can adjust debugger output depending on the line width of your
-terminal. If it changes, or you want to adjust it, see set_width_ .
+     11        4 LOAD_CONST          1          0
+               6 LOAD_CONST          2          None
+               8 IMPORT_NAME         1          1
+       -->    10 STORE_NAME          1          1
 
-Smart Eval
-----------
+   (trepan-xpy) info stack
+    0: <class 'module'> <module 'sys' (built-in)>
+   (trepan-xpy) stepi
+   (test/example/gcd.py:13 @12): <module>
+   -- 13 def check_args():
+   L. 13  @ 12: LOAD_CONST <code object check_args at 0x7fc7b90cea50, file "test/example/gcd.py", line 13>
+   PC offset is 12.
+     13-->    12 LOAD_CONST          3          <code object check_args at 0x7fc7b90cea50, file "test/example/gcd.py", line 13>
+              14 LOAD_CONST          4          'check_args'
+              16 MAKE_FUNCTION       0          No defaults, keyword-only args, annotations, or closures
+              18 STORE_NAME          2          2
 
-If you want to evaluate the current source line before it is run in
-the code, use ``eval`` or ``deval``. To evaluate text of a common
-fragment of line, such as the expression part of an *if* statement,
-you can do that with ``eval?`` or ``deval?``. See eval_ for more
-information.
+   (trepan-xpy) info stack
+   Evaluation stack is empty
+   (trepan-xpy) stepi
+   (test/example/gcd.py:13 @14): <module>
+   .. 13 def check_args():
+          @ 14: LOAD_CONST check_args
+   PC offset is 14.
+     13       12 LOAD_CONST          3          <code object check_args at 0x7fc7b90cea50, file "test/example/gcd.py", line 13>
+       -->    14 LOAD_CONST          4          'check_args'
+              16 MAKE_FUNCTION       0          No defaults, keyword-only args, annotations, or closures
+              18 STORE_NAME          2          2
 
-More Stepping Control
----------------------
+   (trepan-xpy) stepi
+   (test/example/gcd.py:13 @16): <module>
+   .. 13 def check_args():
+          @ 16: MAKE_FUNCTION annotation
+   PC offset is 16.
+     13       12 LOAD_CONST          3          <code object check_args at 0x7fc7b90cea50, file "test/example/gcd.py", line 13>
+              14 LOAD_CONST          4          'check_args'
+       -->    16 MAKE_FUNCTION       0          No defaults, keyword-only args, annotations, or closures
+              18 STORE_NAME          2          2
 
-Sometimes you want small steps, and sometimes large stepping.
+   (trepan-xpy) info stack
+    0: <class 'str'> 'check_args'
+    1: <class 'code'> <code object ....py", line 13>
+   (trepan-xpy) stepi
+   (test/example/gcd.py:13 @18): <module>
+   .. 13 def check_args():
+          @ 18: STORE_NAME check_args
+   PC offset is 18.
+     13       12 LOAD_CONST          3          <code object check_args at 0x7fc7b90cea50, file "test/example/gcd.py", line 13>
+              14 LOAD_CONST          4          'check_args'
+              16 MAKE_FUNCTION       0          No defaults, keyword-only args, annotations, or closures
+       -->    18 STORE_NAME          2          2
 
-This fundamental issue is handled in a couple ways:
+   (trepan-xpy) info stack
+    0: <class 'function'> <function che...x7fc7b906f7a0>
+   (trepan-xpy) continue
+     File "test/example/gcd.py", line 41, in <module>
+       check_args()
+     File "test/example/gcd.py", line 16, in check_args
+       raise Exception("Need to give two numbers")
+   Exception: Need to give two numbers
+   (test/example/gcd.py:16 @20): check_args
+   XX 16         raise Exception("Need to give two numbers")
+   PC offset is 20.
+     16       14 LOAD_GLOBAL         3          3
+              16 LOAD_CONST          2          'Need to give two numbers'
+              18 CALL_FUNCTION       1          1 positional argument
+       -->    20 RAISE_VARARGS       1
 
-Step Granularity
-................
+     17   >>  22 SETUP_LOOP          102        to 126
+              24 LOAD_GLOBAL         4          4
+              26 LOAD_CONST          3          2
+              28 CALL_FUNCTION       1          1 positional argument
+              30 GET_ITER            None
+   (trepan-xpy:pm) list
+    17    	    for i in range(2):
+    18    	        try:
+    19    	            sys.argv[i+1] = int(sys.argv[i+1])
+    20    	        except ValueError:
+    21    	            print("** Expecting an integer, got: %s" % repr(sys.argv[i]))
+    22    	            sys.exit(2)
+    23    	            pass
+    24    	        pass
+    25
+    26    	def gcd(a,b):
+   (trepan-xpy:pm) Leaving
+   trepan-xpy: That's all, folks...
 
-There are now ``step`` *event* and ``next`` *event* commands with
-aliases to ``s+``, ``s>`` and so on. The plus-suffixed commands force
-a different line on a subsequent stop, the dash-suffixed commands
-don't.  Suffixes ``>``, ``<``, and ``!`` specify ``call``, ``return``
-and ``exception`` events respectively. And without a suffix you get
-the default; this is set by the ``set different`` command.
-
-Documentation
--------------
-
-Documentation: http://python3-trepan.readthedocs.org
-
-Event Filtering and Tracing
-...........................
-
-By default the debugger stops at every event: ``call``, ``return``,
-``line``, ``exception``, ``c-call``, ``c-exception``. If you just want
-to stop at ``line`` events (which is largely what you happens in
-*pdb*) you can. If however you just want to stop at calls and returns,
-that's possible too. Or pick some combination.
-
-In conjunction with handling *all* events by default, the event status is shown when stopped. The reason for stopping is also available via ``info program``.
-
-Event Tracing of Calls and Returns
-----------------------------------
-
-I'm not sure why this was not done before. Probably because of the
-lack of the ability to set and move by different granularities,
-tracing calls and returns lead to too many uninteresting stops (such
-as at the same place you just were at). Also, stopping on function
-definitions probably also added to this tedium.
-
-Because we're really handling return events, we can show you the return value. (*pdb* has an "undocumented" *retval* command that doesn't seem to work.)
-
-Debugger Macros via Python Lambda expressions
----------------------------------------------
-
-There are debugger macros.  In *gdb*, there is a *macro* debugger
-command to extend debugger commands.
-
-However Python has its own rich programming language so it seems silly
-to recreate the macro language that is in *gdb*. Simpler and more
-powerful is just to use Python here. A debugger macro here is just a
-lambda expression which returns a string or a list of strings. Each
-string returned should be a debugger command.
-
-We also have *aliases* for the extremely simple situation where you
-want to give an alias to an existing debugger command. But beware:
-some commands, like step_ inspect command suffixes and change their
-behavior accordingly.
-
-We also envision a number of other ways to allow extension of this
-debugger either through additional modules, or user-supplied debugger
-command directories.
-
-Byte-code Instruction Introspection
-------------------------------------
-
-We do more in the way of looking at the byte codes to give better information. Through this we can provide:
-
-* a *skip* command. It is like the *jump* command, but you don't have to deal with line numbers.
-* disassembly of code fragments. You can now disassemble relative to the stack frames you are currently stopped at.
-* Better interpretation of where you are when inside *execfile* or *exec*. (But really though this is probably a Python compiler misfeature.)
-* Check that breakpoints are set only where they make sense.
-* A more accurate determination of if you are at a function-defining *def* statement (because the caller instruction contains ``MAKE_FUNCTION``.)
-
-Even without "deparsing" mentioned above, the abilty to disassemble by line number range or byte-offset range lets you tell exactly where you are and code is getting run.
-
-Some Debugger Command Arguments can be Variables and Expressions
-----------------------------------------------------------------
-
-Commands that take integer arguments like frame-moving commands like
-*up*, allow you to use a Python expression which may include local or
-global variables that evaluates to an integer. This eliminates the
-need in *gdb* for special "dollar" debugger variables. (Note however
-because of *shlex* parsing, expressions can't have embedded blanks.)
-
-Out-of-Process Debugging
-------------------------
-
-You can now debug your program in a different process or even a different computer on a different network!
-
-Egg, Wheel, and Tarballs
-------------------------
-
-Can be installed via the usual *pip* or *easy_install*. There is a
-source tarball. `How To Install
-<https://python3-trepan.readthedocs.io/en/latest/install.html>`_ has
-full instructions and installing from git and by other means.
-
-Modularity
-----------
-
-The Debugger plays nice with other trace hooks. You can have several debugger objects.
-
-Many of the things listed below doesn't directly effect end-users, but
-it does eventually by way of more robust and featureful code. And
-keeping developers happy is a good thing.(TM)
-
-* Commands and subcommands are individual classes now, not methods in a class. This means they now have properties like the context in which they can be run, minimum abbreviation name or alias names. To add a new command you basically add a file in a directory.
-* I/O is it's own layer. This simplifies interactive readline behavior from reading commands over a TCP socket.
-* An interface is it's own layer. Local debugging, remote debugging, running debugger commands from a file (``source``) are different interfaces. This means, for example, that we are able to give better error reporting if a debugger command file has an error.
-* There is an experimental Python-friendly interface for front-ends
-* more testable. Much more unit and functional tests. More of *pydb*'s integration test will eventually be added.
 
 See Also
 --------
 
 * trepan3_ : trepan debugger for Python 3.x
-* Tutorial_: Tutorial for how to use
-* https://pypi.python.org/pypi/uncompyle6 : Python decompiler
-* https://pypi.python.org/pypi/xdis : cross-platform disassembler
 
-
-.. _pygments:  http://pygments.org
-.. _pygments_style:  http://pygments.org/docs/styles/
-.. _howtoinstall: https://github.com/rocky/python3-trepan/wiki/How-to-Install
 .. _trepan3: https://github.com/rocky/python3-trepan
-.. _other: https://www.npmjs.com/package/trepanjs
-.. _trepanning: https://rubygems.org/gems/trepanning
-.. _debuggers: https://metacpan.org/pod/Devel::Trepan
-.. _Tutorial: http://python2-trepan.readthedocs.io/en/latest/entry-exit.html
-.. _set_style:  https://python3-trepan.readthedocs.org/en/latest/commands/set/style.html
-.. _set_substitute:  https://python3-trepan.readthedocs.org/en/latest/commands/set/substitute.html
-.. _set_width:  https://python3-trepan.readthedocs.org/en/latest/commands/set/width.html
-.. _eval: https://python3-trepan.readthedocs.org/en/latest/commands/data/eval.html
-.. _step: https://python3-trepan.readthedocs.org/en/latest/commands/running/step.html
-.. _install: http://python3-trepan.readthedocs.org/en/latest/install.html
