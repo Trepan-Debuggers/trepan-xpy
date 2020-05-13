@@ -13,12 +13,12 @@ import trepan.misc as Mmisc
 from trepan.exception import DebuggerQuit, DebuggerRestart
 
 from trepanxpy.core import TrepanXPyCore
-# from trepanxpy.processor.trace import XPyPrintProcessor
 from trepanxpy.processor.cmd import XPyCommandProcessor
+from trepanxpy.processor.trace import XPyPrintProcessor
 
 
 class Debugger(object):
-    def __init__(self, string_or_path: str, is_file: bool, args: List[str]):
+    def __init__(self, string_or_path: str, is_file: bool, trace_only: bool, args: List[str]):
         """Create a debugger object. But depending on the value of
         key 'start' inside hash 'opts', we may or may not initially
         start debugging.
@@ -44,8 +44,10 @@ class Debugger(object):
         self.filename_cache = {}
         self.settings = DEBUGGER_SETTINGS
         self.core = TrepanXPyCore(self, {})
-        # processor = XPyPrintProcessor(self.core)
-        processor = XPyCommandProcessor(self.core)
+        if trace_only:
+            processor = XPyPrintProcessor(self.core)
+        else:
+            processor = XPyCommandProcessor(self.core)
         self.callback_hook = processor.event_hook
 
         # Save information for restarting
@@ -83,6 +85,8 @@ class Debugger(object):
                 # In most cases SystemExit does not warrant a post-mortem session.
                 break
             else:
+                if trace_only:
+                    break
                 msg = "The program finished - press enter to restart; anything else terminates. ? "
                 response = input(msg)
                 if response != "":

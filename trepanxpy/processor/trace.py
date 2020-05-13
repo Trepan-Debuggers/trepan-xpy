@@ -65,15 +65,25 @@ class XPyPrintProcessor(object):
 
     # FIXME: remove byteName and arguments and have the last instruction sent back
     def event_hook(
-        self, event: str, offset: int, byteName: str, argument: Any, vm: Any
+        self,
+        event: str,
+        offset: int,
+        byteName: str,
+        byteCode: int,
+        line_number: int,
+        event_arg: Any,
+        vm: Any,
+        prompt="trepan-xpy-trace",
     ) -> None:
         "A simple event processor that prints out events."
-        frame = vm.frame
-        lineno = frame.line_number()
-        filename = self.core.canonic_filename(frame)
-        filename = self.core.filename(filename)
-        print("%s - %s:%d" % (event, filename, lineno))
-        print("\t %s" % vm.instruction_info(byteName, argument, offset))
+        if offset >= 0:
+            print("%-12s - %s" % (event, vm.instruction_info( byteName, byteCode, [event_arg], offset, line_number)))
+        else:
+            frame = vm.frame
+            lineno = frame.line_number()
+            filename = self.core.canonic_filename(frame)
+            filename = self.core.filename(filename)
+            print("%s - %s:%d" % (event, filename, lineno))
         return
 
     pass
