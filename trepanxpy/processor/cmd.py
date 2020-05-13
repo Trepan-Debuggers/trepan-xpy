@@ -309,7 +309,7 @@ class XPyCommandProcessor(CommandProcessor):
         self.setup()
         print_location(self)
         if offset >= 0:
-            self.msg("%s" % self.vm.instruction_info(byteName, byteCode, event_arg, offset, line_number))
+            self.msg("%s" % self.vm.instruction_info(byteName, byteCode, [event_arg], offset, line_number))
 
         self.set_prompt(prompt)
         self.process_commands()
