@@ -19,8 +19,6 @@
 # Helper function for Processor. Put here so we
 # can use this in a couple of processors.
 
-from typing import Any
-
 ALL_EVENT_NAMES = (
     "c_call",
     "c_exception",
@@ -71,8 +69,8 @@ class XPyPrintProcessor(object):
         byteName: str,
         byteCode: int,
         line_number: int,
-        event_arg: Any,
-        vm: Any,
+        event_arg,
+        vm,
         prompt="trepan-xpy-trace",
     ) -> None:
         "A simple event processor that prints out events."

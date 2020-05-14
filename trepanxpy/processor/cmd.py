@@ -20,8 +20,6 @@ import importlib
 import pyficache
 import os.path as osp
 
-from typing import Any
-
 # Note: the module name pre 3.2 is repr
 from reprlib import Repr
 
@@ -242,8 +240,8 @@ class XPyCommandProcessor(CommandProcessor):
         byteName: str,
         byteCode: int,
         line_number: int,
-        event_arg: Any,
-        vm: Any,
+        event_arg,
+        vm,
         prompt="trepan-xpy",
     ):
         "command event processor: reading a commands do something with them."

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 #   Copyright (C) 2020 Rocky Bernstein <rocky@gnu.org>
 
-from typing import List
 import os
 import sys
 from xpython.execfile import run_python_file, run_python_string, NoSourceError
@@ -18,7 +17,7 @@ from trepanxpy.processor.trace import XPyPrintProcessor
 
 
 class Debugger(object):
-    def __init__(self, string_or_path: str, is_file: bool, trace_only: bool, args: List[str]):
+    def __init__(self, string_or_path: str, is_file: bool, trace_only: bool, args: list):
         """Create a debugger object. But depending on the value of
         key 'start' inside hash 'opts', we may or may not initially
         start debugging.
