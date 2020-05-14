@@ -44,7 +44,8 @@ See also:
 
     def run(self, args):
         """Program counter."""
-        curframe = self.proc.curframe
+        proc = self.proc
+        curframe = proc.curframe
         if curframe:
             line_no = inspect.getlineno(curframe)
             offset = curframe.f_lasti
@@ -66,6 +67,7 @@ See also:
                 freevars=code.co_freevars,
                 linestarts=dict(findlinestarts(code)),
                 end_offset=offset + 10,
+                opc=proc.vm.opc,
             )
             pass
         return False
