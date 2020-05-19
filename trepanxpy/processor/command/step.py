@@ -89,16 +89,18 @@ See also:
         # elif args[0][-1] == '!':
         #     step_events  = ['exception']
         #     pass
+        proc = self.proc
+        core = self.core
         if len(args) <= 1:
-            self.proc.debugger.core.step_ignore = 0
+            core.step_ignore = 0
         else:
             pos = 1
             if pos == len(args) - 1:
-                self.core.step_ignore = self.proc.get_int(args[pos], default=1,
+                core.step_ignore = self.proc.get_int(args[pos], default=1,
                                                           cmdname='step')
                 if self.core.step_ignore is None: return False
                 # 0 means stop now or step 1, so we subtract 1.
-                self.core.step_ignore -= 1
+                core.step_ignore -= 1
                 pass
             elif pos != len(args):
                 self.errmsg("Invalid additional parameters %s"
@@ -106,7 +108,7 @@ See also:
                 return False
             pass
 
-        self.proc.vm.event_flags = (
+        proc.vm.frame.event_flags = proc.vm.event_flags = (
             PyVMEVENT_LINE |
             PyVMEVENT_CALL |
             PyVMEVENT_RETURN |
@@ -114,11 +116,11 @@ See also:
             PyVMEVENT_YIELD
             )
 
-        self.core.different_line   = True # Mcmdfns.want_different_line(args[0], self.settings['different'])
-        self.core.stop_level       = None
-        self.core.last_frame       = None
-        self.core.stop_on_finish   = False
-        self.proc.continue_running = True  # Break out of command read loop
+        core.different_line   = True # Mcmdfns.want_different_line(args[0], self.settings['different'])
+        core.stop_level       = None
+        core.last_frame       = None
+        core.stop_on_finish   = False
+        proc.continue_running = True  # Break out of command read loop
         return True
     pass
 

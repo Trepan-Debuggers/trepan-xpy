@@ -64,6 +64,7 @@ See Also
     def run(self, args):
         mainfile = self.core.filename(None)
         if self.core.is_running():
+            proc = self.proc
 
             is_offset = True
             n = len(args)
@@ -81,7 +82,7 @@ See Also
 
                     for o, a in opts:
                         if o in ("-h", "--help"):
-                            self.proc.commands["help"].run(["help", "set", "pc"])
+                            proc.commands["help"].run(["help", "set", "pc"])
                             return
                         elif o in ("-l", "--line", ):
                             is_offset = False
@@ -93,7 +94,7 @@ See Also
                     pass
                 pass
 
-            frame = self.proc.frame
+            frame = proc.frame
             if frame:
                 code = frame.f_code
                 if is_offset:
