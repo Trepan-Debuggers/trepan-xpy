@@ -20,7 +20,7 @@ import importlib
 import pyficache
 import os.path as osp
 
-from typing import Any
+from typing import Any, Optional
 
 # Note: the module name pre 3.2 is repr
 from reprlib import Repr
@@ -242,6 +242,7 @@ class XPyCommandProcessor(CommandProcessor):
         byteName: str,
         byteCode: int,
         line_number: int,
+        intArg: Optional[int],
         event_arg: Any,
         vm: Any,
         prompt="trepan-xpy",
@@ -270,6 +271,16 @@ class XPyCommandProcessor(CommandProcessor):
         self.event = event
         self.event_arg = event_arg
 
+        # In order to follow Python's sys.settrace()'s convention:
+        # returning "None" turns off tracing for the scope.
+        # However we do not need to return a reference to ourself,
+        # a callable (this may be allowed in the future though).
+        # Instead for now a string status is returned
+        # * "skip" for skip next instruction, and
+        # * "return" for immediate return
+
+        self.return_status = True
+
         if event == "fatal":
             self.core.execution_status = "Terminated"
             # One last hurrah!
@@ -288,7 +299,7 @@ class XPyCommandProcessor(CommandProcessor):
 
             self.set_prompt("trepan-xpy:pm")
             self.process_commands()
-            return
+            return None
 
         if self.vm.frame:
             self.core.execution_status = "Running"
@@ -298,10 +309,14 @@ class XPyCommandProcessor(CommandProcessor):
 
         line, filename = frame_setup(self.frame)
         if self.settings("skip"):
+            # Note that in contrast to skipping intructions
+            # when return_status is set to "skip", here
+            # we are execution the instruction but just skipping
+            # any handling this instruction the debugger.
             if Mbytecode.is_def_stmt(line, self.frame):
-                return True
+                return self
             if Mbytecode.is_class_def(line, self.frame):
-                return True
+                return
             pass
         self.thread_name = Mthread.current_thread_name()
         self.frame_thread_name = self.thread_name
@@ -315,7 +330,7 @@ class XPyCommandProcessor(CommandProcessor):
         self.process_commands()
         if filename == "<string>":
             pyficache.remove_remap_file("<string>")
-        return True
+        return self.return_status
 
     def _update_commands(self):
         """ Create an instance of each of the debugger

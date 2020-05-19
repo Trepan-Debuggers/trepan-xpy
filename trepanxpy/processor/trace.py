@@ -19,7 +19,7 @@
 # Helper function for Processor. Put here so we
 # can use this in a couple of processors.
 
-from typing import Any
+from typing import Any, Optional
 
 ALL_EVENT_NAMES = (
     "c_call",
@@ -71,19 +71,20 @@ class XPyPrintProcessor(object):
         byteName: str,
         byteCode: int,
         line_number: int,
+        intArg: Optional[int],
         event_arg: Any,
         vm: Any,
         prompt="trepan-xpy-trace",
     ) -> None:
         "A simple event processor that prints out events."
         if offset >= 0:
-            print("%-12s - %s" % (event, vm.instruction_info( byteName, byteCode, [event_arg], offset, line_number)))
+            print("%-12s - %s" % (event, vm.instruction_info( byteName, intArg, event_arg, offset, line_number)))
         else:
             frame = vm.frame
             lineno = frame.line_number()
             filename = self.core.canonic_filename(frame)
             filename = self.core.filename(filename)
             print("%s - %s:%d" % (event, filename, lineno))
-        return
+        return None
 
     pass
