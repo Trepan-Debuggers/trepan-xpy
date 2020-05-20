@@ -1,5 +1,6 @@
 *~
 .coverage
 .python-version
-__pycache__
+/.gdb_history
 /trepanpyx.egg-info
+__pycache__

@@ -28,7 +28,7 @@ import os, sys, threading
 # import trepan.processor.cmdproc as Mcmdproc
 
 from trepan.misc import option_set
-import trepan.clifns as Mclifns
+from trepan.clifns import search_file
 import trepan.lib.breakpoint as breakpoint
 
 # Our local modules
@@ -165,7 +165,7 @@ class TrepanXPyCore(object):
                 canonic = os.path.abspath(filename)
                 pass
             if not os.path.isfile(canonic):
-                canonic = Mclifns.search_file(
+                canonic = search_file(
                     filename, self.search_path, self.main_dirname
                 )
                 # FIXME: is this is right for utter failure?

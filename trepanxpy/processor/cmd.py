@@ -41,6 +41,7 @@ from trepan.processor.cmdproc import (
 )
 
 from trepanxpy.processor.trace import EVENT2SHORT
+from trepanxpy.fmt import format_instruction_with_highlight
 
 
 warned_file_mismatches = set()
@@ -158,7 +159,16 @@ class XPyCommandProcessor(CommandProcessor):
         #     setattr(self, method, getattr(cmdproc, method))
 
         # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
-        remove_commands = ("quit", "set", "step", "continue", "next", "finish", "break", "tbreak")
+        remove_commands = (
+            "quit",
+            "set",
+            "step",
+            "continue",
+            "next",
+            "finish",
+            "break",
+            "tbreak",
+        )
         new_instances = []
         for cmd in self.cmd_instances:
             if cmd.name in remove_commands:
@@ -199,8 +209,11 @@ class XPyCommandProcessor(CommandProcessor):
             classnames = [
                 tup[0]
                 for tup in inspect.getmembers(command_mod, inspect.isclass)
-                if (tup[0] != "DebuggerCommand" and
-                    not tup[0].startswith("Trepan3k") and tup[0].endswith("Command"))
+                if (
+                    tup[0] != "DebuggerCommand"
+                    and not tup[0].startswith("Trepan3k")
+                    and tup[0].endswith("Command")
+                )
             ]
             for classname in classnames:
                 if False:
@@ -294,7 +307,7 @@ class XPyCommandProcessor(CommandProcessor):
                     tb = tb.tb_next
                 self.curframe = self.frame = self.vm.frames[0]
                 self.setup()
-                self.curindex = len(vm.frames)-1
+                self.curindex = len(vm.frames) - 1
                 print_location(self)
 
             self.set_prompt("trepan-xpy:pm")
@@ -324,7 +337,21 @@ class XPyCommandProcessor(CommandProcessor):
         self.setup()
         print_location(self)
         if offset >= 0:
-            self.msg("%s" % self.vm.instruction_info(byteName, byteCode, [event_arg], offset, line_number))
+            self.msg(
+                "%s"
+                % format_instruction_with_highlight(
+                    vm.frame,
+                    vm.opc,
+                    byteName,
+                    intArg,
+                    event_arg,
+                    offset,
+                    line_number,
+                    extra_debug=False,
+                    highlight=self.debugger.settings["highlight"],
+                    show_line=False,  # We show the line number in our location reporting
+                )
+            )
 
         self.set_prompt(prompt)
         self.process_commands()
