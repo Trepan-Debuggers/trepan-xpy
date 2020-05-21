@@ -19,7 +19,7 @@
 # Helper function for Processor. Put here so we
 # can use this in a couple of processors.
 
-from typing import Any, Optional
+from typing import Any, Optional, Callable
 
 from trepanxpy.fmt import format_instruction_with_highlight
 
@@ -60,7 +60,7 @@ class XPyPrintProcessor(object):
     whether it wants any printed at all.
     """
 
-    def __init__(self, core_obj, opts=None):
+    def __init__(self, core_obj: Any, opts=None):
         self.core = core_obj
         self.debugger = core_obj.debugger
         return
@@ -77,7 +77,7 @@ class XPyPrintProcessor(object):
         event_arg: Any,
         vm: Any,
         prompt="trepan-xpy-trace",
-    ) -> None:
+    ) -> Optional[Callable]:
         "A simple event processor that prints out events."
         if offset >= 0:
             print("%-12s - %s" % (event,

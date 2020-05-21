@@ -20,7 +20,7 @@ import importlib
 import pyficache
 import os.path as osp
 
-from typing import Any, Optional
+from typing import Any, Optional, Set
 
 # Note: the module name pre 3.2 is repr
 from reprlib import Repr
@@ -44,7 +44,7 @@ from trepanxpy.processor.trace import EVENT2SHORT
 from trepanxpy.fmt import format_instruction_with_highlight
 
 
-warned_file_mismatches = set()
+warned_file_mismatches: Set[str] = set()
 
 
 def get_srcdir():
