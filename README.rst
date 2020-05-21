@@ -8,7 +8,7 @@ This is a gdb-like debugger for `x-python <https://github.com/rocky/x-python>`_,
 Example
 =======
 
-We'll invoke the a Greatest Common Divisors program (`gcd.py`) using our debugger. The source is found in _`trepan-xpy/test/example/gcd.py <https://github.com/rocky/trepan-xpy/blob/master/test/example/gcd.py>`.
+We'll invoke the a Greatest Common Divisors program (`gcd.py`) using our debugger. The source is found in `gcd.py <https://github.com/rocky/trepan-xpy/blob/master/test/example/gcd.py>_`.
 
 In this section we'll these some interesting debugger commands that are not common in Python debuggers:
 
