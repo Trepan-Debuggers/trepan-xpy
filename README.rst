@@ -142,7 +142,9 @@ Here are some interesting commands not typically found in Python debuggers, like
 See Also
 =========
 
-* trepan3_ : trepan debugger for Python 3.x and its extensive documentation_.
+* xpython_ : CPython written in Python
+* trepan3k_ : trepan debugger for Python 3.x and its extensive documentation_.
 
-.. _trepan3: https://github.com/rocky/python3-trepan
+.. _xpython: https://pypi.org/project/x-python/
+.. _trepan3k: https://pypi.org/project/trepan3k/
 .. _documentation: https://python3-trepan.readthedocs.io/en/latest/
