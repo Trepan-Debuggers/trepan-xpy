@@ -32,9 +32,6 @@ classifiers = [
     "Programming Language :: Python",
     "Topic :: Software Development :: Debuggers",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Programming Language :: Python :: 3.2",
-    "Programming Language :: Python :: 3.3",
-    "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5 ",
     "Programming Language :: Python :: 3.6 ",
     "Programming Language :: Python :: 3.7 ",
@@ -52,12 +49,12 @@ install_requires = [
     "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
     "pyficache >= 1.0.0",
-    "x-python >= 1.2.0",
+    "x-python >= 1.2.1",
     "trepan3k >= 1.0.0",
 ]
 license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
-modname = "trepanpyx"
+modname = "trepanxpy"
 py_modules = None
 short_desc = "GDB-like Debugger for x-python in the Trepan family"
 
