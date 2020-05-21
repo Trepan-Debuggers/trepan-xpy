@@ -19,6 +19,8 @@
 # Helper function for Processor. Put here so we
 # can use this in a couple of processors.
 
+from trepanxpy.fmt import format_instruction_with_highlight
+
 ALL_EVENT_NAMES = (
     "c_call",
     "c_exception",
@@ -69,19 +71,37 @@ class XPyPrintProcessor(object):
         byteName: str,
         byteCode: int,
         line_number: int,
+<<<<<<< HEAD
         event_arg,
         vm,
+=======
+        intArg: Optional[int],
+        event_arg: Any,
+        vm: Any,
+>>>>>>> master
         prompt="trepan-xpy-trace",
     ) -> None:
         "A simple event processor that prints out events."
         if offset >= 0:
-            print("%-12s - %s" % (event, vm.instruction_info( byteName, byteCode, [event_arg], offset, line_number)))
+            print("%-12s - %s" % (event,
+                                  format_instruction_with_highlight(
+                                      vm.frame,
+                                      vm.opc,
+                                      byteName,
+                                      intArg,
+                                      event_arg,
+                                      offset,
+                                      line_number,
+                                      extra_debug=False,
+                                      highlight=self.debugger.settings["highlight"],
+                                      show_line=True,
+                                  )))
         else:
             frame = vm.frame
             lineno = frame.line_number()
             filename = self.core.canonic_filename(frame)
             filename = self.core.filename(filename)
             print("%s - %s:%d" % (event, filename, lineno))
-        return
+        return self.event_hook
 
     pass

@@ -12,6 +12,7 @@ import trepan.misc as Mmisc
 from trepan.exception import DebuggerQuit, DebuggerRestart
 
 from trepanxpy.core import TrepanXPyCore
+from trepanxpy.fmt import format_instruction_with_highlight
 from trepanxpy.processor.cmd import XPyCommandProcessor
 from trepanxpy.processor.trace import XPyPrintProcessor
 
@@ -25,11 +26,14 @@ class Debugger(object):
         See also Debugger.start and Debugger.stop.
         """
 
-        self.mainpyfile  = None
-        self.thread      = None
+        def instruction_fmt_func(*args):
+            return format_instruction_with_highlight(*args, self.settings["highlight"])
 
-        completer  = lambda text, state: self.complete(text, state)
-        interface_opts={
+        self.mainpyfile = None
+        self.thread = None
+
+        completer = lambda text, state: self.complete(text, state)
+        interface_opts = {
             "complete": completer,
             "debugger_name": "trepan-xpy",
         }
@@ -63,14 +67,21 @@ class Debugger(object):
         while True:
             print("Running x-python %s with %s" % (string_or_path, args))
             try:
-                run_fn(string_or_path, args, callback=self.callback_hook)
+                run_fn(
+                    string_or_path,
+                    args,
+                    callback=self.callback_hook,
+                    format_instruction=instruction_fmt_func,
+                )
             except DebuggerQuit:
                 break
             except DebuggerRestart:
                 self.core.execution_status = "Restart requested"
                 if self.program_sys_argv:
                     sys.argv = list(self.program_sys_argv)
-                    part1 = "Restarting %s with arguments:" % self.core.filename(mainpyfile)
+                    part1 = "Restarting %s with arguments:" % self.core.filename(
+                        mainpyfile
+                    )
                     args = " ".join(self.program_sys_argv[1:])
                     self.intf[-1].msg(
                         Mmisc.wrapped_lines(part1, args, self.settings["width"])
@@ -93,5 +104,5 @@ class Debugger(object):
                 pass
 
     def restart_argv(self):
-        '''Return an array that would be execv-ed  to restart the program'''
+        """Return an array that would be execv-ed  to restart the program"""
         return self.orig_sys_argv or self.program_sys_argv

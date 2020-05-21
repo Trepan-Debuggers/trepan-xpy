@@ -27,12 +27,12 @@ import os, sys, threading
 
 # import trepan.processor.cmdproc as Mcmdproc
 
-import trepan.misc as Mmisc
-import trepan.clifns as Mclifns
+from trepan.misc import option_set
+from trepan.clifns import search_file
 import trepan.lib.breakpoint as breakpoint
 
 # Our local modules
-from trepanxpy.processor import trace as Mtrace
+from trepanxpy.processor.trace import XPyPrintProcessor
 
 
 class TrepanXPyCore(object):
@@ -56,7 +56,7 @@ class TrepanXPyCore(object):
 
         # import trepan.bwprocessor as Mbwproc
 
-        get_option = lambda key: Mmisc.option_set(opts, key, self.DEFAULT_INIT_OPTS)
+        get_option = lambda key: option_set(opts, key, self.DEFAULT_INIT_OPTS)
 
         self.bpmgr = breakpoint.BreakpointManager()
         self.current_bp = None
@@ -114,7 +114,7 @@ class TrepanXPyCore(object):
         # 'finish', 'step', or 'exception'.
         self.stop_reason = ""
 
-        self.trace_processor = Mtrace.XPyPrintProcessor(self, debugger)
+        self.trace_processor = XPyPrintProcessor(self, debugger)
 
         # What routines (keyed by f_code) will we not trace into?
         self.ignore_filter = get_option("ignore_filter")
@@ -165,7 +165,7 @@ class TrepanXPyCore(object):
                 canonic = os.path.abspath(filename)
                 pass
             if not os.path.isfile(canonic):
-                canonic = Mclifns.search_file(
+                canonic = search_file(
                     filename, self.search_path, self.main_dirname
                 )
                 # FIXME: is this is right for utter failure?
@@ -222,7 +222,7 @@ class TrepanXPyCore(object):
     #     #    sys.settrace(self._trace_dispatch)
     #     try:
     #         self.trace_hook_suspend = True
-    #         get_option = lambda key: Mmisc.option_set(opts, key, default.START_OPTS)
+    #         get_option = lambda key: option_set(opts, key, default.START_OPTS)
 
     #         add_hook_opts = get_option("add_hook_opts")
 

@@ -20,6 +20,11 @@ import importlib
 import pyficache
 import os.path as osp
 
+<<<<<<< HEAD
+=======
+from typing import Any, Optional
+
+>>>>>>> master
 # Note: the module name pre 3.2 is repr
 from reprlib import Repr
 
@@ -39,6 +44,7 @@ from trepan.processor.cmdproc import (
 )
 
 from trepanxpy.processor.trace import EVENT2SHORT
+from trepanxpy.fmt import format_instruction_with_highlight
 
 
 warned_file_mismatches = set()
@@ -156,7 +162,16 @@ class XPyCommandProcessor(CommandProcessor):
         #     setattr(self, method, getattr(cmdproc, method))
 
         # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
-        remove_commands = ("quit", "set", "step", "continue", "next", "finish", "break", "tbreak")
+        remove_commands = (
+            "quit",
+            "set",
+            "step",
+            "continue",
+            "next",
+            "finish",
+            "break",
+            "tbreak",
+        )
         new_instances = []
         for cmd in self.cmd_instances:
             if cmd.name in remove_commands:
@@ -197,8 +212,11 @@ class XPyCommandProcessor(CommandProcessor):
             classnames = [
                 tup[0]
                 for tup in inspect.getmembers(command_mod, inspect.isclass)
-                if (tup[0] != "DebuggerCommand" and
-                    not tup[0].startswith("Trepan3k") and tup[0].endswith("Command"))
+                if (
+                    tup[0] != "DebuggerCommand"
+                    and not tup[0].startswith("Trepan3k")
+                    and tup[0].endswith("Command")
+                )
             ]
             for classname in classnames:
                 if False:
@@ -268,6 +286,16 @@ class XPyCommandProcessor(CommandProcessor):
         self.event = event
         self.event_arg = event_arg
 
+        # In order to follow Python's sys.settrace()'s convention:
+        # returning "None" turns off tracing for the scope.
+        # However we do not need to return a reference to ourself,
+        # a callable (this may be allowed in the future though).
+        # Instead for now a string status is returned
+        # * "skip" for skip next instruction, and
+        # * "return" for immediate return
+
+        self.return_status = True
+
         if event == "fatal":
             self.core.execution_status = "Terminated"
             # One last hurrah!
@@ -281,12 +309,12 @@ class XPyCommandProcessor(CommandProcessor):
                     tb = tb.tb_next
                 self.curframe = self.frame = self.vm.frames[0]
                 self.setup()
-                self.curindex = len(vm.frames)-1
+                self.curindex = len(vm.frames) - 1
                 print_location(self)
 
             self.set_prompt("trepan-xpy:pm")
             self.process_commands()
-            return
+            return None
 
         if self.vm.frame:
             self.core.execution_status = "Running"
@@ -296,10 +324,14 @@ class XPyCommandProcessor(CommandProcessor):
 
         line, filename = frame_setup(self.frame)
         if self.settings("skip"):
+            # Note that in contrast to skipping intructions
+            # when return_status is set to "skip", here
+            # we are execution the instruction but just skipping
+            # any handling this instruction the debugger.
             if Mbytecode.is_def_stmt(line, self.frame):
-                return True
+                return self
             if Mbytecode.is_class_def(line, self.frame):
-                return True
+                return
             pass
         self.thread_name = Mthread.current_thread_name()
         self.frame_thread_name = self.thread_name
@@ -307,13 +339,27 @@ class XPyCommandProcessor(CommandProcessor):
         self.setup()
         print_location(self)
         if offset >= 0:
-            self.msg("%s" % self.vm.instruction_info(byteName, byteCode, [event_arg], offset, line_number))
+            self.msg(
+                "%s"
+                % format_instruction_with_highlight(
+                    vm.frame,
+                    vm.opc,
+                    byteName,
+                    intArg,
+                    event_arg,
+                    offset,
+                    line_number,
+                    extra_debug=False,
+                    highlight=self.debugger.settings["highlight"],
+                    show_line=False,  # We show the line number in our location reporting
+                )
+            )
 
         self.set_prompt(prompt)
         self.process_commands()
         if filename == "<string>":
             pyficache.remove_remap_file("<string>")
-        return True
+        return self.return_status
 
     def _update_commands(self):
         """ Create an instance of each of the debugger
