@@ -18,7 +18,9 @@ from trepanxpy.processor.trace import XPyPrintProcessor
 
 
 class Debugger(object):
-    def __init__(self, string_or_path: str, is_file: bool, trace_only: bool, args: list):
+    def __init__(
+        self, string_or_path: str, is_file: bool, trace_only: bool, args: list
+    ):
         """Create a debugger object. But depending on the value of
         key 'start' inside hash 'opts', we may or may not initially
         start debugging.
@@ -26,8 +28,29 @@ class Debugger(object):
         See also Debugger.start and Debugger.stop.
         """
 
-        def instruction_fmt_func(*args):
-            return format_instruction_with_highlight(*args, self.settings["highlight"])
+        def instruction_fmt_func(
+            frame,
+            opc,
+            byteName,
+            intArg,
+            arguments,
+            opoffset,
+            line_number,
+            extra_debug,
+            highlight,
+            show_line=True,
+        ):
+            return format_instruction_with_highlight(
+                frame,
+                opc,
+                byteName,
+                intArg,
+                opoffset,
+                line_number,
+                extra_debug,
+                extra_debug,
+                self.settings["highlight"],
+            )
 
         self.mainpyfile = None
         self.thread = None
@@ -88,7 +111,7 @@ class Debugger(object):
                     )
                 else:
                     break
-            except (FileNotFoundError, NoSourceError) as e:
+            except (IOError, NoSourceError) as e:
                 self.intf[-1].msg(str(e))
                 sys.exit(1)
             except SystemExit:

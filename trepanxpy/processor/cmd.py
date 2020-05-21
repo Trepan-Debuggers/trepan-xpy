@@ -20,11 +20,6 @@ import importlib
 import pyficache
 import os.path as osp
 
-<<<<<<< HEAD
-=======
-from typing import Any, Optional
-
->>>>>>> master
 # Note: the module name pre 3.2 is repr
 from reprlib import Repr
 
@@ -258,6 +253,7 @@ class XPyCommandProcessor(CommandProcessor):
         byteName: str,
         byteCode: int,
         line_number: int,
+        intArg,
         event_arg,
         vm,
         prompt="trepan-xpy",
@@ -282,7 +278,10 @@ class XPyCommandProcessor(CommandProcessor):
             return line, filename
 
         self.vm = vm
-        self.frame = vm.frame
+        try:
+            self.frame = vm.frame
+        except:
+            from trepan.api import debug; debug()
         self.event = event
         self.event_arg = event_arg
 

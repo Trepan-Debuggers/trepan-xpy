@@ -71,14 +71,8 @@ class XPyPrintProcessor(object):
         byteName: str,
         byteCode: int,
         line_number: int,
-<<<<<<< HEAD
         event_arg,
         vm,
-=======
-        intArg: Optional[int],
-        event_arg: Any,
-        vm: Any,
->>>>>>> master
         prompt="trepan-xpy-trace",
     ) -> None:
         "A simple event processor that prints out events."
