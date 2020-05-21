@@ -38,20 +38,6 @@ setup(
     author=author,
     author_email=author_email,
     classifiers=classifiers,
-    data_files=[
-        (
-            "trepanxpy/processor/command/help",
-            [
-                "trepanxpy/processor/command/help/arange.rst",
-                "trepanxpy/processor/command/help/command.rst",
-                "trepanxpy/processor/command/help/examples.rst",
-                "trepanxpy/processor/command/help/filename.rst",
-                "trepanxpy/processor/command/help/location.rst",
-                "trepanxpy/processor/command/help/range.rst",
-                "trepanxpy/processor/command/help/suffixes.rst",
-            ],
-        )
-    ],
     description=short_desc,
     entry_points=entry_points,
     install_requires=install_requires,

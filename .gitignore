@@ -2,5 +2,7 @@
 .coverage
 .python-version
 /.gdb_history
+/build
+/dist
 /trepanpyx.egg-info
 __pycache__
