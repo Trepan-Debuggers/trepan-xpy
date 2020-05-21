@@ -90,7 +90,7 @@ Here we have pushed the docstring for the program but haven't yet stored that in
    __package__ = None
    __spec__ = None
 
-Let's step the remaining instruction, `STORE_NAME` to complete the instructions making up line 1.
+Let's step the remaining instruction, ``STORE_NAME`` to complete the instructions making up line 1.
 
 ::
 
@@ -107,7 +107,7 @@ Let's step the remaining instruction, `STORE_NAME` to complete the instructions 
                8 IMPORT_NAME         1          1
               10 STORE_NAME          1          1
 
-The ``--`` at the beginning indicates we are on a line boundary now. Let's see the stack now that we have run `S`TORE_NAME``:
+The ``--`` at the beginning indicates we are on a line boundary now. Let's see the stack now that we have run ``STORE_NAME``:
 
 ::
 
@@ -115,7 +115,7 @@ The ``--`` at the beginning indicates we are on a line boundary now. Let's see t
    Evaluation stack is empty
 
 
-And to see that we've stored this in ``__doc__`` we can run `eval` to see its value:
+And to see that we've stored this in ``__doc__`` we can run ``eval`` to see its value:
 
 ::
 

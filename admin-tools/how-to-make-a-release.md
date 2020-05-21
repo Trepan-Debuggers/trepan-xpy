@@ -48,6 +48,6 @@
 Goto https://github.com/rocky/trepan-xpy/releases/new
 
 
-	$ twine upload dist/trepan[-_]xpy-${VERSION}*
+	$ twine upload dist/trepanxpy-${VERSION}*
 
 Check on https://pypi.org/project/trepan-xpy/
