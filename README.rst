@@ -3,7 +3,7 @@
 Abstract
 ========
 
-This is a gdb-like debugger for `x-python <https://github.com/rocky/x-python>`_, the Python Interpeter written in Python.
+This is a gdb-like debugger for `x-python <https://github.com/rocky/x-python>`_, the Python Interpreter written in Python.
 
 Example
 =======
@@ -32,12 +32,12 @@ Above we are stopped before we have even run the first instruction. The ``->`` i
    -- 10 """
    L. 10  @  0: LOAD_CONST Greatest Common Divisor
 
-   Some characterstics of this program used for testing:
+   Some characteristics of this program used for testing:
    * check_args() does not have a 'return' statement.
    * check_args() raises an uncaught exception when given the wrong number
      of parameters.
 
-Ok, now we are stopped before the first instruction `LOAD_CONST` which will loat a constant onto the evaluation stack.
+Ok, now we are stopped before the first instruction `LOAD_CONST` which will load a constant onto the evaluation stack.
 The icon changed from ``-> 10`` to ``-- 10`` which indicates we are on a line number boundary at line 10.
 
 The Python construct we are about to perform is setting the program's docstring. Let's see how that is implemented.
@@ -60,7 +60,7 @@ and instruction. Let's use that:
    .. 10 """
            @  2: STORE_NAME __doc__
    PC offset is 2.
-     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characterstics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characteristics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
        -->     2 STORE_NAME          0          0
 
      11        4 LOAD_CONST          1          0
@@ -68,7 +68,7 @@ and instruction. Let's use that:
                8 IMPORT_NAME         1          1
               10 STORE_NAME          1          1
 
-The ``..`` at the begnninng indicate that we are on an instruction which is in between lines.
+The ``..`` at the beginning indicate that we are on an instruction which is in between lines.
 We've now loaded the docstring onto the evaluation stack with ``LOAD_CONST`` Let's see the evaluation stack with ``info stack``
 
 ::
@@ -99,7 +99,7 @@ Let's step the remaining instruction, `STORE_NAME` to complete the instructions 
    -- 11 import sys
    L. 11  @  4: LOAD_CONST 0
    PC offset is 4.
-     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characterstics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characteristics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
                2 STORE_NAME          0          0
 
      11-->     4 LOAD_CONST          1          0
@@ -120,7 +120,7 @@ And to see that we've stored this in ``__doc__`` we can run `eval` to see its va
 ::
 
     (trepan-xpy) eval __doc__
-    "Greatest Common Divisor\n\nSome characterstics of this program used for testing:\n\n* check_args() does not have a 'return' statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+    "Greatest Common Divisor\n\nSome characteristics of this program used for testing:\n\n* check_args() does not have a 'return' statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
 
 
 I invite you to continue stepping this program to see
@@ -133,9 +133,9 @@ and much more.
 
 Here are some interesting commands not typically found in Python debuggers, like ``pdb``
 
-* ``info blocks`` let's you see the block stack
-* ``set pc <offset>`` let's you set the Program counter within the frame
-* ``return <value>`` lets's you cause an immediate return with a value
+* ``info blocks`` lets you see the block stack
+* ``set pc <offset>`` lets you set the Program counter within the frame
+* ``return <value>`` lets you cause an immediate return with a value
 * ``shell`` go into a python interactive shell *with access to the current frame and Virtual Machine*
 
 
