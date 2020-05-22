@@ -3,7 +3,12 @@
 Abstract
 ========
 
-This is a gdb-like debugger for `x-python <https://github.com/rocky/x-python>`_, the Python Interpreter written in Python.
+This is a gdb-like debugger focusing on Python bytecode. So far as I know, this is the _only_ debugger available specifically for Python bytecode.
+
+However to do this, you need to use underneath `x-python <https://pypi.org/project/x-python>`_ a Python Interpreter written in Python.
+
+This project builds off of a previous Python 3 debugger called `trepan3k <https://pypi.org/project/trepan3k/>`_.
+
 
 Example
 =======

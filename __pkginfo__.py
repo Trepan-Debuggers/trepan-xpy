@@ -50,7 +50,7 @@ install_requires = [
     "nose>=1.0.0, <= 1.3.7",
     "pyficache >= 1.0.0",
     "x-python >= 1.2.1",
-    "trepan3k >= 1.0.0",
+    "trepan3k >= 1.0.1",
 ]
 license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
