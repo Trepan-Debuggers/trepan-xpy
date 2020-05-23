@@ -58,7 +58,8 @@ See also:
             # ):
             #     return False
 
-        self.proc.vm.event_flags = 0 # All events
+        proc = self.proc
+        proc.vm.frame.event_flags = proc.vm.event_flags = 0  # ignore all events
 
         self.core.step_ignore = -1
         self.proc.continue_running = True  # Break out of command read loop
