@@ -1,8 +1,11 @@
 *~
 .coverage
+.mypy_cache
 .python-version
 /.gdb_history
 /build
 /dist
+/tmp
 /trepanpyx.egg-info
+/trepanxpy.egg-info
 __pycache__

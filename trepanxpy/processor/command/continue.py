@@ -16,7 +16,7 @@
 import os
 
 from trepan.processor.command.base_cmd import DebuggerCommand
-from trepan.processor import cmdbreak as Mcmdbreak
+from trepan.processor.cmdbreak import parse_break_cmd
 
 
 class ContinueCommand(DebuggerCommand):
@@ -49,7 +49,7 @@ See also:
     def run(self, args):
         if len(args) > 1:
             # FIXME: DRY this code. Better is to hook into tbreak.
-            func, filename, lineno, condition = Mcmdbreak.parse_break_cmd(
+            func, filename, lineno, condition = parse_break_cmd(
                 self.proc, args
             )
             # FIXME: reinstate
@@ -58,7 +58,8 @@ See also:
             # ):
             #     return False
 
-        self.proc.vm.event_flags = 0 # All events
+        proc = self.proc
+        proc.vm.frame.event_flags = proc.vm.event_flags = 0  # ignore all events
 
         self.core.step_ignore = -1
         self.proc.continue_running = True  # Break out of command read loop

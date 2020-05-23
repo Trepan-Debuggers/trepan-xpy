@@ -74,7 +74,7 @@ class XPyPrintProcessor(object):
         event_arg,
         vm,
         prompt="trepan-xpy-trace",
-    ) -> None:
+    ):
         "A simple event processor that prints out events."
         if offset >= 0:
             print("%-12s - %s" % (event,
