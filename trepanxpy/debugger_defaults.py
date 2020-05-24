@@ -16,7 +16,6 @@
 """ A place for the debugger default settings """
 
 # External Egg packages
-import os, tracer
 from columnize import computed_displaywidth
 
 from trepan.lib.term_background import is_dark_background
@@ -63,8 +62,6 @@ DEBUGGER_SETTINGS = {
     #  'dark'    : terminal highlighting for a dark background
     #  'light'   : terminal highlighting for a light background
     "highlight": is_dark_background(),
-    # Save debugger history?
-    "hist_save": False,
     # Where do we save the history?
     "histfile": None,
     # Save debugger history?
