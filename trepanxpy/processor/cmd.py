@@ -183,6 +183,10 @@ class XPyCommandProcessor(CommandProcessor):
         self.cmd_instances += new_commands
         self._populate_cmd_lists()
 
+        if self.debugger.settings["autopc"]:
+            self.commands["set"].run(["set", "autopc", "on"])
+            pass
+
         return
 
     def update_commands_easy_install(self, Mcommand):

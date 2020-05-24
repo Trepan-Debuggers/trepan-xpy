@@ -71,6 +71,7 @@ class XPyPrintProcessor(object):
         byteName: str,
         byteCode: int,
         line_number: int,
+        intArg,
         event_arg,
         vm,
         prompt="trepan-xpy-trace",
