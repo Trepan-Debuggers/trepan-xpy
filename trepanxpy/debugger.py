@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #   Copyright (C) 2020 Rocky Bernstein <rocky@gnu.org>
 
-from typing import List
+from typing import List, Dict, Any
 import os
 import sys
 from xpython.execfile import run_python_file, run_python_string, NoSourceError
 
 # Default settings used here
 from trepanxpy.debugger_defaults import DEBUGGER_SETTINGS
-import trepan.interfaces.user as Muser
+from trepan.interfaces.user import UserInterface
 import trepan.misc as Mmisc
 from trepan.exception import DebuggerQuit, DebuggerRestart
 
@@ -40,14 +40,14 @@ class Debugger(object):
             "complete": completer,
             "debugger_name": "trepan-xpy",
         }
-        interface = Muser.UserInterface(opts=interface_opts)
+        interface = UserInterface(opts=interface_opts)
         self.intf = [interface]
 
         # main_dirname is the directory where the script resides.
         # Filenames in co_filename are often relative to this.
         self.main_dirname = os.curdir
 
-        self.filename_cache = {}
+        self.filename_cache: Dict[str, Any] = {}
         self.settings = DEBUGGER_SETTINGS
         self.core = TrepanXPyCore(self, {})
         if trace_only:
