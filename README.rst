@@ -21,26 +21,29 @@ In this section we'll these some interesting debugger commands that are not comm
 * ``set autopc`` to show a disassembly around the current program counter (PC)
 * ``info stack`` to show the current stack frame evaluation stack
 
-::
+.. raw:: html
 
-   $ trepan-xpy test/example/gcd.py
-   Running x-python test/example/gcd.py with ()
-   (test/example/gcd.py:10): <module>
-   -> 10 """
+    <pre><font color="#2E3436"><b>$ </b></font>trepan-xpy test/example/gcd.py
+    Running x-python test/example/gcd.py with ()
+    (test/example/gcd.py:10): &lt;module&gt;
+    -&gt; 10 <font color="#C4A000">&quot;&quot;&quot;</font>
+    (trepan-xpy)
+    </pre>
+    $ trepan-xpy test/example/gcd.py
+       Running x-python test/example/gcd.py with ()
+       (test/example/gcd.py:10): <module>
+       -> 10 """
 
 Above we are stopped before we have even run the first instruction. The ``->`` icon before ``10`` means we are stopped calling a new frame.
 
-::
+.. raw:: html
 
-   (trepan-xpy) step
-   (test/example/gcd.py:10): <module>
-   -- 10 """
-   L. 10  @  0: LOAD_CONST Greatest Common Divisor
-
-   Some characteristics of this program used for testing:
-   * check_args() does not have a 'return' statement.
-   * check_args() raises an uncaught exception when given the wrong number
-     of parameters.
+    <pre>(trepan-xpy) step
+    (test/example/gcd.py:10): &lt;module&gt;
+    -- 10 <font color="#C4A000">&quot;&quot;&quot;</font>
+           @  0: <font color="#4E9A06">LOAD_CONST</font> <font color="#C4A000">&quot;Greatest Common Divisor\n\nSome characterstics of this program used for testing:\n\n* check_args() does not have a &apos;return&apos; statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n&quot;</font>
+(trepan-xpy)
+    </pre>
 
 Ok, now we are stopped before the first instruction `LOAD_CONST` which will load a constant onto the evaluation stack.
 The icon changed from ``-> 10`` to ``-- 10`` which indicates we are on a line number boundary at line 10.
