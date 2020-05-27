@@ -3,7 +3,7 @@
 Abstract
 ========
 
-This is a gdb-like debugger focusing on Python bytecode. So far as I know, this is the _only_ debugger available specifically for Python bytecode.
+This is a gdb-like debugger focusing on Python bytecode. So far as I know, this is the *only* debugger available specifically for Python bytecode.
 
 However to do this, you need to use underneath `x-python <https://pypi.org/project/x-python>`_ a Python Interpreter written in Python.
 
@@ -23,26 +23,26 @@ In this section we'll these some interesting debugger commands that are not comm
 
 .. raw:: html
 
-    <pre><font color="#2E3436"><b>$ </b></font>trepan-xpy test/example/gcd.py
+   <pre>$ <b>trepan-xpy test/example/gcd.py</b>
     Running x-python test/example/gcd.py with ()
     (test/example/gcd.py:10): &lt;module&gt;
-    -&gt; 10 <font color="#C4A000">&quot;&quot;&quot;</font>
+    -&gt; 10 <font color="yellow">&quot;&quot;&quot;</font>
     (trepan-xpy)
     </pre>
     $ trepan-xpy test/example/gcd.py
        Running x-python test/example/gcd.py with ()
        (test/example/gcd.py:10): <module>
        -> 10 """
+    </pre>
 
 Above we are stopped before we have even run the first instruction. The ``->`` icon before ``10`` means we are stopped calling a new frame.
 
 .. raw:: html
 
-    <pre>(trepan-xpy) step
+    <pre>(trepan-xpy) <b>step</b>
     (test/example/gcd.py:10): &lt;module&gt;
     -- 10 <font color="#C4A000">&quot;&quot;&quot;</font>
            @  0: <font color="#4E9A06">LOAD_CONST</font> <font color="#C4A000">&quot;Greatest Common Divisor\n\nSome characterstics of this program used for testing:\n\n* check_args() does not have a &apos;return&apos; statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n&quot;</font>
-(trepan-xpy)
     </pre>
 
 Ok, now we are stopped before the first instruction `LOAD_CONST` which will load a constant onto the evaluation stack.
@@ -53,28 +53,34 @@ We see here that the first part is loading this constant onto an evaluation stac
 
 To better see the execution progress we'll issue the command `set autopc` which will show the instructions as we step along.
 
-::
+.. raw:: html
 
-   (trepan-xpy) set autopc
-   Run `info pc` on debugger entry is on.
+    <pre>(trepan-xpy) <b>set autopc</b>
+    Run `info pc` on debugger entry is on.
+    (trepan-xpy)</pre>
+    </pre>
 
 A rather unique command that you won't find in most Python debuggers but is in low-level debuggers is ``stepi`` which steps
 and instruction. Let's use that:
 
-::
+.. raw:: html
 
-   (trepan-xpy) stepi
-   (test/example/gcd.py:10 @2): <module>
-   .. 10 """
-           @  2: STORE_NAME __doc__
-   PC offset is 2.
-     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characteristics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
-       -->     2 STORE_NAME          0          0
+    <pre>(trepan-xpy) <b>stepi</b>
+    (test/example/gcd.py:10 @2): &lt;module&gt;
+    .. 10 <font color="#C4A000">&quot;&quot;&quot;</font>
+           @  2: <font color="#4E9A06">STORE_NAME</font> <font color="#06989A">__doc__</font>
+    PC offset is 2.
+    <font color="#3465A4">  10</font>        0 <font color="#4E9A06">LOAD_CONST          </font>0          <font color="#06989A">&quot;Greatest Common Divisor\n\nSome characterstics of this program used for testing:\n\n* check_args() does not have a &apos;return&apos; statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n&quot;</font>
+    <font color="#2E3436"><u style="text-decoration-style:single">--&gt;</u></font>     2 <font color="#4E9A06">STORE_NAME          </font>0          <font color="#06989A">__doc__             </font>
 
-     11        4 LOAD_CONST          1          0
-               6 LOAD_CONST          2          None
-               8 IMPORT_NAME         1          1
-              10 STORE_NAME          1          1
+    <font color="#3465A4">  11</font>        4 <font color="#4E9A06">LOAD_CONST          </font>1          <font color="#06989A">0                   </font>
+                6 <font color="#4E9A06">LOAD_CONST          </font>2          <font color="#06989A">None                </font>
+                8 <font color="#4E9A06">IMPORT_NAME         </font>1          <font color="#06989A">sys                 </font>
+               10 <font color="#4E9A06">STORE_NAME          </font>1          <font color="#06989A">sys                 </font>
+    </pre>
+
+(trepan-xpy)
+</pre>
 
 The ``..`` at the beginning indicate that we are on an instruction which is in between lines.
 We've now loaded the docstring onto the evaluation stack with ``LOAD_CONST`` Let's see the evaluation stack with ``info stack``
