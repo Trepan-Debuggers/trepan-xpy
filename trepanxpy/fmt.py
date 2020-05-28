@@ -21,26 +21,27 @@ LINE_NUMBER_SPACES = " " * (LINE_NUMBER_WIDTH + len("L. ")) + "@"
 def format_instruction_with_highlight(
     frame,
     opc,
-    byteName,
-    intArg,
+    byte_name,
+    int_arg,
     arguments,
-    opoffset,
+    offset,
     line_number,
     extra_debug,
     highlight,
-    show_line = True
+    vm = None,
+    show_line = True,
 ):
     """A version of x-python's format_instruction() with terminal highlighting"""
     code = frame.f_code if frame else None
-    byteCode = opc.opmap.get(byteName, 0)
+    byteCode = opc.opmap.get(byte_name, 0)
     if isinstance(arguments, list) and arguments:
         arguments = arguments[0]
     argrepr = arguments
 
     fmt_type = Text
-    if hasattr(opc, "opcode_arg_fmt") and byteName in opc.opcode_arg_fmt:
-        argrepr = opc.opcode_arg_fmt[byteName](intArg)
-    elif intArg is None:
+    if hasattr(opc, "opcode_arg_fmt") and byte_name in opc.opcode_arg_fmt:
+        argrepr = opc.opcode_arg_fmt[byte_name](int_arg)
+    elif int_arg is None:
         argrepr = ""
     elif byteCode in opc.NAME_OPS | opc.FREE_OPS | opc.LOCAL_OPS:
         fmt_type = Name
@@ -51,7 +52,7 @@ def format_instruction_with_highlight(
         argrepr = str(argrepr)
     elif byteCode in opc.COMPARE_OPS:
         fmt_type = Operator
-        argrepr = opc.cmp_op[intArg]
+        argrepr = opc.cmp_op[int_arg]
     elif byteCode == opc.LOAD_CONST:
         if isinstance(argrepr, str):
             fmt_type = String
@@ -73,8 +74,8 @@ def format_instruction_with_highlight(
 
     mess = "%s%3d: %s %s" % (
         line_str,
-        opoffset,
-        format_token(Opcode, byteName),
+        offset,
+        format_token(Opcode, byte_name),
         format_token(fmt_type, argrepr),
     )
     if extra_debug and frame:
