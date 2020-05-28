@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2009, 2013, 2015 Rocky Bernstein
+#  Copyright (C) 2009, 2013, 2015, 2020 Rocky Bernstein
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -15,14 +15,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import os.path as osp
 
-from xpython.vmtrace import (
-    PyVMEVENT_INSTRUCTION,
-    PyVMEVENT_LINE,
-    PyVMEVENT_CALL,
-    PyVMEVENT_RETURN,
-    PyVMEVENT_EXCEPTION,
-    PyVMEVENT_YIELD
-    )
+from xpython.vmtrace import PyVMEVENT_ALL
 
 from trepan.processor.command.base_cmd import DebuggerCommand
 
@@ -81,15 +74,7 @@ See also:
                 return False
             pass
 
-        proc.vm.frame.event_flags = (
-            PyVMEVENT_INSTRUCTION |
-            PyVMEVENT_INSTRUCTION |
-            PyVMEVENT_LINE |
-            PyVMEVENT_CALL |
-            PyVMEVENT_RETURN |
-            PyVMEVENT_EXCEPTION |
-            PyVMEVENT_YIELD
-            )
+        proc.vm.frame.event_flags = PyVMEVENT_ALL
 
         core.different_line   = True # Mcmdfns.want_different_line(args[0], self.settings['different'])
         core.stop_level       = None

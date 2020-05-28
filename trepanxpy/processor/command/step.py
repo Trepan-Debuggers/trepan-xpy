@@ -16,11 +16,8 @@
 import os.path as osp
 
 from xpython.vmtrace import (
-    PyVMEVENT_LINE,
-    PyVMEVENT_CALL,
-    PyVMEVENT_RETURN,
-    PyVMEVENT_EXCEPTION,
-    PyVMEVENT_YIELD,
+    PyVMEVENT_ALL,
+    PyVMEVENT_INSTRUCTION,
 )
 
 from trepan.processor.command.base_cmd import DebuggerCommand
@@ -121,13 +118,8 @@ See also:
                 return False
             pass
 
-        proc.vm.frame.event_flags = (
-            PyVMEVENT_LINE
-            | PyVMEVENT_CALL
-            | PyVMEVENT_RETURN
-            | PyVMEVENT_EXCEPTION
-            | PyVMEVENT_YIELD
-        )
+        # All events except instruction tracing which is xor'd out.
+        proc.vm.frame.event_flags = PyVMEVENT_ALL ^ PyVMEVENT_INSTRUCTION
 
         core.different_line = (
             True  # Mcmdfns.want_different_line(args[0], self.settings['different'])

@@ -28,28 +28,20 @@ class Debugger(object):
         See also Debugger.start and Debugger.stop.
         """
 
-        def instruction_fmt_func(
-            frame,
-            opc,
-            byteName,
-            intArg,
-            arguments,
-            opoffset,
-            line_number,
-            extra_debug,
-            highlight,
-            show_line=True,
-        ):
+        def instruction_fmt_func(frame, opc, byte_name, int_arg, arguments, offset, line_number,
+                                 extra_debug, vm):
             return format_instruction_with_highlight(
-                frame,
-                opc,
-                byteName,
-                intArg,
-                opoffset,
-                line_number,
-                extra_debug,
-                extra_debug,
-                self.settings["highlight"],
+                frame=frame,
+                opc=opc,
+                byte_name=byte_name,
+                int_arg = int_arg,
+                arguments = arguments,
+                offset = offset,
+                line_number = line_number,
+                extra_debug = extra_debug,
+                settings=self.settings,
+                vm = vm,
+                show_line = True
             )
 
         self.mainpyfile = None

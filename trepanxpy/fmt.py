@@ -1,3 +1,4 @@
+from os.path import basename
 from numbers import Number as NumberType
 from pygments.token import Number, Text
 
@@ -21,29 +22,36 @@ LINE_NUMBER_SPACES = " " * (LINE_NUMBER_WIDTH + len("L. ")) + "@"
 def format_instruction_with_highlight(
     frame,
     opc,
-    byteName,
-    intArg,
+    byte_name,
+    int_arg,
     arguments,
-    opoffset,
+    offset,
     line_number,
     extra_debug,
-    highlight,
-    show_line = True
+    settings,
+    vm = None,
+    show_line = True,
 ):
     """A version of x-python's format_instruction() with terminal highlighting"""
+
+    highlight=settings.get("highlight", False)
     code = frame.f_code if frame else None
-    byteCode = opc.opmap.get(byteName, 0)
+    byteCode = opc.opmap.get(byte_name, 0)
     if isinstance(arguments, list) and arguments:
         arguments = arguments[0]
     argrepr = arguments
 
     fmt_type = Text
-    if hasattr(opc, "opcode_arg_fmt") and byteName in opc.opcode_arg_fmt:
-        argrepr = opc.opcode_arg_fmt[byteName](intArg)
-    elif intArg is None:
+
+    if vm and byte_name in vm.byteop.stack_fmt:
+        stack_args = vm.byteop.stack_fmt[byte_name](vm)
+    else:
+        stack_args = ""
+
+    if hasattr(opc, "opcode_arg_fmt") and byte_name in opc.opcode_arg_fmt:
+        argrepr = opc.opcode_arg_fmt[byte_name](int_arg)
+    elif int_arg is None:
         argrepr = ""
-    elif byteCode in opc.NAME_OPS | opc.FREE_OPS | opc.LOCAL_OPS:
-        fmt_type = Name
     elif byteCode in opc.NAME_OPS | opc.FREE_OPS | opc.LOCAL_OPS:
         fmt_type = Name
     elif byteCode in opc.JREL_OPS | opc.JABS_OPS:
@@ -51,7 +59,7 @@ def format_instruction_with_highlight(
         argrepr = str(argrepr)
     elif byteCode in opc.COMPARE_OPS:
         fmt_type = Operator
-        argrepr = opc.cmp_op[intArg]
+        argrepr = opc.cmp_op[int_arg]
     elif byteCode == opc.LOAD_CONST:
         if isinstance(argrepr, str):
             fmt_type = String
@@ -71,16 +79,18 @@ def format_instruction_with_highlight(
     except:
         from trepan.api import debug; debug()
 
-    mess = "%s%3d: %s %s" % (
+    mess = "%s%3d: %s%s %s" % (
         line_str,
-        opoffset,
-        format_token(Opcode, byteName),
+        offset,
+        format_token(Opcode, byte_name),
+        stack_args,
         format_token(fmt_type, argrepr),
     )
     if extra_debug and frame:
+        filename = basename(code.co_filename) if settings["basename"] else code.co_filename
         mess += " %s in %s:%s" % (
             format_token(Function, code.co_name, highlight=highlight),
-            format_token(Filename, code.co_filename, highlight=highlight),
+            format_token(Filename, filename, highlight=highlight),
             format_token(LineNumber, str(frame.f_lineno), highlight=highlight),
         )
     return mess
