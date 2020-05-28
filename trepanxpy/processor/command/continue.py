@@ -63,7 +63,7 @@ See also:
 
         self.core.step_ignore = -1
         self.proc.continue_running = True  # Break out of command read loop
-        return True
+        self.return_status = "continue"  # Tell interpreter to continue running
 
     pass
 

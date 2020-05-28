@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#  Copyright (C) 2009, 2013, 2015 Rocky Bernstein
+#  Copyright (C) 2009, 2013, 2015, 2020 Rocky Bernstein
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
 import os.path as osp
 
 from xpython.vmtrace import (
-    PyVMEVENT_INSTRUCTION,
     PyVMEVENT_LINE,
     PyVMEVENT_CALL,
     PyVMEVENT_RETURN,
@@ -28,38 +27,36 @@ from trepan.processor.command.base_cmd import DebuggerCommand
 
 # Our local modules
 
-class StepICommand(DebuggerCommand):
-    """**stepi** [*count*]
+class NextCommand(DebuggerCommand):
+    """**next**[**+**|**-**] [*count*]
 
-Step an instruction, stopping at the next instruction or event.
+Execute the current simple statement stopping at the next event but
+ignoring steps into function calls at this level,
 
-With an integer argument, step that many times.
+With an integer argument, perform `next` that many times. However if
+an exception occurs at this level, or we *return*, *yield* or the
+thread changes, we stop regardless of count.
 
-
-Examples:
----------
-
-  stepi        # step 1 event, *any* event
-  stepi 1      # same as above
-  stepi 5/5+0  # same as above
-
-Related and similar is the `next` command. More general is the `step` command
+A suffix of `+` on the command or an alias to the command forces to
+move to another line, while a suffix of `-` does the opposite and
+disables the requiring a move to a new line. If no suffix is given,
+the debugger setting 'different-line' determines this behavior.
 
 See also:
 ---------
 
-`step` `next`, `skip`, `jump` (there's no `hop` yet), `continue`, `return` and
+`step`, `skip`, `jump` (there's no `hop` yet), `continue`, and
 `finish` for other ways to progress execution.
 """
 
-    aliases       = ('si',)
-    category      = 'running'
-    min_args      = 0
-    max_args      = None
-    execution_set = ['Running']
-    name          = osp.basename(__file__).split('.')[0]
-    need_stack    = True
-    short_help    = 'Step instruction (possibly entering called functions)'
+    aliases = ("next+", "next-", "n", "n-", "n+")
+    category = "running"
+    execution_set = ["Running"]
+    min_args = 0
+    max_args = 1
+    name = osp.basename(__file__).split(".")[0]
+    need_stack = True
+    short_help = "Step over"
 
     def run(self, args):
         proc = self.proc
@@ -69,9 +66,9 @@ See also:
         else:
             pos = 1
             if pos == len(args) - 1:
-                core.step_ignore = proc.get_int(args[pos], default=1,
+                core.step_ignore = self.proc.get_int(args[pos], default=1,
                                                           cmdname='step')
-                if core.step_ignore is None: return False
+                if self.core.step_ignore is None: return False
                 # 0 means stop now or step 1, so we subtract 1.
                 core.step_ignore -= 1
                 pass
@@ -82,8 +79,6 @@ See also:
             pass
 
         proc.vm.frame.event_flags = (
-            PyVMEVENT_INSTRUCTION |
-            PyVMEVENT_INSTRUCTION |
             PyVMEVENT_LINE |
             PyVMEVENT_CALL |
             PyVMEVENT_RETURN |
@@ -101,22 +96,23 @@ See also:
 
 if __name__ == '__main__':
     from trepan.processor.command.mock import MockDebugger
+
     d = MockDebugger()
-    cmd = StepICommand(d.core.processor)
-    for c in (['si', '5'],
-              ['stepi', '1+2'],
-              ['si', 'foo']):
+    cmd = NextCommand(d.core.processor)
+    for c in (["n", "5"], ["next", "1+2"], ["n", "foo"]):
         d.core.step_ignore = 0
-        cmd.proc.continue_running = False
+        cmd.continue_running = False
         result = cmd.run(c)
-        print('Execute result: %s' % result)
-        print('step_ignore %s' % repr(d.core.step_ignore))
-        print('continue_running: %s' % cmd.proc.continue_running)
+        print("Run result: %s" % result)
+        print(
+            "step_ignore %d, continue_running: %s"
+            % (d.core.step_ignore, cmd.continue_running,)
+        )
         pass
-    # for c in (['si'], ['stepi']):
-    #     d.core.step_ignore = 0
-    #     cmd.continue_running = False
-    #     result = cmd.run(c)
-    #     print('different line %s:' % c[0], cmd.core.different_line)
-    #     pass
+    for c in (["n"], ["next+"], ["n-"]):
+        d.core.step_ignore = 0
+        cmd.continue_running = False
+        result = cmd.run(c)
+        print(cmd.core.different_line)
+        pass
     pass

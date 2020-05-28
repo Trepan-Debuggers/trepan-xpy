@@ -3,7 +3,7 @@
 Abstract
 ========
 
-This is a gdb-like debugger focusing on Python bytecode. So far as I know, this is the _only_ debugger available specifically for Python bytecode.
+This is a gdb-like debugger focusing on Python bytecode. So far as I know, this is the *only* debugger available specifically for Python bytecode.
 
 However to do this, you need to use underneath `x-python <https://pypi.org/project/x-python>`_ a Python Interpreter written in Python.
 
@@ -21,26 +21,29 @@ In this section we'll these some interesting debugger commands that are not comm
 * ``set autopc`` to show a disassembly around the current program counter (PC)
 * ``info stack`` to show the current stack frame evaluation stack
 
-::
+.. raw:: html
 
-   $ trepan-xpy test/example/gcd.py
-   Running x-python test/example/gcd.py with ()
-   (test/example/gcd.py:10): <module>
-   -> 10 """
+   <pre>$ <b>trepan-xpy test/example/gcd.py</b>
+    Running x-python test/example/gcd.py with ()
+    (test/example/gcd.py:10): &lt;module&gt;
+    -&gt; 10 &quot;&quot;&quot;
+    (trepan-xpy)
+    </pre>
+    $ trepan-xpy test/example/gcd.py
+       Running x-python test/example/gcd.py with ()
+       (test/example/gcd.py:10): <module>
+       -> 10 """
+    </pre>
 
 Above we are stopped before we have even run the first instruction. The ``->`` icon before ``10`` means we are stopped calling a new frame.
 
-::
+.. raw:: html
 
-   (trepan-xpy) step
-   (test/example/gcd.py:10): <module>
-   -- 10 """
-   L. 10  @  0: LOAD_CONST Greatest Common Divisor
-
-   Some characteristics of this program used for testing:
-   * check_args() does not have a 'return' statement.
-   * check_args() raises an uncaught exception when given the wrong number
-     of parameters.
+    <pre>(trepan-xpy) <b>step</b>
+    (test/example/gcd.py:10): &lt;module&gt;
+    -- 10 <font color="#C4A000">&quot;&quot;&quot;</font>
+           @  0: <font color="#4E9A06">LOAD_CONST</font> <font color="#C4A000">&quot;Greatest Common Divisor\n\nSome characterstics of this program used for testing:\n\n* check_args() does not have a &apos;return&apos; statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n&quot;</font>
+    </pre>
 
 Ok, now we are stopped before the first instruction `LOAD_CONST` which will load a constant onto the evaluation stack.
 The icon changed from ``-> 10`` to ``-- 10`` which indicates we are on a line number boundary at line 10.
@@ -50,36 +53,41 @@ We see here that the first part is loading this constant onto an evaluation stac
 
 To better see the execution progress we'll issue the command `set autopc` which will show the instructions as we step along.
 
-::
+.. raw:: html
 
-   (trepan-xpy) set autopc
-   Run `info pc` on debugger entry is on.
+    <pre>(trepan-xpy) <b>set autopc</b>
+    <i>Run `info pc` on debugger entry is on.</i>
+    (trepan-xpy)</pre>
+    </pre>
 
 A rather unique command that you won't find in most Python debuggers but is in low-level debuggers is ``stepi`` which steps
 and instruction. Let's use that:
 
-::
+.. raw:: html
 
-   (trepan-xpy) stepi
-   (test/example/gcd.py:10 @2): <module>
-   .. 10 """
-           @  2: STORE_NAME __doc__
-   PC offset is 2.
-     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characteristics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
-       -->     2 STORE_NAME          0          0
+    <pre>(trepan-xpy) <b>stepi</b>
+    (test/example/gcd.py:10 @2): <module>
+    .. 10 &quot;&quot;&quot;
+             @  2: STORE_NAME <i>__doc__</i>
+    PC offset is 2.
+       10        0 LOAD_CONST          0          <i>"Greatest Common Divisor\n\nSome characterstics of this program used for testing:\n\n* check_args() does not have a 'return' statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"</i>
+         <b>--&gt;</b>     2 STORE_NAME          0          <i>__doc__</i>
 
-     11        4 LOAD_CONST          1          0
-               6 LOAD_CONST          2          None
-               8 IMPORT_NAME         1          1
-              10 STORE_NAME          1          1
+       11        4 LOAD_CONST          1          0
+                 6 LOAD_CONST          2          <i>None</i>
+                 8 IMPORT_NAME         1          <i>sys</i>
+                10 STORE_NAME          1          <i>sys</i>
+    </pre>
+
 
 The ``..`` at the beginning indicate that we are on an instruction which is in between lines.
 We've now loaded the docstring onto the evaluation stack with ``LOAD_CONST`` Let's see the evaluation stack with ``info stack``
 
-::
+.. raw:: html
 
-   (trepan-xpy) info stack
-   0: <class 'str'> 'Greatest Com...rameters.\n\n'
+   <pre>(trepan-xpy) <b>info stack</b>
+   0: <class 'str'> <i>'Greatest Com...rameters.\n\n'</i>
+   </pre>
 
 Here we have pushed the docstring for the program but haven't yet stored that in ``__doc__`` to see this we'll use ``info locals`` to see the local variables:
 
@@ -88,8 +96,8 @@ Here we have pushed the docstring for the program but haven't yet stored that in
    (trepan-xpy) info locals
 
    __builtins__ = <module 'builtins' (built-in)>
-   __doc__ = None
-   __file__ = 'test/example/gcd.py'
+   __doc__ = file
+   __None__ = 'test/example/gcd.py'
    __loader__ = None
    __name__ = '__main__'
    __package__ = None
@@ -97,9 +105,9 @@ Here we have pushed the docstring for the program but haven't yet stored that in
 
 Let's step the remaining instruction, ``STORE_NAME`` to complete the instructions making up line 1.
 
-::
+.. raw:: html
 
-   (trepan-xpy) stepi
+   <pre>(trepan-xpy) <b>stepi</b>
    (test/example/gcd.py:11 @4): <module>
    -- 11 import sys
    L. 11  @  4: LOAD_CONST 0
@@ -107,25 +115,28 @@ Let's step the remaining instruction, ``STORE_NAME`` to complete the instruction
      10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characteristics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
                2 STORE_NAME          0          0
 
-     11-->     4 LOAD_CONST          1          0
+     <b>11--&gt;</b>     4 LOAD_CONST          1          0
                6 LOAD_CONST          2          None
                8 IMPORT_NAME         1          1
               10 STORE_NAME          1          1
+   </pre>
 
 The ``--`` at the beginning indicates we are on a line boundary now. Let's see the stack now that we have run ``STORE_NAME``:
 
-::
+.. raw:: html
 
-   (trepan-xpy) info stack
-   Evaluation stack is empty
+   <pre>(trepan-xpy) <b>info stack</b>
+   <i>Evaluation stack is empty</i>
+   </pre>
 
 
 And to see that we've stored this in ``__doc__`` we can run ``eval`` to see its value:
 
-::
+.. raw:: html
 
-    (trepan-xpy) eval __doc__
+    <pre>(trepan-xpy) <b>eval __doc__</b>
     "Greatest Common Divisor\n\nSome characteristics of this program used for testing:\n\n* check_args() does not have a 'return' statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+    </pre>
 
 
 I invite you to continue stepping this program to see
