@@ -71,7 +71,7 @@ DEBUGGER_SETTINGS = {
     # Number of lines to show by default in a 'list' command.
     "listsize": 10,
     # PyVM logger messages?
-    "loggtrace": False,
+    "logtrace": False,
     # max length to show of parameter string
     "maxargstrsize": 100,
     # max length to in other strings
