@@ -349,8 +349,9 @@ class XPyCommandProcessor(CommandProcessor):
                     offset,
                     line_number,
                     extra_debug=False,
-                    highlight=self.debugger.settings["highlight"],
+                    settings=self.debugger.settings,
                     show_line=False,  # We show the line number in our location reporting
+                    vm=self.vm,
                 )
             )
 

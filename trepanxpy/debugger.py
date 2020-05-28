@@ -40,7 +40,7 @@ class Debugger(object):
                 offset = offset,
                 line_number = line_number,
                 extra_debug = extra_debug,
-                highlight=self.settings["highlight"],
+                settings=self.settings,
                 vm = vm,
                 show_line = True
             )

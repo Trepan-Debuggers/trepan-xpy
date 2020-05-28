@@ -90,8 +90,9 @@ class XPyPrintProcessor(object):
                                       offset,
                                       line_number,
                                       extra_debug=False,
-                                      highlight=self.debugger.settings["highlight"],
+                                      settings=self.debugger.settings,
                                       show_line=True,
+                                      vm=vm
                                   )))
         else:
             frame = vm.frame
