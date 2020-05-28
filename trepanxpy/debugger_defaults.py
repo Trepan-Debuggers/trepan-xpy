@@ -85,6 +85,8 @@ DEBUGGER_SETTINGS = {
     # (In the Python they are "class" and "def" statments)
     "skip": False,
     # print trace output?
+    "step_ignore": 0,
+    # print trace output?
     "trace": False,
     # The target maximum print length. Used for example in listing
     # arrays which are columnized.

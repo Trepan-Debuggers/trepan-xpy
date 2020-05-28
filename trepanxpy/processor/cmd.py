@@ -160,13 +160,13 @@ class XPyCommandProcessor(CommandProcessor):
 
         # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
         remove_commands = (
+            "break",
+            "continue",
+            "finish",
+            "next",
             "quit",
             "set",
             "step",
-            "continue",
-            "next",
-            "finish",
-            "break",
             "tbreak",
         )
         new_instances = []
@@ -291,6 +291,7 @@ class XPyCommandProcessor(CommandProcessor):
         # Instead for now a string status is returned
         # * "skip" for skip next instruction, and
         # * "return" for immediate return
+        # * "finish" for "step out"
 
         self.return_status = True
 
