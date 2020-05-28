@@ -40,8 +40,10 @@ DEBUGGER_SETTINGS = {
     "autolist": False,
     # Enter IPython every time we enter the debugger?
     # Note: only relevant if we have ipython installed. This takes
-    # precidence over autopython.
+    # precedence over autopython.
     "autoipython": False,
+    # Run 'info pc' command every time we enter the debugger?
+    "autopc": False,
     # Enter Python every time we enter the debugger?
     "autopython": False,
     # Show basename only on filename output?

@@ -29,8 +29,9 @@ def format_instruction_with_highlight(
     line_number,
     extra_debug,
     settings,
-    vm = None,
-    show_line = True,
+    show_line=True,
+    vm=None,
+    repr=repr
 ):
     """A version of x-python's format_instruction() with terminal highlighting"""
 
@@ -44,7 +45,7 @@ def format_instruction_with_highlight(
     fmt_type = Text
 
     if vm and byte_name in vm.byteop.stack_fmt:
-        stack_args = vm.byteop.stack_fmt[byte_name](vm)
+        stack_args = vm.byteop.stack_fmt[byte_name](vm, int_arg, repr)
     else:
         stack_args = ""
 
