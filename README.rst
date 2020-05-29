@@ -13,6 +13,8 @@ This project builds off of a previous Python 3 debugger called `trepan3k <https:
 Example
 =======
 
+|demo|
+
 We'll invoke the a Greatest Common Divisors program (`gcd.py`) using our debugger. The source is found in `test/example/gcd.py <https://github.com/rocky/trepan-xpy/blob/master/test/example/gcd.py>`_.
 
 In this section we'll these some interesting debugger commands that are not common in Python debuggers:
@@ -164,3 +166,5 @@ See Also
 .. _xpython: https://pypi.org/project/x-python/
 .. _trepan3k: https://pypi.org/project/trepan3k/
 .. _documentation: https://python3-trepan.readthedocs.io/en/latest/
+
+.. |demo| image:: https://github.com/rocky/trepan-xpy/blob/master/screenshots/trepan-xpy-demo1.gif

@@ -25,11 +25,11 @@ class SetLogTrace(DebuggerSetBoolSubcommand):
 
 Show logtrace PyVM logger messages. Initially logtracing is `off`.
 
-However running `set logtrace` will turn it on and se the log leve to `debug`. So it's the
-same things as `set logtrace debug`.
+However running `set logtrace` will turn it on and set the log level to `debug`. So it's the
+same thing as `set logtrace debug`.
 
 If you want the less verbose messages, use `info`. And to turn off,
-(except critical errors), us `off`.
+(except critical errors), use `off`.
 
 Examples:
 ---------
