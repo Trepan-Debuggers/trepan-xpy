@@ -1,6 +1,6 @@
 trepan-xpy test/example/gcd.py 3 5
 step
-__doc__
+__doc__ is None
 help set logtrace
 set logtrace
 stepi

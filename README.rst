@@ -112,30 +112,24 @@ We've now loaded the docstring onto the evaluation stack with ``LOAD_CONST`` Let
 
 Here we have pushed the docstring for the program but haven't yet stored that in ``__doc__`` to see this can use the fact that `trepan-xpy` will automatically evaluate strings it doesn't recognize as a debugger command:
 
-::
+.. raw:: html
 
-   (trepan-xpy) <b>__doc__ is None</b>
+   <pre>(trepan-xpy) <b>__doc__ is None</b>
    True
+   </pre>
 
 Let's step the remaining instruction, ``STORE_NAME`` to complete the instructions making up line 1.
 
 .. raw:: html
 
-   <pre>(trepan-xpy) <b>stepi</b>
-   (test/example/gcd.py:11 @4): <module>
-   -- 11 import sys
-   L. 11  @  4: LOAD_CONST 0
-   PC offset is 4.
-     10        0 LOAD_CONST          0          "Greatest Common Divisor\n\nSome characteristics of this program used for testing: * check_args() does\nnot have a 'return' statement.\n\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
-               2 STORE_NAME          0          0
+    <pre>trepan-xpy) <b>stepi</b>
+    INFO:xpython.vm:L. 10  @  4: LOAD_CONST 0
+    (test/example/gcd.py:10 @4): &lt;module&gt;
+    -- 10 import <u>sys</u>
+       @  4: LOAD_CONST 0
+    </pre>
 
-     <b>11--&gt;</b>     4 LOAD_CONST          1          0
-               6 LOAD_CONST          2          None
-               8 IMPORT_NAME         1          1
-              10 STORE_NAME          1          1
-   </pre>
-
-The ``--`` at the beginning indicates we are on a line boundary now. Let's see the stack now that we have run ``STORE_NAME``:
+The ``--`` before ``10 import...` at the beginning indicates we are on a line boundary now. Let's see the stack now that we have run ``STORE_NAME``:
 
 .. raw:: html
 
@@ -149,24 +143,70 @@ And to see that we've stored this in ``__doc__`` we can run ``eval`` to see its 
 .. raw:: html
 
     <pre>(trepan-xpy) <b>eval __doc__</b>
-    "Greatest Common Divisor\n\nSome characteristics of this program used for testing:\n\n* check_args() does not have a 'return' statement.\n* check_args() raises an uncaught exception when given the wrong number\n  of parameters.\n\n"
+    "Greatest Common Divisor"
     </pre>
 
 
-I invite you to continue stepping this program to see
+Now let's step a statement (not instructions), to see how a module becomes visable.
 
-* how functions get created
-* how functions are called
-* what happens when an exception is raised
+.. raw:: html
 
-and much more.
+    <pre>(trepan-xpy) <b>step</b>
+    INFO:xpython.vm:       @  6: LOAD_CONST None
+    INFO:xpython.vm:       @  8: IMPORT_NAME (0, None) <i>sys</i>
+    INFO:xpython.vm:       @ 10: STORE_NAME (&lt;module &apos;sys&apos; (built-in)&gt;)
+    INFO:xpython.vm:L. 12  @ 12: LOAD_CONST &lt;code object check_args at 0x7f2a0a286f60, file &quot;test/example/gcd.py&quot;, line 12&gt;
+    (test/example/gcd.py:12 @12): &lt;module&gt;
+    -- 12 <b>def</b> check_args</font>():
+       @ 12: LOAD_CONST &lt;code object check_args at 0...est/example/gcd.py&quot;, line 12&gt;
+    </pre>
+
+The ```INFO`` lines come from the VM interpreter, as a result of the ``set logtrace`` a callback is made to a formatting function provided by the debugger was called to print the information, and that is why parts of this are colorized in a terminal session. However since we were not statement stepping, the debugger's event loop and REPL was not involved running the statement.
+
+One thingof node are the value after the operatnd and in parenthesis, like after ``STORE NAME``. Cmpare that line with what you'll see from a static disassembly like Python's ``dis`` or ``xdis`` version of that:
+
+::
+    10 STORE_NAME                1 (sys)
+
+In a static disassembler, the "1" indicates the name index in the code object. The value in parenthesis is what that name, here at index 1 is, namely `sys`.
+
+In ``trepan-xpy`` and ``x-python`` however we omit the name index, 1, since that isn't of much interest. Instead we show that dynamic stack entries or operands that ``STORE_NAME`` is going to work on. In particular the object that is going to be stored in variable ``sys`` is the built-in module ``sys``.
+
+Now let's step another statement to see how a function becomes available:
+
+.. raw:: html
+
+    <pre>trepan-xpy) step
+    INFO:xpython.vm:       @ 14: LOAD_CONST &apos;check_args&apos;</font>
+    INFO:xpython.vm:       @ 16: MAKE_FUNCTION (check_args) Neither defaults, keyword-only args, annotations, nor closures
+    INFO:xpython.vm:       @ 18: STORE_NAME (&lt;Function check_args at 0x7fdb1d4d49f0&gt;) <u>check_args</u>
+    INFO:xpython.vm:L. 25  @ 20: LOAD_CONST &lt;code object gcd at 0x7fdb1d55fed0, file &quot;test/example/gcd.py&quot;, line 25&gt;
+    (test/example/gcd.py:25 @20): &lt;module&gt;
+    -- 25 <b>def</b> gcd(a,b):
+           @ 20: LOAD_CONST &lt;code object gcd at 0x7fdb1d...est/example/gcd.py&quot;, line 25&gt;
+    </pre>
+
+A different between a dynamic language like Python and a statically compiled language like C, or Java is that there is no linking step in the complation, modules and functions are imported and linked as part of the execution of the code.
+
+Notice again what's in the parenthesis after the opcode and how that differens from a static disassembly. For comparison here is what 2nd and 3rd instruction look like from pydisasm:
+
+```
+              16 MAKE_FUNCTION             0 (Neither defaults, keyword-only args, annotations, nor closures)
+              18 STORE_NAME                2 (check_args)
+```
+
+Again indices into a name table are dropped and in their place are the evaluation stack items. For ``MAKE_FUNCTION` the name of the function that is created is shown; while for ``STORE_NAME`` again the item that gets stored (a function object) is shown.
+
+The rest of the video shows, we show that in addition to ``step`` (step into) and ``stepi`` (step instruction) debugger commands there is a ``next`` or step over debugger command.
+Also in contrast to any other Python debugger I know about, we can cause an immediate return with a value.
+
+We've only show a few of the many debugger features.
 
 Here are some interesting commands not typically found in Python debuggers, like ``pdb``
 
 * ``info blocks`` lets you see the block stack
 * ``set pc <offset>`` lets you set the Program counter within the frame
-* ``return <value>`` lets you cause an immediate return with a value
-* ``shell`` go into a python interactive shell *with access to the current frame and Virtual Machine*
+* ``set autopc>`` run ``info pc`` to get the debugged program's program counter every time bofore the debugger its ERPL
 
 
 See Also
