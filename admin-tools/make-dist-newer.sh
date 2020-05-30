@@ -1,5 +1,6 @@
 #!/bin/bash
 PACKAGE=trepan-xpy
+PACKAGE2=trepan-xpy
 
 # FIXME put some of the below in a common routine
 function finish {
@@ -10,7 +11,10 @@ cd $(dirname ${BASH_SOURCE[0]})
 owd=$(pwd)
 trap finish EXIT
 
-if ! source ./pyenv-versions ; then
+if ! source ./pyenv-versions-newer ; then
+    exit $?
+fi
+if ! source ./setup-master.sh ; then
     exit $?
 fi
 
@@ -29,7 +33,7 @@ for pyversion in $PYVERSIONS; do
     first_two=$(echo $pyversion | cut -d'.' -f 1-2 | sed -e 's/\.//')
     rm -fr build
     python setup.py bdist_egg bdist_wheel
-    mv -v dist/${PACKAGE}-$VERSION-{py2.py3,py$first_two}-none-any.whl
+    mv -v dist/${PACKAGE}-$VERSION-py3-non-any.whl dist/${PACKAGE2}-$VERSION-py$first_two}-none-any.whl
 done
 
 python ./setup.py sdist
