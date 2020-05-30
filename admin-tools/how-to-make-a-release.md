@@ -51,3 +51,7 @@ Goto https://github.com/rocky/trepan-xpy/releases/new
 	$ twine upload dist/trepanxpy-${VERSION}*
 
 Check on https://pypi.org/project/trepan-xpy/
+
+# Move dist files to uploaded
+
+	$ mv -v dist/trepan-xpy-${VERSION}* dist/uploaded
