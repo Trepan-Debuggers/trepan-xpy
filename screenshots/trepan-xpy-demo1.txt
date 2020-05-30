@@ -1,0 +1,22 @@
+trepan-xpy test/example/gcd.py 3 5
+step
+__doc__ is None
+help set logtrace
+set logtrace
+stepi
+info stack
+stepi
+info stack
+__doc__
+step
+step
+step
+eval?
+step
+next
+# scroll a bit
+step
+step
+return 1
+step
+quit

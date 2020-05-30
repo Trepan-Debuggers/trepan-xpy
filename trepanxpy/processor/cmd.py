@@ -186,7 +186,6 @@ class XPyCommandProcessor(CommandProcessor):
         if self.debugger.settings["autopc"]:
             self.commands["set"].run(["set", "autopc", "on"])
             pass
-
         return
 
     def update_commands_easy_install(self, Mcommand):
@@ -342,7 +341,7 @@ class XPyCommandProcessor(CommandProcessor):
 
         self.setup()
         print_location(self)
-        if offset >= 0:
+        if offset >= 0 and event not in ('call', 'return'):
             self.msg(
                 "%s"
                 % format_instruction_with_highlight(
@@ -357,6 +356,7 @@ class XPyCommandProcessor(CommandProcessor):
                     settings=self.debugger.settings,
                     show_line=False,  # We show the line number in our location reporting
                     vm=self.vm,
+                    repr=self._repr.repr
                 )
             )
 

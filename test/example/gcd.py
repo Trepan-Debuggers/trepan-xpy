@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Greatest Common Divisor
+"""Greatest Common Divisor"""
 
-Some characterstics of this program used for testing:
+# Some characterstics of this program used for testing:
+#
+# * check_args() does not have a 'return' statement.
+# * check_args() raises an uncaught exception when given the wrong number
+#   of parameters.
 
-* check_args() does not have a 'return' statement.
-* check_args() raises an uncaught exception when given the wrong number
-  of parameters.
-
-"""
 import sys
 
 def check_args():

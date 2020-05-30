@@ -21,26 +21,67 @@ from trepan.processor.command.base_subcmd import DebuggerSetBoolSubcommand
 
 
 class SetLogTrace(DebuggerSetBoolSubcommand):
-    """**set logtrace** [ **on** | **off** ]
+    """**set logtrace** [ **on** | **off** | **debug** | **info** ]
 
-Show logtrace PyVM "debug" and "info" messages.
-"""
+Show logtrace PyVM logger messages. Initially logtracing is `off`.
+
+However running `set logtrace` will turn it on and set the log level to `debug`. So it's the
+same thing as `set logtrace debug`.
+
+If you want the less verbose messages, use `info`. And to turn off,
+(except critical errors), use `off`.
+
+Examples:
+---------
+
+     set logtrace         # turns x-python on info logging messages
+     set logtrace info    # same as above
+     set logtrace debug   # turn on info and debug logging messages
+     set logtrace off     # turn off all logging messages except critical ones
+    """
 
     in_list    = True
     min_abbrev = len('lo')
 
+    logger_choices = frozenset(["debug", "info", "off", "on"])
+
+    def complete(self, prefix):
+        return complete_token(SetLogTrace.logger_choices, prefix)
+
+    def get_logtrace_level(self, arg):
+        if not arg: return "info"
+        if arg in SetLogTrace.logger_choices:
+            return arg
+        else:
+            self.errmsg('Expecting %s"; got %s' %
+                        (', '.join(SetLogtrace.highlight_choices), arg))
+            return None
+        pass
+
 
     def run(self, args):
-        super().run(args)
-        if self.debugger.settings["logtrace"]:
-            logging.basicConfig(level=logging.DEBUG)
+        if len(args) == 0:
+            logtrace_level = logging.INFO
         else:
-            logging.basicConfig(level=logging.WARNING)
+            level_str = self.get_logtrace_level(args[0])
+            if not level_str:
+                return
+            if level_str == "off":
+                logtrace_level = logging.CRITICAL
+            elif level_str in ("info", "on") :
+                logtrace_level = logging.INFO
+            else:
+                assert level_str == "debug"
+                logtrace_level = logging.DEBUG
+            print("XXX", level_str, logtrace_level)
+            pass
+        self.debugger.settings[self.name] = logtrace_level
+        logging.basicConfig(level=logtrace_level)
         return
 
     pass
 
 if __name__ == '__main__':
     from trepan.processor.command.set_subcmd.__demo_helper__ import demo_run
-    demo_run(SetLogTrace)
+    demo_run(SetLogTrace, [])
     pass
