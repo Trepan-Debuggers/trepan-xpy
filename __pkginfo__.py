@@ -77,4 +77,4 @@ web = "http://github.com/rocky/pythonxpy/"
 # tracebacks in zip files are funky and not debuggable
 zip_safe = False
 
-long_description = read("README.rst") + "\n"
+long_description = read("README.md") + "\n"

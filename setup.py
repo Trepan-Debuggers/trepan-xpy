@@ -43,7 +43,7 @@ setup(
     install_requires=install_requires,
     license=license,
     long_description=long_description,
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     name=modname,
     packages=packages,
     py_modules=py_modules,
