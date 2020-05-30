@@ -79,27 +79,31 @@ class XPyPrintProcessor(object):
         prompt="trepan-xpy-trace",
     ) -> Optional[Callable]:
         "A simple event processor that prints out events."
-        if offset >= 0:
-            print("%-12s - %s" % (event,
-                                  format_instruction_with_highlight(
-                                      vm.frame,
-                                      vm.opc,
-                                      byteName,
-                                      intArg,
-                                      event_arg,
-                                      offset,
-                                      line_number,
-                                      extra_debug=False,
-                                      settings=self.debugger.settings,
-                                      show_line=True,
-                                      vm=vm
-                                  )))
+        if vm.frame:
+            if offset >= 0:
+                print("%-12s - %s" % (event,
+                                      format_instruction_with_highlight(
+                                          vm.frame,
+                                          vm.opc,
+                                          byteName,
+                                          intArg,
+                                          event_arg,
+                                          offset,
+                                          line_number,
+                                          extra_debug=False,
+                                          settings=self.debugger.settings,
+                                          show_line=True,
+                                          vm=vm
+                                      )))
+            else:
+                frame = vm.frame
+                lineno = frame.line_number()
+                filename = self.core.canonic_filename(frame)
+                filename = self.core.filename(filename)
+                print("%s - %s:%d" % (event, filename, lineno))
         else:
-            frame = vm.frame
-            lineno = frame.line_number()
-            filename = self.core.canonic_filename(frame)
-            filename = self.core.filename(filename)
-            print("%s - %s:%d" % (event, filename, lineno))
+                print("%s" % (event,))
+
         return self.event_hook
 
     pass
