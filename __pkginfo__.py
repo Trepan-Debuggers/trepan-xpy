@@ -32,6 +32,9 @@ classifiers = [
     "Programming Language :: Python",
     "Topic :: Software Development :: Debuggers",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3.2 ",
+    "Programming Language :: Python :: 3.3 ",
+    "Programming Language :: Python :: 3.4 ",
     "Programming Language :: Python :: 3.5 ",
     "Programming Language :: Python :: 3.6 ",
     "Programming Language :: Python :: 3.7 ",
@@ -74,4 +77,4 @@ web = "http://github.com/rocky/pythonxpy/"
 # tracebacks in zip files are funky and not debuggable
 zip_safe = False
 
-long_description = read("README.rst") + "\n"
+long_description = read("README.md") + "\n"
