@@ -1,3 +1,19 @@
+1.0.1 2020-05-30 Lady Elaine
+============================
+
+There have been a few usuablity improvements here, with the help of updated `trepan3k` and `x-python` and `xdis` releases.
+
+Stack operands are now shown for instruciton and we colorize trace output.
+
+New commands:
+
+* `set logtrace` sets logger level on vm tracing
+* `next` (step over)
+* `finish` (step out)
+
+There are some bugs in `set logtrace`, and `finish` but again these are very useful as is.
+
+
 1.0.0 2020-04-20 One-oh!
 ========================
 
