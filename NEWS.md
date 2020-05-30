@@ -11,7 +11,7 @@ New commands:
 * `next` (step over)
 * `finish` (step out)
 
-There are some bugs in `set logtrace`, and `finish` but again these are very useful as is.
+There are some bugs in `set logtrace`, and `finish`. However, as in the last release, these are minor compared to the improvements. So release again rather than wait.
 
 
 1.0.0 2020-04-20 One-oh!
