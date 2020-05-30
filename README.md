@@ -39,7 +39,7 @@ Above we are stopped before we have even run the first instruction. The `->` ico
 
 Ok, now we are stopped before the first instruction `LOAD_CONST` which will load a constant onto the evaluation stack. The icon changed from `-> 2` to `-- 2` which indicates we are on a line-number boundary at line 2.
 
-The Python construct we are about to perform is setting the program's docstring. Let\'s see how that is implemented.
+The Python construct we are about to perform is setting the program's docstring. Let's see how that is implemented.
 
 First we see that the variable `__doc__` which will eventually hold the docstring isn't set:
 
@@ -159,8 +159,7 @@ INFO:xpython.vm:       @ 16: MAKE_FUNCTION (check_args) Neither defaults, keywor
 INFO:xpython.vm:       @ 18: STORE_NAME (&lt;Function check_args at 0x7fdb1d4d49f0&gt;) <u>check_args</u>
 INFO:xpython.vm:L. 25  @ 20: LOAD_CONST &lt;code object gcd at 0x7fdb1d55fed0, file &quot;test/example/gcd.py&quot;, line 25&gt;
 (test/example/gcd.py:25 @20): &lt;module&gt;
--- 25 <b>def</b> gcd(a,b):
-       @ 20: LOAD_CONST &lt;code object gcd at 0x7fdb1d...est/example/gcd.py&quot;, line 25&gt;
+-- 25 <b>def</b> gcd(a,b):</br>       @ 20: LOAD_CONST &lt;code object gcd at 0x7fdb1d...est/example/gcd.py&quot;, line 25&gt;
 </pre>
 
 A difference between a dynamic language like Python and a statically compiled language like C, or Java is that there is no linking step in the complation; modules and functions are *imported* or created and linked as part of the execution of the code.

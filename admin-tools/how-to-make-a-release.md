@@ -48,6 +48,7 @@
 Goto https://github.com/rocky/trepan-xpy/releases/new
 
 
+	$ twine upload dist/trepanxpy-${VERSION}-py37-none-any.whl  # Older versions don't support Markdown
 	$ twine upload dist/trepanxpy-${VERSION}*
 
 Check on https://pypi.org/project/trepan-xpy/
