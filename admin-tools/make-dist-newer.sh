@@ -1,5 +1,6 @@
 #!/bin/bash
 PACKAGE=trepan-xpy
+PACKAGE2=trepan-xpy
 
 # FIXME put some of the below in a common routine
 function finish {
@@ -32,7 +33,11 @@ for pyversion in $PYVERSIONS; do
     first_two=$(echo $pyversion | cut -d'.' -f 1-2 | sed -e 's/\.//')
     rm -fr build
     python setup.py bdist_egg bdist_wheel
+<<<<<<< HEAD
     mv -v dist/${PACKAGE}-$VERSION-py3-none-any.whl dist/${PACKAGE}-$VERSION-py${first_two}-none-any.whl
+=======
+    mv -v dist/${PACKAGE}-$VERSION-py3-non-any.whl dist/${PACKAGE2}-$VERSION-py$first_two}-none-any.whl
+>>>>>>> e8ae17e7665bbf08357b9397c690b8754054ff0a
 done
 
 python ./setup.py sdist
