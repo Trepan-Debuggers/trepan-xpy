@@ -1,5 +1,5 @@
 #!/bin/bash
-PACKAGE=trepan-xpy
+PACKAGE=trepanxpy
 
 # FIXME put some of the below in a common routine
 function finish {
