@@ -51,8 +51,8 @@ ftp_url = None
 install_requires = [
     "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
-    "pyficache >= 1.0.0",
-    "x-python >= 1.2.1",
+    "pyficache >= 2.0.1",
+    "x-python >= 1.3.1",
     "trepan3k >= 1.0.2",
 ]
 license = "GPL3"
@@ -72,7 +72,7 @@ def read(*rnames):
 # version.py sets variable VERSION.
 VERSION = None
 exec(read("trepanxpy", "version.py"))
-web = "http://github.com/rocky/pythonxpy/"
+web = "http://github.com/rocky/python-xpy/"
 
 # tracebacks in zip files are funky and not debuggable
 zip_safe = False
