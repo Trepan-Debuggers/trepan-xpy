@@ -75,10 +75,7 @@ def format_instruction_with_highlight(
             LineNumber, LINE_NUMBER_WIDTH_FMT % line_number, highlight=highlight
         )
         line_str = "L. %s@" % number_str
-    try:
         format_token(fmt_type, argrepr),
-    except:
-        from trepan.api import debug; debug()
 
     mess = "%s%3d: %s%s %s" % (
         line_str,
