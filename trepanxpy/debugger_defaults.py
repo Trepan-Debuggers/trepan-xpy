@@ -88,6 +88,8 @@ DEBUGGER_SETTINGS = {
     "skip": False,
     # print trace output?
     "step_ignore": 0,
+    # Pygments style
+    "style": None,
     # print trace output?
     "trace": False,
     # The target maximum print length. Used for example in listing

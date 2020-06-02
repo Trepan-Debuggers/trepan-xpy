@@ -20,7 +20,7 @@ We'll invoke the a Greatest Common Divisors program `gcd.py` using our debugger.
 In this section we'll these some interesting debugger commands that are not common in Python debuggers:
 
 - `stepi` to step a bytecode instruction
-- `set logtrace` to show a the x-python log "info"-level log  tracing.
+- `set loglevel` to show a the x-python log "info"-level log  tracing.
 - `info stack` to show the current stack frame evaluation stack
 
 <pre>$ <b>trepan-xpy test/example/gcd.py 3 5</b>
@@ -46,34 +46,34 @@ First we see that the variable `__doc__` which will eventually hold the docstrin
 We see here that the first part is loading this constant onto an
 evaluation stack.
 
-At this point, to better see the execution progress we'll issue the command `set logtrace` which will show the instructions as we step along.
+At this point, to better see the execution progress we'll issue the command `set loglevel` which will show the instructions as we step along.
 
-Like *trepan3k*, *trepan-xpy* has extensive nicely formatted help right in the debugger. Let's get the help for the `set logtrace` command:
+Like *trepan3k*, *trepan-xpy* has extensive nicely formatted help right in the debugger. Let's get the help for the `set loglevel` command:
 
-<pre>(trepan-xpy) <b>help set logtrace</b>
-<b>set logtrace</b> [ <b>on</b> | <b>off</b> | <b>debug</b> | <b>info</b> ]
+<pre>(trepan-xpy) <b>help set loglevel</b>
+<b>set loglevel</b> [ <b>on</b> | <b>off</b> | <b>debug</b> | <b>info</b> ]
 
-Show logtrace PyVM logger messages. Initially logtracing is off.
+Show loglevel PyVM logger messages. Initially logtracing is off.
 
-However running set logtrace will turn it on and set the log level to debug.
-So it's the same thing as set logtrace debug.
+However running set loglevel will turn it on and set the log level to debug.
+So it's the same thing as set loglevel debug.
 
 If you want the less verbose messages, use info. And to turn off, (except
 critical errors), use off.
 
 Examples:
 
-     set logtrace         # turns x-python on info logging messages
-     set logtrace info    # same as above
-     set logtrace debug   # turn on info and debug logging messages
-     set logtrace off     # turn off all logging messages except critical ones
+     set loglevel         # turns x-python on info logging messages
+     set loglevel info    # same as above
+     set loglevel debug   # turn on info and debug logging messages
+     set loglevel off     # turn off all logging messages except critical ones
 
 
 </pre>
 
 So now lets's set that:
 
-<pre>(trepan-xpy) <b>set logtrace</b>
+<pre>(trepan-xpy) <b>set loglevel</b>
 (trepan-xpy)</pre>
 
 A rather unique command that you won\'t find in most Python debuggers
@@ -141,7 +141,7 @@ INFO:xpython.vm:L. 12  @ 12: LOAD_CONST &lt;code object check_args at 0x7f2a0a28
 -- 12 <b>def</b> <i>check_args</i>():</br>   @ 12: LOAD_CONST &lt;code object check_args at 0...est/example/gcd.py&quot;, line 12&gt;
 </pre>
 
-The `INFO` are initiated by the VM interpreter. As a result of the `set logtrace` the interpreters `logger` log level was increased. This in turn causes a callback is made to a formatting routine provided by the debugger to nicly colorize the information. And that is why parts of this are colorized in a terminal session. In `x-python` you can get the same information, just not colorized.
+The `INFO` are initiated by the VM interpreter. As a result of the `set loglevel` the interpreters `logger` log level was increased. This in turn causes a callback is made to a formatting routine provided by the debugger to nicly colorize the information. And that is why parts of this are colorized in a terminal session. In `x-python` you can get the same information, just not colorized.
 
 One thing to note is the value after the operand and in parenthesis, like after `STORE NAME`. Compare that line with what you\'ll see from a static disassembly like Python\'s `dis` or `xdis` version of that:
 
