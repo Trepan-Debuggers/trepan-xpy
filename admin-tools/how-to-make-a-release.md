@@ -51,13 +51,6 @@
     $ . ./admin-tools/make-dist-newer.sh
 	$ twine check dist/trepanxpy-$VERSION*
 
-# Release on Github
-
-Goto https://github.com/rocky/trepan-xpy/releases/new
-
-Get version from `$VERSION`. Copy from `NEWS.md`
-Upload eggs, wheels, and tarball
-
 # Check package on github
 
 Todo: turn this into a script in `admin-tools`
@@ -69,6 +62,25 @@ Todo: turn this into a script in `admin-tools`
 	$ pip uninstall trepanxpy
 	$ popd
 
+# Release on Github
+
+Goto https://github.com/rocky/trepan-xpy/releases/new
+
+Get version from `$VERSION`. Copy from `NEWS.md`
+Upload eggs, wheels, and tarball
+
+Now check the tagged release.
+
+Todo: turn this into a script in `admin-tools`
+
+    $ git pull # to pull down new tag
+    $ pushd /tmp/gittest
+	$ pyenv local 3.7.5
+	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
+	$ trepan-xpy -V # see that new version appears
+	$ pip uninstall trepanxpy
+	$ popd
+
 Now check the tagged release.
 
 Todo: turn this into a script in `admin-tools`
@@ -83,23 +95,6 @@ Todo: turn this into a script in `admin-tools`
 
 # Get on PyPI
 
-<<<<<<< HEAD
-Now check the tagged release.
-
-Todo: turn this into a script in `admin-tools`
-
-    $ git pull # to pull down new tag
-    $ pushd /tmp/gittest
-	$ pyenv local 3.7.5
-	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
-	$ trepan-xpy -V # see that new version appears
-	$ pip uninstall trepanxpy
-	$ popd
-
-# Get on PyPI
-
-=======
->>>>>>> master
 	$ twine upload dist/trepanxpy-${VERSION}*
 
 Check on https://pypi.org/project/trepan-xpy/
