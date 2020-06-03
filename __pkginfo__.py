@@ -52,7 +52,7 @@ install_requires = [
     "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
     "pyficache >= 2.0.1",
-    "x-python >= 1.3.1",
+    "x-python >= 1.3.2",
     "trepan3k >= 1.0.2",
 ]
 license = "GPL3"
