@@ -90,4 +90,4 @@ Check on https://pypi.org/project/trepan-xpy/
 
 # Move dist files to uploaded
 
-	$ mv -v dist/trepan-xpy-${VERSION}* dist/uploaded
+	$ mv -v dist/trepanxpy-${VERSION}* dist/uploaded
