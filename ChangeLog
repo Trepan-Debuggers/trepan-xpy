@@ -1,8 +1,50 @@
+2020-06-03  rocky <rocky@gnu.org>
+
+	* NEWS.md, __pkginfo__.py, admin-tools/how-to-make-a-release.md,
+	trepanxpy/version.py: Get ready for release 1.0.2
+
+2020-06-02  rocky <rocky@gnu.org>
+
+	* README.md, screenshots/.gitignore,
+	screenshots/trepan-xpy-demo1.cast,
+	screenshots/trepan-xpy-demo2.cast, trepanxpy/debugger_defaults.py,
+	trepanxpy/processor/command/set_subcmd/loglevel.py,
+	trepanxpy/processor/command/set_subcmd/logtrace.py,
+	trepanxpy/processor/command/show.py,
+	trepanxpy/processor/command/show_subcmd/__init__.py,
+	trepanxpy/processor/command/show_subcmd/loglevel.py: set logtrace ->
+	set loglevel and ...  add `show loglevel`.  Bugs the set routine were fixed as well.  Additional loglevel names
+	(e.g. critical, warning) were added README.md and screenshot have been updated.
+
+2020-06-01  rocky <rocky@gnu.org>
+
+	* __pkginfo__.py, trepanxpy/fmt.py: Bump versions, remove debug
+	stmts
+
 2020-05-30  rocky <rocky@gnu.org>
 
-	* __pkginfo__.py, admin-tools/how-to-make-a-release.md,
-	trepanxpy/processor/trace.py, trepanxpy/version.py: Get ready for
-	release 1.0.1
+	* : commit d2aae9b27c79a32768cbecbba20e840af5c9f0af Merge: 2dd2321
+	a9f60c2 Author: rocky <rocky@gnu.org> Date:   Sat May 30 18:10:39
+	2020 -0400
+
+2020-05-30  rocky <rocky@gnu.org>
+
+	* : commit 2dd23218913f8feda80becac2258e23624438097 Author: rocky
+	<rocky@gnu.org> Date:   Sat May 30 17:54:37 2020 -0400
+
+2020-05-30  rocky <rocky@gnu.org>
+
+	* README.md, README.rst, __pkginfo__.py, setup.py: Try using
+	Markdown
+
+2020-05-30  rocky <rocky@gnu.org>
+
+	* ChangeLog, Makefile, NEWS.md, __pkginfo__.py,
+	admin-tools/how-to-make-a-release.md, admin-tools/{make-dist.sh =>
+	make-dist-newer.sh}, admin-tools/make-dist-older.sh,
+	admin-tools/{pyenv-versions => pyenv-versions-newer},
+	admin-tools/pyenv-versions-older, trepanxpy/processor/trace.py,
+	trepanxpy/version.py: Get ready for release 1.0.1
 
 2020-05-29  rocky <rocky@gnu.org>
 
