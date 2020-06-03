@@ -5,9 +5,12 @@
 - [Change version in trepanxpy/version.py.](#change-version-in-trepanxpyversionpy)
 - [Update ChangeLog:](#update-changelog)
 - [Update NEWS.md from ChangeLog. Then:](#update-newsmd-from-changelog-then)
-- [Update NEWS.md from master branch](#update-newsmd-from-master-branch)
+- [Switch to python-3.2, sync that up and build that first since it creates a tarball which we don't want.](#switch-to-python-32-sync-that-up-and-build-that-first-since-it-creates-a-tarball-which-we-dont-want)
 - [Make packages and check](#make-packages-and-check)
-- [Get on PyPy](#get-on-pypy)
+- [Check package on github](#check-package-on-github)
+- [Release on Github](#release-on-github)
+- [Get on PyPI](#get-on-pypi)
+- [Move dist files to uploaded](#move-dist-files-to-uploaded)
 
 <!-- markdown-toc end -->
 
@@ -34,21 +37,49 @@
     $ git commit --amend .
     $ git push   # get CI testing going early
 
-# Update NEWS.md from master branch
+# Switch to python-3.2, sync that up and build that first since it creates a tarball which we don't want.
 
-    $ git commit -m"Get ready for release $VERSION" .
+    $ source admin-tools/setup-python-3.2.sh
+    $ git merge master
 
 # Make packages and check
 
-    $ ./admin-tools/make-dist.sh
+    $ ./admin-tools/make-dist-older.sh
+	$ pyenv local 3.8.3
+	$ twine check dist/trepanxpy-$VERSION*
+    $ git tag release-python-3.2-$VERSION
+    $ . ./admin-tools/make-dist-newer.sh
 	$ twine check dist/trepanxpy-$VERSION*
 
-# Get on PyPy
+# Check package on github
+
+Todo: turn this into a script in `admin-tools`
+
+	$ mkdir /tmp/gittest; cd /tmp/gittest
+	$ pyenv local 3.7.5
+	$ pip install -e git://github.com/rocky/x-python.git#egg=trepanxpy
+	$ trepan-xpy -V # see that new version appears
+	$ pip uninstall trepanxpy
+
+# Release on Github
 
 Goto https://github.com/rocky/trepan-xpy/releases/new
 
 
-	$ twine upload dist/trepanxpy-${VERSION}-py37-none-any.whl  # Older versions don't support Markdown
+Now check the tagged release.
+
+Todo: turn this into a script in `admin-tools`
+
+    $ git pull # to pull down new tag
+    $ pushd /tmp/gittest
+	$ pyenv local 3.7.5
+	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
+	$ trepan-xpy -V # see that new version appears
+	$ pip uninstall trepanxpy
+	$ popd
+
+# Get on PyPI
+
 	$ twine upload dist/trepanxpy-${VERSION}*
 
 Check on https://pypi.org/project/trepan-xpy/

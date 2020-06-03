@@ -1,3 +1,10 @@
+1.0.2 2020-06-03 Marilyn + 1
+============================
+
+Very minor improvements but note that `set logtrace` has been renamed to `set loglevel`.
+
+A few bugs in setting the loglevl have been fixed. For example, previously `set loglevel` only had an effect only on the first setting. The corresponding * `show loglevel` has now been added, and this output also appears after setting the loglevel.
+
 1.0.1 2020-05-30 Lady Elaine
 ============================
 
