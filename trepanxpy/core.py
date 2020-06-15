@@ -21,11 +21,11 @@ debugger for top-level Debugger class and module routine which
 ultimately will call this. An event processor is responsible of
 handling what to do when an event is triggered."""
 
+from typing import Any, Optional
 
-# Common Python packages
+from xpython.vmtrace import PyVMEVENT_FLAG_BITS
+
 import os, sys, threading
-
-# import trepan.processor.cmdproc as Mcmdproc
 
 from trepan.misc import option_set
 from trepan.clifns import search_file
@@ -61,6 +61,7 @@ class TrepanXPyCore(object):
         self.bpmgr = breakpoint.BreakpointManager()
         self.current_bp = None
         self.debugger = debugger
+        self.event_flags = self.debugger.settings["events"]
 
         # Threading lock ensures that we don't have other traced threads
         # running when we enter the debugger. Later we may want to have
@@ -251,7 +252,7 @@ class TrepanXPyCore(object):
         # Nothing needs to be done
         return
 
-    def is_break_here(self, frame, arg):
+    def is_break_here(self, frame):
         filename = self.canonic(frame.f_code.co_filename)
         if "call" == self.event:
             find_name = frame.f_code.co_name
@@ -303,60 +304,60 @@ class TrepanXPyCore(object):
             return False
         return val
 
-    # def is_stop_here(self, frame, event, arg):
-    #     """ Does the magic to determine if we stop here and run a
-    #     command processor or not. If so, return True and set
-    #     self.stop_reason; if not, return False.
+    def is_stop_here(self, frame, event):
+        """ Does the magic to determine if we stop here and run a
+        command processor or not. If so, return True and set
+        self.stop_reason; if not, return False.
 
-    #     Determining factors can be whether a breakpoint was
-    #     encountered, whether we are stepping, next'ing, finish'ing,
-    #     and, if so, whether there is an ignore counter.
-    #     """
+        Determining factors can be whether a breakpoint was
+        encountered, whether we are stepping, next'ing, finish'ing,
+        and, if so, whether there is an ignore counter.
+        """
 
-    #     # Add an generic event filter here?
-    #     # FIXME TODO: Check for
-    #     #  - thread switching (under set option)
+        # Add an generic event filter here?
+        # FIXME TODO: Check for
+        #  - thread switching (under set option)
 
-    #     # Check for "next" and "finish" stopping via stop_level
+        # Check for "next" and "finish" stopping via stop_level
 
-    #     # Do we want a different line and if so,
-    #     # do we have one?
-    #     lineno = frame.f_lineno
-    #     filename = frame.f_code.co_filename
-    #     if self.different_line and event == "line":
-    #         if self.last_lineno == lineno and self.last_filename == filename:
-    #             return False
-    #         pass
-    #     self.last_lineno = lineno
-    #     self.last_filename = filename
+        # Do we want a different line and if so,
+        # do we have one?
+        lineno = frame.f_lineno
+        filename = frame.f_code.co_filename
+        if self.different_line and event == "line":
+            if self.last_lineno == lineno and self.last_filename == filename:
+                return False
+            pass
+        self.last_lineno = lineno
+        self.last_filename = filename
 
-    #     if self.stop_level is not None:
-    #         if frame != self.last_frame:
-    #             # Recompute stack_depth
-    #             self.last_level = Mstack.count_frames(frame)
-    #             self.last_frame = frame
-    #             pass
-    #         if self.last_level > self.stop_level:
-    #             return False
-    #         elif (
-    #             self.last_level == self.stop_level
-    #             and self.stop_on_finish
-    #             and event in ["return", "c_return"]
-    #         ):
-    #             self.stop_level = None
-    #             self.stop_reason = "in return for 'finish' command"
-    #             return True
-    #         pass
+        # if self.stop_level is not None:
+        #     if frame != self.last_frame:
+        #         # Recompute stack_depth
+        #         self.last_level = Mstack.count_frames(frame)
+        #         self.last_frame = frame
+        #         pass
+        #     if self.last_level > self.stop_level:
+        #         return False
+        #     elif (
+        #         self.last_level == self.stop_level
+        #         and self.stop_on_finish
+        #         and event in ["return", "c_return"]
+        #     ):
+        #         self.stop_level = None
+        #         self.stop_reason = "in return for 'finish' command"
+        #         return True
+        #     pass
 
-    #     # Check for stepping
-    #     if self._is_step_next_stop(event):
-    #         self.stop_reason = "at a stepping statement"
-    #         return True
+        # Check for stepping
+        if self._is_step_next_stop(event):
+            self.stop_reason = "at a stepping statement"
+            return True
 
-    #     return False
+        return False
 
     def _is_step_next_stop(self, event):
-        if self.step_events and event not in self.step_events:
+        if self.step_events and (PyVMEVENT_FLAG_BITS[event] & self.trace_flags):
             return False
         if self.step_ignore == 0:
             return True
@@ -375,12 +376,25 @@ class TrepanXPyCore(object):
     #     self.step_ignore = step_ignore
     #     return
 
-    def trace_dispatch(self, frame, event, arg):
+    def trace_dispatch(
+        self,
+        event: str,
+        offset: int,
+        byte_name: str,
+        byte_code: int,
+        line_number: int,
+        intArg: Optional[int],
+        event_arg: Any,
+        vm: Any,
+        prompt="trepan-xpy",
+    ):
         """A trace event occurred. Filter or pass the information to a
         specialized event processor. Note that there may be more filtering
         that goes on in the command processor (e.g. to force a
         different line). We could put that here, but since that seems
         processor-specific I think it best to distribute the checks."""
+
+        frame = vm.frame
 
         # For now we only allow one instance in a process
         # In Python 2.6 and beyond one can use "with threading.Lock():"
@@ -399,22 +413,31 @@ class TrepanXPyCore(object):
             # which will give a cryptic the message on setting f_lineno:
             #   f_lineno can only be set by a trace function
             if self.ignore_filter and self.ignore_filter.is_included(frame):
-                return True
+                return self
 
-            if self.debugger.settings["trace"]:
-                print_event_set = self.debugger.settings["printset"]
-                if self.event in print_event_set:
-                    self.trace_processor.event_processor(frame, self.event, arg)
-                    pass
-                pass
+            # if self.debugger.settings["trace"]:
+            #     print_event_set = self.debugger.settings["printset"]
+            #     if event in print_event_set:
+            #         self.trace_processor.event_processor(
+            #             event,
+            #             offset,
+            #             byte_name,
+            #             byte_code,
+            #             line_number,
+            #             intArg,
+            #             event_arg,
+            #             vm
+            #         )
+            #         pass
+            #     pass
 
             if self.until_condition:
                 if not self.matches_condition(frame):
                     return True
                 pass
 
-            trace_event_set = self.debugger.settings["events"]
-            if trace_event_set is None or self.event not in trace_event_set:
+            #
+            if not (PyVMEVENT_FLAG_BITS[event] & self.event_flags):
                 return True
 
             # I think we *have* to run is_stop_here() before
@@ -423,10 +446,19 @@ class TrepanXPyCore(object):
             # user's standpoint to test for breaks before steps. In
             # this case we will need to factor out the counting
             # updates.
-            if self.is_stop_here(frame, event, arg) or self.is_break_here(frame, arg):
-                # Run the event processor
-                return self.processor.event_processor(frame, self.event, arg)
-            return True
+            if self.is_stop_here(frame, event) or self.is_break_here(frame):
+                # Run the event hook
+                return self.processor.event_hook(
+                    event,
+                    offset,
+                    byte_name,
+                    byte_code,
+                    line_number,
+                    intArg,
+                    event_arg,
+                    vm
+                )
+            return self
         finally:
             try:
                 self.debugger_lock.release()

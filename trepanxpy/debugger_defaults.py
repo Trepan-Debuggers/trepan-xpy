@@ -15,10 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """ A place for the debugger default settings """
 
-# External Egg packages
 from columnize import computed_displaywidth
-
 from trepan.lib.term_background import is_dark_background
+from xpython.vmtrace import PyVMEVENT_ALL
 
 width = computed_displaywidth()
 
@@ -59,6 +58,12 @@ DEBUGGER_SETTINGS = {
     # When True, consecutive stops must be on different
     # file/line positions.
     "different": True,
+    # events is a set of events to process line-, call-, or return-like
+    # tracing. See tracer.ALL_EVENT_NAMES and ALL_EVENTS
+    # Note this is independent of printset which just prints the event.
+    # This set controls entering the debugger command processor.
+    'events'        : PyVMEVENT_ALL,
+
     # Use terminal highlight? Acceptable values are
     #  'plain'   : no highlighting
     #  'dark'    : terminal highlighting for a dark background

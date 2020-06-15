@@ -67,7 +67,8 @@ class TrepanXPy(object):
             processor = XPyPrintProcessor(self.core)
         else:
             processor = XPyCommandProcessor(self.core)
-        self.callback_hook = processor.event_hook
+        self.core.processor = processor
+        self.callback_hook = self.core.trace_dispatch
 
         # Save information for restarting
         self.program_sys_argv = None

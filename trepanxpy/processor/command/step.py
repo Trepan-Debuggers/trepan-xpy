@@ -82,21 +82,19 @@ See also:
         "s!",
     )
     category = "running"
-    min_args = 0
-    max_args = None
     execution_set = ["Running"]
-    name = osp.basename(__file__).split(".")[0]
-    need_stack = True
     short_help = "Step into"
 
+    DebuggerCommand.setup(locals(), category="running", max_args=1, need_stack=True)
+
     def run(self, args):
-        # step_events  = []
+        # event_flags  = []
         # if args[0][-1] == '>':
-        #     step_events  = ['call']
+        #     event_flags  = ['call']
         # elif args[0][-1] == '<':
-        #     step_events  = ['return']
+        #     event_flags  = ['return']
         # elif args[0][-1] == '!':
-        #     step_events  = ["exception"]
+        #     event_flags  = ["exception"]
         #     pass
         proc = self.proc
         core = self.core
@@ -119,7 +117,9 @@ See also:
             pass
 
         # All events except instruction tracing which is xor'd out.
-        proc.vm.frame.event_flags = PyVMEVENT_ALL ^ PyVMEVENT_INSTRUCTION
+        core.step_flags = proc.vm.frame.event_flags = (
+            PyVMEVENT_ALL ^ PyVMEVENT_INSTRUCTION
+        )
 
         core.different_line = (
             True  # Mcmdfns.want_different_line(args[0], self.settings['different'])

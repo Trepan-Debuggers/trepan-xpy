@@ -13,10 +13,17 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import os
 
 from trepan.processor.command.base_cmd import DebuggerCommand
-from trepan.processor.cmdbreak import parse_break_cmd
+from trepan.processor.cmdbreak import parse_break_cmd, set_break
+
+from xpython.vmtrace import (
+    PyVMEVENT_ALL,
+    PyVMEVENT_CALL,
+    PyVMEVENT_FATAL,
+    PyVMEVENT_INSTRUCTION,
+    PyVMEVENT_LINE,
+)
 
 
 class ContinueCommand(DebuggerCommand):
@@ -30,6 +37,11 @@ Examples:
 ---------
 
     continue          # Continue execution
+    continue 5        # Continue with a one-time breakpoint at line 5
+    continue basename # Go to os.path.basename if we have basename imported
+    continue /usr/lib/python3.8/posixpath.py:110 # Possibly the same as
+                                                 # the above using file
+                                                 # and line number
 
 See also:
 ---------
@@ -37,29 +49,33 @@ See also:
 `step` `jump`, `next`, `finish` and `help syntax location`
 """
 
-    category = "running"
-    aliases = ("c",)
+    aliases = ("c", "continue!")
     execution_set = ["Running"]
-    min_args = 0
-    max_args = None
-    name = os.path.basename(__file__).split(".")[0]
-    need_stack = True
     short_help = "Continue execution of debugged program"
 
+    DebuggerCommand.setup(locals(), category="running", max_args=1, need_stack=True)
+
     def run(self, args):
+        proc = self.proc
         if len(args) > 1:
             # FIXME: DRY this code. Better is to hook into tbreak.
-            func, filename, lineno, condition = parse_break_cmd(
-                self.proc, args
-            )
-            # FIXME: reinstate
-            # if not Mcmdbreak.set_break(
-            #     self, func, filename, lineno, condition, True, args
-            # ):
-            #     return False
+            func, filename, lineno, condition = parse_break_cmd(proc, args)
 
-        proc = self.proc
-        proc.vm.frame.event_flags = proc.vm.event_flags = 0  # ignore all events
+            if not set_break(
+                self, func, filename, lineno, condition, True, args
+            ):
+                return False
+        elif args[0][-1] == "!":
+            proc.vm.frame.event_flags = proc.vm.event_flags = 0  # ignore all events
+        else:
+            # Until we hook in breakpoints into the debugger proper, we'll
+            # treat continue like step in the VM interpreter but not
+            # from our filtering process
+            proc.vm.frame.event_flags = PyVMEVENT_ALL
+            proc.core.event_flags = (
+                PyVMEVENT_LINE | PyVMEVENT_INSTRUCTION |
+                PyVMEVENT_CALL | PyVMEVENT_FATAL
+            )
 
         self.core.step_ignore = -1
         self.proc.continue_running = True  # Break out of command read loop
