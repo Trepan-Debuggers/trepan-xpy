@@ -160,14 +160,12 @@ class XPyCommandProcessor(CommandProcessor):
 
         # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
         remove_commands = (
-            "break",
             "continue",
             "finish",
             "next",
             "quit",
             "set",
             "step",
-            "tbreak",
         )
         new_instances = []
         for cmd in self.cmd_instances:

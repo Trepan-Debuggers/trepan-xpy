@@ -52,8 +52,8 @@ install_requires = [
     "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
     "pyficache >= 2.0.1",
-    "x-python >= 1.3.2",
-    "trepan3k >= 1.0.2",
+    "x-python >= 1.3.3",
+    "trepan3k >= 1.1.0",
 ]
 license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
