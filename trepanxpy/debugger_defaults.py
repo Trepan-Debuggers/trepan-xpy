@@ -33,6 +33,8 @@ width = computed_displaywidth()
 # generally appear as settings.
 
 DEBUGGER_SETTINGS = {
+    # Format style to use in showing disssembly
+    "asmfmt": "extended",
     # Eval as Python the unrecognized debugger commands?
     "autoeval": True,
     # Run 'list' command every time we enter the debugger?

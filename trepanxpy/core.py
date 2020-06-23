@@ -166,9 +166,7 @@ class TrepanXPyCore(object):
                 canonic = os.path.abspath(filename)
                 pass
             if not os.path.isfile(canonic):
-                canonic = search_file(
-                    filename, self.search_path, self.main_dirname
-                )
+                canonic = search_file(filename, self.search_path, self.main_dirname)
                 # FIXME: is this is right for utter failure?
                 if not canonic:
                     canonic = filename
@@ -446,7 +444,11 @@ class TrepanXPyCore(object):
             # user's standpoint to test for breaks before steps. In
             # this case we will need to factor out the counting
             # updates.
-            if self.is_stop_here(frame, event) or self.is_break_here(frame):
+            if (
+                not frame
+                or self.is_stop_here(frame, event)
+                or self.is_break_here(frame)
+            ):
                 # Run the event hook
                 return self.processor.event_hook(
                     event,
@@ -456,7 +458,7 @@ class TrepanXPyCore(object):
                     line_number,
                     intArg,
                     event_arg,
-                    vm
+                    vm,
                 )
             return self
         finally:
