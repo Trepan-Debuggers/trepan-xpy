@@ -44,11 +44,11 @@
 
 # Make packages and check
 
-    $ ./admin-tools/make-dist-older.sh
+    $ make dist-older
 	$ pyenv local 3.8.3
 	$ twine check dist/trepanxpy-$VERSION*
     $ git tag release-python-3.2-$VERSION
-    $ . ./admin-tools/make-dist-newer.sh
+    $ make dist-newer
 	$ twine check dist/trepanxpy-$VERSION*
 
 # Check package on github
@@ -69,6 +69,17 @@ Goto https://github.com/rocky/trepan-xpy/releases/new
 Get version from `$VERSION`. Copy from `NEWS.md`
 Upload eggs, wheels, and tarball
 
+Now check the tagged release.
+
+Todo: turn this into a script in `admin-tools`
+
+    $ git pull # to pull down new tag
+    $ pushd /tmp/gittest
+	$ pyenv local 3.7.5
+	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
+	$ trepan-xpy -V # see that new version appears
+	$ pip uninstall trepanxpy
+	$ popd
 
 Now check the tagged release.
 
