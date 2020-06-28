@@ -1,7 +1,36 @@
+2020-06-28  rocky <rocky@gnu.org>
+
+	* Makefile, __pkginfo__.py: Get ready for release 1.0.3
+
+2020-06-23  rocky <rocky@gnu.org>
+
+	* trepanxpy/core.py, trepanxpy/debugger_defaults.py: Use new
+	trepan3k's new asm_format option
+
+2020-06-15  rocky <rocky@gnu.org>
+
+	* trepanxpy/core.py, trepanxpy/debugger.py,
+	trepanxpy/debugger_defaults.py, trepanxpy/events.py,
+	trepanxpy/processor/cmd.py,
+	trepanxpy/processor/command/continue.py,
+	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py: 
+	Implemented breakpoints and step counts...  Event flags added to core for such purpose.
+
+2020-06-15  rocky <rocky@gnu.org>
+
+	* __pkginfo__.py, trepanxpy/__main__.py, trepanxpy/debugger.py,
+	trepanxpy/processor/cmd.py, trepanxpy/version.py: Bump min pkg
+	versions, start breakpoints.  And start renamin Debugger TrepanXPy
+
 2020-06-03  rocky <rocky@gnu.org>
 
-	* NEWS.md, __pkginfo__.py, admin-tools/how-to-make-a-release.md,
-	trepanxpy/version.py: Get ready for release 1.0.2
+	* admin-tools/how-to-make-a-release.md: Administrivia
+
+2020-06-03  rocky <rocky@gnu.org>
+
+	* ChangeLog, NEWS.md, __pkginfo__.py,
+	admin-tools/how-to-make-a-release.md, trepanxpy/version.py: Get
+	ready for release 1.0.2
 
 2020-06-02  rocky <rocky@gnu.org>
 

@@ -27,8 +27,8 @@ from pygments.console import colorize
 
 import trepan.lib.bytecode as Mbytecode
 import trepan.lib.display as Mdisplay
-import trepan.misc as Mmisc
-import trepan.lib.thred as Mthread
+from trepan.misc import option_set
+from trepan.lib.thred import current_thread_name
 import trepan.processor.complete as Mcomplete
 
 from trepan.processor.cmdproc import (
@@ -38,7 +38,7 @@ from trepan.processor.cmdproc import (
     print_location,
 )
 
-from trepanxpy.processor.trace import EVENT2SHORT
+from trepanxpy.events import EVENT2SHORT
 from trepanxpy.fmt import format_instruction_with_highlight
 
 
@@ -127,7 +127,7 @@ class XPyCommandProcessor(CommandProcessor):
         self.thread_name = None
         self.frame_thread_name = None
 
-        get_option = lambda key: Mmisc.option_set(opts, key, DEFAULT_PROC_OPTS)
+        get_option = lambda key: option_set(opts, key, DEFAULT_PROC_OPTS)
         initfile_list = get_option("initfile_list")
         for init_cmdfile in initfile_list:
             self.queue_startfile(init_cmdfile)
@@ -158,14 +158,12 @@ class XPyCommandProcessor(CommandProcessor):
 
         # Remove trepan3k commands which aren't valid here, and those specific to trepan-xpy
         remove_commands = (
-            "break",
             "continue",
             "finish",
             "next",
             "quit",
             "set",
             "step",
-            "tbreak",
         )
         new_instances = []
         for cmd in self.cmd_instances:
@@ -336,7 +334,7 @@ class XPyCommandProcessor(CommandProcessor):
             if Mbytecode.is_class_def(line, self.frame):
                 return
             pass
-        self.thread_name = Mthread.current_thread_name()
+        self.thread_name = current_thread_name()
         self.frame_thread_name = self.thread_name
 
         self.setup()
@@ -406,7 +404,14 @@ class XPyCommandProcessor(CommandProcessor):
             self.stack = self.curframe = self.botframe = None
             pass
         if self.curframe:
-            self.list_lineno = self.frame.line_number()
+            self.list_lineno = (
+                max(
+                    1,
+                    self.frame.line_number()
+                    - int(self.settings("listsize") / 2),
+                )
+                - 1
+            )
             self.list_offset = self.curframe.f_lasti
             self.list_filename = self.curframe.f_code.co_filename
             self.list_object = self.curframe

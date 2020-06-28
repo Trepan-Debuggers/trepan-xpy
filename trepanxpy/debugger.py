@@ -7,8 +7,8 @@ from xpython.execfile import run_python_file, run_python_string, NoSourceError
 
 # Default settings used here
 from trepanxpy.debugger_defaults import DEBUGGER_SETTINGS
-import trepan.interfaces.user as Muser
-import trepan.misc as Mmisc
+from trepan.interfaces.user import UserInterface
+from trepan.misc import wrapped_lines
 from trepan.exception import DebuggerQuit, DebuggerRestart
 
 from trepanxpy.core import TrepanXPyCore
@@ -17,7 +17,7 @@ from trepanxpy.processor.cmd import XPyCommandProcessor
 from trepanxpy.processor.trace import XPyPrintProcessor
 
 
-class Debugger(object):
+class TrepanXPy(object):
     def __init__(
         self, string_or_path: str, is_file: bool, trace_only: bool, args: list
     ):
@@ -25,7 +25,7 @@ class Debugger(object):
         key 'start' inside hash 'opts', we may or may not initially
         start debugging.
 
-        See also Debugger.start and Debugger.stop.
+        See also TrepanXPy.start and TrepanXPy.stop.
         """
 
         def instruction_fmt_func(frame, opc, byte_name, int_arg, arguments, offset, line_number,
@@ -66,10 +66,11 @@ class Debugger(object):
             processor = XPyPrintProcessor(self.core)
         else:
             processor = XPyCommandProcessor(self.core)
-        self.callback_hook = processor.event_hook
+        self.core.processor = processor
+        self.callback_hook = self.core.trace_dispatch
 
         # Save information for restarting
-        self.program_sys_argv = None
+        self.program_sys_argv = list(sys.argv)
         self.orig_sys_argv = list(sys.argv)
 
         if is_file:
@@ -99,7 +100,7 @@ class Debugger(object):
                     )
                     args = " ".join(self.program_sys_argv[1:])
                     self.intf[-1].msg(
-                        Mmisc.wrapped_lines(part1, args, self.settings["width"])
+                        wrapped_lines(part1, args, self.settings["width"])
                     )
                 else:
                     break

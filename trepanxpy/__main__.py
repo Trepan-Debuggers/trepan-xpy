@@ -3,7 +3,7 @@ import sys
 import click
 
 from trepanxpy.version import VERSION
-from trepanxpy.debugger import Debugger
+from trepanxpy.debugger import TrepanXPy
 
 @click.command()
 @click.version_option(VERSION, "-V", "--version")
@@ -31,7 +31,7 @@ def main(trace: bool, path: str, command_to_run: str, args: list):
         print("You must pass either a file name or a command string, neither found.")
         sys.exit(4)
 
-    Debugger(string_or_path, is_file, trace_only=trace, args=args)
+    TrepanXPy(string_or_path, is_file, trace_only=trace, args=args)
 
 if __name__ == "__main__":
     main(auto_envvar_prefix="XPYTHON")
