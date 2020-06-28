@@ -44,11 +44,11 @@
 
 # Make packages and check
 
-    $ ./admin-tools/make-dist-older.sh
+    $ make dist-older
 	$ pyenv local 3.8.3
 	$ twine check dist/trepanxpy-$VERSION*
     $ git tag release-python-3.2-$VERSION
-    $ . ./admin-tools/make-dist-newer.sh
+    $ make dist-newer
 	$ twine check dist/trepanxpy-$VERSION*
 
 # Check package on github
