@@ -78,7 +78,7 @@ Todo: turn this into a script in `admin-tools`
 	$ pyenv local 3.7.5
 	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
 	$ trepan-xpy -V # see that new version appears
-	$ pip uninstall trepanxpy
+	$ pip uninstall trepan-xpy
 	$ popd
 
 Now check the tagged release.
