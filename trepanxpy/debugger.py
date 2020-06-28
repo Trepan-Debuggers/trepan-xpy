@@ -71,7 +71,7 @@ class TrepanXPy(object):
         self.callback_hook = self.core.trace_dispatch
 
         # Save information for restarting
-        self.program_sys_argv = None
+        self.program_sys_argv = list(sys.argv)
         self.orig_sys_argv = list(sys.argv)
 
         if is_file:

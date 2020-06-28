@@ -1,3 +1,12 @@
+1.0.3 2020-06-28
+================
+
+* Add breakpoints! They can be on offsets too!
+* step counting now works. continue to breakpoint also works
+* xdis/trepan3k's new assembly formatting
+* fix "list" start position
+* fix saving sys.argv
+
 1.0.2 2020-06-03 Marilyn + 1
 ============================
 

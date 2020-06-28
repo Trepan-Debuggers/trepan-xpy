@@ -402,7 +402,14 @@ class XPyCommandProcessor(CommandProcessor):
             self.stack = self.curframe = self.botframe = None
             pass
         if self.curframe:
-            self.list_lineno = self.frame.line_number()
+            self.list_lineno = (
+                max(
+                    1,
+                    self.frame.line_number()
+                    - int(self.settings("listsize") / 2),
+                )
+                - 1
+            )
             self.list_offset = self.curframe.f_lasti
             self.list_filename = self.curframe.f_code.co_filename
             self.list_object = self.curframe

@@ -11,7 +11,7 @@ RM      ?= rm
 LINT    = flake8
 SHELL   ?= bash
 
-PHONY=dist clean ChangeLog rmChangeLog clean_pyc
+PHONY=ChangeLog clean clean_pyc dist dist-newer dist-older rmChangeLog
 
 #: Clean up temporary files and .pyc files
 clean: clean_pyc
@@ -21,6 +21,14 @@ clean: clean_pyc
 #: Create source (tarball) and wheel distribution
 dist: clean
 	$(PYTHON) ./setup.py sdist bdist_wheel
+
+#: Create distribution for older Python versions
+dist-older:
+	bash ./admin-tools/make-dist-older.sh
+
+#: Create distribution for older Python versions
+dist-newer:
+	bash ./admin-tools/make-dist-newer.sh
 
 #: Remove .pyc files
 clean_pyc:
