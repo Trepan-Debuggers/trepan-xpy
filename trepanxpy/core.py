@@ -30,6 +30,7 @@ import os, sys, threading
 from trepan.misc import option_set
 from trepan.clifns import search_file
 import trepan.lib.breakpoint as breakpoint
+# import trepanxpy.breakpoint as breakpoint
 
 # Our local modules
 from trepanxpy.processor.trace import XPyPrintProcessor
