@@ -52,7 +52,7 @@ class TrepanXPy(object):
             "complete": completer,
             "debugger_name": "trepan-xpy",
         }
-        interface = Muser.UserInterface(opts=interface_opts)
+        interface = UserInterface(opts=interface_opts)
         self.intf = [interface]
 
         # main_dirname is the directory where the script resides.

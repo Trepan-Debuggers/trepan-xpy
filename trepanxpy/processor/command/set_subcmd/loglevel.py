@@ -50,6 +50,7 @@ Examples:
 
     def get_loglevel_level(self, arg):
         if not arg: return "info"
+        arg = arg.lower()
         if arg in SetLogLevel.logger_choices:
             return arg
         else:

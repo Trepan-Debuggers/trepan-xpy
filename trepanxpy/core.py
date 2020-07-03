@@ -21,8 +21,6 @@ debugger for top-level Debugger class and module routine which
 ultimately will call this. An event processor is responsible of
 handling what to do when an event is triggered."""
 
-from typing import Any, Optional
-
 from xpython.vmtrace import PyVMEVENT_FLAG_BITS
 
 import os, sys, threading
@@ -30,6 +28,7 @@ import os, sys, threading
 from trepan.misc import option_set
 from trepan.clifns import search_file
 import trepan.lib.breakpoint as breakpoint
+# import trepanxpy.breakpoint as breakpoint
 
 # Our local modules
 from trepanxpy.processor.trace import XPyPrintProcessor
@@ -381,9 +380,9 @@ class TrepanXPyCore(object):
         byte_name: str,
         byte_code: int,
         line_number: int,
-        intArg: Optional[int],
-        event_arg: Any,
-        vm: Any,
+        intArg,
+        event_arg,
+        vm,
         prompt="trepan-xpy",
     ):
         """A trace event occurred. Filter or pass the information to a
