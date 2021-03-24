@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#   Copyright (C) 2020 Rocky Bernstein <rocky@gnu.org>
+#   Copyright (C) 2020-2021 Rocky Bernstein <rocky@gnu.org>
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 """ A place for the debugger default settings """
 
 from columnize import computed_displaywidth
-from trepan.lib.term_background import is_dark_background
+from term_background import is_dark_background
 from xpython.vmtrace import PyVMEVENT_ALL
 
 width = computed_displaywidth()
@@ -64,8 +64,7 @@ DEBUGGER_SETTINGS = {
     # tracing. See tracer.ALL_EVENT_NAMES and ALL_EVENTS
     # Note this is independent of printset which just prints the event.
     # This set controls entering the debugger command processor.
-    'events'        : PyVMEVENT_ALL,
-
+    "events": PyVMEVENT_ALL,
     # Use terminal highlight? Acceptable values are
     #  'plain'   : no highlighting
     #  'dark'    : terminal highlighting for a dark background
