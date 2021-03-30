@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Rocky Bernstein <rocky@gnu.org>
+# Copyright (C) 2020-2021 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -43,16 +43,14 @@ classifiers = [
 # The rest in alphabetic order
 author = "Rocky Bernstein"
 author_email = "rb@dustyfeet.com"
-entry_points ={
-    "console_scripts": [
-        "trepan-xpy = trepanxpy.__main__:main"
-    ]}
+entry_points = {"console_scripts": ["trepan-xpy = trepanxpy.__main__:main"]}
 ftp_url = None
 install_requires = [
     "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
     "pyficache >= 2.0.1",
     "x-python >= 1.3.4",
+    "term-background >= 1.0.1",
     "trepan3k >= 1.1.0",
 ]
 license = "GPL3"
@@ -62,12 +60,16 @@ py_modules = None
 short_desc = "GDB-like Debugger for x-python in the Trepan family"
 
 import os.path as osp
+
+
 def get_srcdir():
     filename = osp.normcase(osp.dirname(osp.abspath(__file__)))
     return osp.realpath(filename)
 
+
 def read(*rnames):
     return open(osp.join(get_srcdir(), *rnames)).read()
+
 
 # version.py sets variable VERSION.
 VERSION = None
