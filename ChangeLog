@@ -1,6 +1,28 @@
+2020-07-22  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/__init__.py: fill out __init__.py Add pydoc friendly VERSON Add introductory docstring Note that we'll
+	use RsT
+
+2020-07-03  rocky <rocky@gnu.org>
+
+	* admin-tools/how-to-make-a-release.md, trepanxpy/core.py,
+	trepanxpy/processor/command/set_subcmd/loglevel.py: Small tweaks: downcase loglevel value, e.g. `set loglevel DEBUG` is valid
+	how-to-make-a-release.md: the python module name is trepanxpy, not
+	trepan-xpy core.py: prepare stub for new breakpoint handling
+
 2020-06-28  rocky <rocky@gnu.org>
 
-	* Makefile, __pkginfo__.py: Get ready for release 1.0.3
+	* admin-tools/how-to-make-a-release.md: Administrivia
+
+2020-06-28  rocky <rocky@gnu.org>
+
+	* admin-tools/how-to-make-a-release.md: Administrivia
+
+2020-06-28  rocky <rocky@gnu.org>
+
+	* ChangeLog, Makefile, NEWS.md, __pkginfo__.py,
+	trepanxpy/debugger.py, trepanxpy/processor/cmd.py: Get ready for
+	release 1.0.3
 
 2020-06-23  rocky <rocky@gnu.org>
 
