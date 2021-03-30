@@ -15,8 +15,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """ A place for the debugger default settings """
 
-from term_background import is_dark_background
 from columnize import computed_displaywidth
+from term_background import is_dark_background
 from xpython.vmtrace import PyVMEVENT_ALL
 
 width = computed_displaywidth()
@@ -64,8 +64,7 @@ DEBUGGER_SETTINGS = {
     # tracing. See tracer.ALL_EVENT_NAMES and ALL_EVENTS
     # Note this is independent of printset which just prints the event.
     # This set controls entering the debugger command processor.
-    'events'        : PyVMEVENT_ALL,
-
+    "events": PyVMEVENT_ALL,
     # Use terminal highlight? Acceptable values are
     #  'plain'   : no highlighting
     #  'dark'    : terminal highlighting for a dark background
