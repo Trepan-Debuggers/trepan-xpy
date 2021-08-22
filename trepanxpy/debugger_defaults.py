@@ -98,6 +98,8 @@ DEBUGGER_SETTINGS = {
     "step_ignore": 0,
     # Pygments style
     "style": None,
+    # If value is None, use Python's defaults
+    "tempdir": None,
     # print trace output?
     "trace": False,
     # The target maximum print length. Used for example in listing
