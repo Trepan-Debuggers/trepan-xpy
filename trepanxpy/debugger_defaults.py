@@ -47,6 +47,8 @@ DEBUGGER_SETTINGS = {
     "autopc": False,
     # Enter Python every time we enter the debugger?
     "autopython": False,
+    # Run 'info stack' command every time we enter the debugger?
+    "autostack": False,
     # Show basename only on filename output?
     # This opiton is useful in integration testing and
     # possibly to prepare example output for publication
