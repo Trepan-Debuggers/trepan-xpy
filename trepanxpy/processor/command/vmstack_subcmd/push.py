@@ -19,24 +19,25 @@ from trepan.processor.command.base_subcmd import DebuggerSubcommand
 
 # Class has to start out with Vmstack not VMStack or anything else, in order
 # for subcommand matching to work properly
-class VmstackPop(DebuggerSubcommand):
-    """**vmstack pop**
+class VmstackPush(DebuggerSubcommand):
+    """**vmstack push** *value*
 
-Pop a VM evaluation stack entry
+Push a value onto the VM evaluation
 
 Examples
 --------
 
-    vmstack pop
+    vmstack push "foo"
 
 See Also
 --------
 
-`vmstack push`
+`vmstack pop`
 """
 
     in_list    = True
-    min_abbrev = len('po')
+    min_abbrev = len('pu')
+    min_args = 1
     max_args = 1
     need_stack = True
     short_help = "Pop a value off the VM evaluation stack"
@@ -45,15 +46,9 @@ See Also
         if self.core.is_running():
             proc = self.proc
 
-            n = len(args)
-            if n == 1:
-                # FIXME add popping n entries
-                count = 1
-            else:
-                count = 1
-
-            result = proc.vm.frame.stack.pop()
-            self.msg(f"VM stack popped {count} items: {result}, type {type(result)}")
+            text = args[0]
+            proc.vm.push(eval(text))
+            self.msg(f"VM pushed: {text}")
 
         return None
 
@@ -62,5 +57,5 @@ See Also
 if __name__ == '__main__':
     from trepan.processor.command.set_subcmd.__demo_helper__ import demo_run
 
-    demo_run(VmstackPop, [])
+    demo_run(VmstackPush, ["abc"])
     pass
