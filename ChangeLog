@@ -1,3 +1,65 @@
+2021-11-07  rocky <rb@dusytfeet.com>
+
+	* ChangeLog, NEWS.md, __pkginfo__.py,
+	admin-tools/how-to-make-a-release.md, trepanxpy/__init__.py,
+	trepanxpy/version.py: Get ready for release 1.1.0
+
+2021-09-12  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/fmt.py: Formatting tweak
+
+2021-08-31  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/processor/command/vmstack_subcmd/peek.py: Add vmstack
+	peek
+
+2021-08-30  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/processor/command/vmstack_subcmd/__init__.py,
+	trepanxpy/processor/command/vmstack_subcmd/pop.py,
+	trepanxpy/processor/command/vmstack_subcmd/push.py: Add vmstack push Show type of object popped
+
+2021-08-30  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/processor/command/vmstack.py,
+	trepanxpy/processor/command/vmstack_subcmd/pop.py: Add 1st VMStack
+	command: vmstack pop
+
+2021-08-29  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/debugger_defaults.py,
+	trepanxpy/processor/command/set_subcmd/autostack.py,
+	trepanxpy/processor/command/show_subcmd/autostack.py: Add set/show
+	autostack...  "set autostack on" shows evaluation stack on debugger entry "show autostack" show current setting of this on/off setting
+
+2021-08-28  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/debugger.py: vm parameter in format_instruction is
+	optional
+
+2021-08-22  rocky <rb@dustyfeet.com>
+
+	* trepanxpy/debugger_defaults.py: Was missing "tempdir" default
+	setting
+
+2021-07-04  rocky <rb@dustyfeet.com>
+
+	* .editorconfig: Let editors know what style we use.
+
+2021-06-23  rocky <rb@dustyfeet.com>
+
+	* setup.cfg: Yet another config file
+
+2021-03-30  rocky <rb@dustyfeet.com>
+
+	* : commit 3fed185b27d07f64ff3ea15dad0362efe87ac416 Author: rocky
+	<rb@dustyfeet.com> Date:   Tue Mar 30 05:03:27 2021 -0400
+
+2021-03-24  rocky <rb@dustyfeet.com>
+
+	* __pkginfo__.py, setup.py, trepanxpy/debugger_defaults.py: Use
+	term-background library. Update for 3.9
+
 2020-07-22  rocky <rb@dustyfeet.com>
 
 	* trepanxpy/__init__.py: fill out __init__.py Add pydoc friendly VERSON Add introductory docstring Note that we'll

@@ -1,3 +1,12 @@
+1.1.0 2021-11-07
+================
+
+* Adjust for newer xdis 6.0.3, and x-python
+* Add commands:
+  - `vmstack {peek|push|pop}`
+  - `set autostack`
+
+
 1.0.3 2020-06-28
 ================
 

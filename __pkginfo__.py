@@ -32,12 +32,15 @@ classifiers = [
     "Programming Language :: Python",
     "Topic :: Software Development :: Debuggers",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Programming Language :: Python :: 3.2 ",
-    "Programming Language :: Python :: 3.3 ",
-    "Programming Language :: Python :: 3.4 ",
-    "Programming Language :: Python :: 3.5 ",
-    "Programming Language :: Python :: 3.6 ",
-    "Programming Language :: Python :: 3.7 ",
+    "Programming Language :: Python :: 3.2",
+    "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10 ",
 ]
 
 # The rest in alphabetic order
@@ -49,9 +52,9 @@ install_requires = [
     "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
     "pyficache >= 2.0.1",
-    "x-python >= 1.3.4",
+    "x-python >= 1.4.0",
     "term-background >= 1.0.1",
-    "trepan3k >= 1.1.0",
+    "trepan3k >= 1.2.8",
 ]
 license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
@@ -72,7 +75,7 @@ def read(*rnames):
 
 
 # version.py sets variable VERSION.
-VERSION = None
+__version__ = None
 exec(read("trepanxpy", "version.py"))
 web = "http://github.com/rocky/python-xpy/"
 

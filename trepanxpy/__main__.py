@@ -3,11 +3,11 @@ import sys
 import click
 from typing import List
 
-from trepanxpy.version import VERSION
+from trepanxpy.version import __version__
 from trepanxpy.debugger import TrepanXPy
 
 @click.command()
-@click.version_option(VERSION, "-V", "--version")
+@click.version_option(__version__, "-V", "--version")
 @click.option("-x", "--trace", default=False, required=False, flag_value="trace",
               help="Run with instruction tracing, no interactive debugging (until post-mortem)")
 @click.option("-c", "--command-to-run",

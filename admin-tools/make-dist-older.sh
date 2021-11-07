@@ -19,7 +19,7 @@ fi
 
 cd ..
 source trepanxpy/version.py
-echo $VERSION
+echo $__version__
 
 for pyversion in $PYVERSIONS; do
     if ! pyenv local $pyversion ; then
@@ -32,5 +32,5 @@ for pyversion in $PYVERSIONS; do
     first_two=$(echo $pyversion | cut -d'.' -f 1-2 | sed -e 's/\.//')
     rm -fr build
     python setup.py bdist_egg bdist_wheel
-    mv -v dist/${PACKAGE}-$VERSION-py3-none-any.whl dist/${PACKAGE}-$VERSION-py${first_two}-none-any.whl
+    mv -v dist/${PACKAGE}-$__version__-py3-none-any.whl dist/${PACKAGE}-$__version__-py${first_two}-none-any.whl
 done

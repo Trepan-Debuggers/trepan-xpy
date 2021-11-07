@@ -22,8 +22,8 @@
 
     $ emacs trepanxpy/version.py
     $ source trepanxpy/version.py
-    $ echo $VERSION
-    $ git commit -m"Get ready for release $VERSION" .
+    $ echo $__version__
+    $ git commit -m"Get ready for release $__version__" .
 
 
 # Update ChangeLog:
@@ -46,10 +46,10 @@
 
     $ make dist-older
 	$ pyenv local 3.8.3
-	$ twine check dist/trepanxpy-$VERSION*
-    $ git tag release-python-3.2-$VERSION
+	$ twine check dist/trepanxpy-$__version__*
+    $ git tag release-python-3.2-$__version__
     $ make dist-newer
-	$ twine check dist/trepanxpy-$VERSION*
+	$ twine check dist/trepanxpy-$__version__*
 
 # Check package on github
 
@@ -59,6 +59,7 @@ Todo: turn this into a script in `admin-tools`
 	$ pyenv local 3.7.5
 	$ pip install -e git://github.com/rocky/trepan-xpy.git#egg=trepanxpy
 	$ trepan-xpy -V # see that new version appears
+	$ trepan-xpy src/trepanxpy/test/example/gcd.py 3 5
 	$ pip uninstall trepanxpy
 	$ popd
 
@@ -66,7 +67,7 @@ Todo: turn this into a script in `admin-tools`
 
 Goto https://github.com/rocky/trepan-xpy/releases/new
 
-Get version from `$VERSION`. Copy from `NEWS.md`
+Get version from `$__version__`. Copy from `NEWS.md`
 Upload eggs, wheels, and tarball
 
 Now check the tagged release.
@@ -90,6 +91,7 @@ Todo: turn this into a script in `admin-tools`
 	$ pyenv local 3.7.5
 	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
 	$ trepan-xpy -V # see that new version appears
+	$ trepan-xpy src/trepanxpy/test/example/gcd.py 3 5
 	$ pip uninstall trepanxpy
 	$ popd
 
