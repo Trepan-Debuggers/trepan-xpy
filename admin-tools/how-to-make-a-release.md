@@ -77,7 +77,7 @@ Todo: turn this into a script in `admin-tools`
     $ git pull # to pull down new tag
     $ pushd /tmp/gittest
 	$ pyenv local 3.7.5
-	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
+	$ pip install -e git://github.com/rocky/trepan-xpy.git@${__version__}#egg=trepanxpy
 	$ trepan-xpy -V # see that new version appears
 	$ pip uninstall trepanxpy
 	$ popd
@@ -89,7 +89,7 @@ Todo: turn this into a script in `admin-tools`
     $ git pull # to pull down new tag
     $ pushd /tmp/gittest
 	$ pyenv local 3.7.5
-	$ pip install -e git://github.com/rocky/trepan-xpy.git@${VERSION}#egg=trepanxpy
+	$ pip install -e git://github.com/rocky/trepan-xpy.git@${__version__}#egg=trepanxpy
 	$ trepan-xpy -V # see that new version appears
 	$ trepan-xpy src/trepanxpy/test/example/gcd.py 3 5
 	$ pip uninstall trepanxpy
@@ -97,10 +97,10 @@ Todo: turn this into a script in `admin-tools`
 
 # Get on PyPI
 
-	$ twine upload dist/trepanxpy-${VERSION}*
+	$ twine upload dist/trepanxpy-${__version__}*
 
 Check on https://pypi.org/project/trepan-xpy/
 
 # Move dist files to uploaded
 
-	$ mv -v dist/trepanxpy-${VERSION}* dist/uploaded
+	$ mv -v dist/trepanxpy-${__version__}* dist/uploaded
