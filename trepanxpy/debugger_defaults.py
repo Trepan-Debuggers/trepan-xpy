@@ -44,11 +44,11 @@ DEBUGGER_SETTINGS = {
     # precedence over autopython.
     "autoipython": False,
     # Run 'info pc' command every time we enter the debugger?
-    "autopc": False,
+    "autopc": True,
     # Enter Python every time we enter the debugger?
     "autopython": False,
     # Run 'info stack' command every time we enter the debugger?
-    "autostack": False,
+    "autostack": True,
     # Show basename only on filename output?
     # This opiton is useful in integration testing and
     # possibly to prepare example output for publication

@@ -22,7 +22,7 @@
 # still is some room for improvement.
 
 # Things that change more often go here.
-copyright = """Copyright (C) 2020 Rocky Bernstein <rb@dustyfeet.com>."""
+copyright = """Copyright (C) 2020-2021 Rocky Bernstein <rb@dustyfeet.com>."""
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
