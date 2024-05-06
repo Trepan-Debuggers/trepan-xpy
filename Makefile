@@ -32,7 +32,7 @@ dist-newer:
 
 #: Remove .pyc files
 clean_pyc:
-	( cd xpython && $(RM) -f *.pyc */*.pyc )
+	( cd trepanxpy && $(RM) -f *.pyc */*.pyc )
 	( cd test && $(RM) -f *.pyc )
 
 #: Create source tarball
