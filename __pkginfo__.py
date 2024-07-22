@@ -1,4 +1,4 @@
-# Copyright (C) 2020-2021 Rocky Bernstein <rocky@gnu.org>
+# Copyright (C) 2020-2021, 2023, 2024 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 # still is some room for improvement.
 
 # Things that change more often go here.
-copyright = """Copyright (C) 2020 Rocky Bernstein <rb@dustyfeet.com>."""
+copyright = """Copyright (C) 2020-2021, 2023-2024 Rocky Bernstein <rb@dustyfeet.com>."""
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
@@ -32,12 +32,15 @@ classifiers = [
     "Programming Language :: Python",
     "Topic :: Software Development :: Debuggers",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Programming Language :: Python :: 3.2 ",
-    "Programming Language :: Python :: 3.3 ",
-    "Programming Language :: Python :: 3.4 ",
-    "Programming Language :: Python :: 3.5 ",
-    "Programming Language :: Python :: 3.6 ",
-    "Programming Language :: Python :: 3.7 ",
+    "Programming Language :: Python :: 3.2",
+    "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10 ",
 ]
 
 # The rest in alphabetic order
@@ -46,12 +49,10 @@ author_email = "rb@dustyfeet.com"
 entry_points = {"console_scripts": ["trepan-xpy = trepanxpy.__main__:main"]}
 ftp_url = None
 install_requires = [
-    "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
-    "pyficache >= 2.0.1",
-    "x-python >= 1.3.4",
+    "x-python >= 1.5.1",
     "term-background >= 1.0.1",
-    "trepan3k >= 1.1.0",
+    "trepan3k >= 1.2.11",
 ]
 license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
@@ -72,7 +73,7 @@ def read(*rnames):
 
 
 # version.py sets variable VERSION.
-VERSION = None
+__version__ = None
 exec(read("trepanxpy", "version.py"))
 web = "http://github.com/rocky/python-xpy/"
 

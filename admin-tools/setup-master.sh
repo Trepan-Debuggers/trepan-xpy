@@ -1,5 +1,5 @@
 #!/bin/bash
-PYTHON_VERSION=3.8.6
+PYTHON_VERSION=3.8
 
 owd=$(pwd)
 bs=${BASH_SOURCE[0]}

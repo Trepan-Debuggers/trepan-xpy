@@ -179,11 +179,16 @@ But in contrast to any other Python debugger I know about, we can cause an immed
 
 We've only show a few of the many debugger features.
 
+Bytecode-specific commands
+==========================
+
 Here are some interesting commands not typically found in Python debuggers, like `pdb`
 
 - `info blocks` lets you see the block stack
 - `set pc <offset>` lets you set the Program counter within the frame
 - `set autopc` runs `info pc` to show the debugged program's program counter before each time the debugger's command-loop REPL is run.
+- `set autostack` runs `info stack` to show the debugged program's evaluation stack before each time the debugger's command-loop REPL is run.
+- `vmstack {peek | push, pop}` - inspects or modifies evaluation stack
 
 See Also
 ========

@@ -29,7 +29,7 @@ class TrepanXPy(object):
         """
 
         def instruction_fmt_func(frame, opc, byte_name, int_arg, arguments, offset, line_number,
-                                 extra_debug, vm):
+                                 extra_debug, vm=None):
             return format_instruction_with_highlight(
                 frame=frame,
                 opc=opc,

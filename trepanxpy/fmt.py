@@ -49,8 +49,8 @@ def format_instruction_with_highlight(
     else:
         stack_args = ""
 
-    if hasattr(opc, "opcode_arg_fmt") and byte_name in opc.opcode_arg_fmt:
-        argrepr = opc.opcode_arg_fmt[byte_name](int_arg)
+    if hasattr(opc, "opcode_arg_fmt") and byte_name in opc.opcode_arg_fmt and int_arg is not None:
+        argrepr = f"""["{opc.opcode_arg_fmt[byte_name](int_arg)}"] {int_arg}"""
     elif int_arg is None:
         argrepr = ""
     elif byteCode in opc.NAME_OPS | opc.FREE_OPS | opc.LOCAL_OPS:
