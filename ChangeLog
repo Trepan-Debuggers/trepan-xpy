@@ -1,8 +1,47 @@
+2024-07-22  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, trepanxpy/version.py: Get ready for release 1.1.1
+
+2024-05-06  rocky <rb@dusytfeet.com>
+
+	* Makefile: Administrivia
+
+2024-05-06  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, setup.py: Administrivia
+
+2023-05-24  rocky <rb@dusytfeet.com>
+
+	* admin-tools/pyenv-versions-newer: Bump testing to newest Python
+	versions
+
+2022-03-30  rocky <rb@dusytfeet.com>
+
+	* admin-tools/pyenv-versions-newer, trepanxpy/fmt.py: Guard agains
+	RAISE_VARARGS with no arg
+
+2021-11-20  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, trepanxpy/debugger_defaults.py: Change autostack
+	and autopc to default to True
+
+2021-11-08  rocky <rb@dusytfeet.com>
+
+	* README.md: Mention bytecode-specific commands
+
+2021-11-07  rocky <rb@dusytfeet.com>
+
+	* admin-tools/how-to-make-a-release.md, trepanxpy/version.py: Bump
+	version
+
 2021-11-07  rocky <rb@dusytfeet.com>
 
 	* ChangeLog, NEWS.md, __pkginfo__.py,
-	admin-tools/how-to-make-a-release.md, trepanxpy/__init__.py,
-	trepanxpy/version.py: Get ready for release 1.1.0
+	admin-tools/how-to-make-a-release.md,
+	admin-tools/make-dist-newer.sh, admin-tools/make-dist-older.sh,
+	admin-tools/pyenv-versions-newer, setup.cfg, setup.py,
+	trepanxpy/__init__.py, trepanxpy/__main__.py, trepanxpy/version.py: 
+	Get ready for release 1.1.0
 
 2021-09-12  rocky <rb@dustyfeet.com>
 
