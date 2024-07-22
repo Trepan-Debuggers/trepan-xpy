@@ -1,5 +1,9 @@
 #!/bin/bash
+<<<<<<< Updated upstream
 PYTHON_VERSION=3.7.7
+=======
+PYTHON_VERSION=3.8
+>>>>>>> Stashed changes
 
 owd=$(pwd)
 bs=${BASH_SOURCE[0]}

@@ -49,12 +49,10 @@ author_email = "rb@dustyfeet.com"
 entry_points = {"console_scripts": ["trepan-xpy = trepanxpy.__main__:main"]}
 ftp_url = None
 install_requires = [
-    "columnize >= 0.3.10",
     "nose>=1.0.0, <= 1.3.7",
-    "pyficache >= 2.0.1",
-    "x-python >= 1.4.0",
+    "x-python >= 1.5.1",
     "term-background >= 1.0.1",
-    "trepan3k >= 1.2.8",
+    "trepan3k >= 1.2.11",
 ]
 license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
