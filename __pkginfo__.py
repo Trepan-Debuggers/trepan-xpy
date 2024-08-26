@@ -41,6 +41,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10 ",
+    "Programming Language :: Python :: 3.12 ",
 ]
 
 # The rest in alphabetic order
@@ -52,7 +53,7 @@ install_requires = [
     "decompyle3 >= 3.9.2",
     "nose>=1.0.0, <= 1.3.7",
     "term-background >= 1.0.1",
-    "trepan3k >= 1.2.11",
+    "trepan3k >= 1.2.12.0.dev",
     "uncompyle6 >= 3.9.2",
     "x-python >= 1.5.1",
 ]
