@@ -233,7 +233,7 @@ class TrepanXPyCore(object):
     #             tracer_start_opts = default.START_OPTS.copy()
     #             if opts:
     #                 tracer_start_opts.update(opts.get("tracer_start", {}))
-    #             tracer_start_opts["trace_fn"] = self.trace_dispatch
+    #             tracer_start_opts["trace_func"] = self.trace_dispatch
     #             tracer_start_opts["add_hook_opts"] = add_hook_opts
     #             tracer.start(tracer_start_opts)
     #         elif not tracer.find_hook(self.trace_dispatch):
@@ -411,7 +411,7 @@ class TrepanXPyCore(object):
             # This will disallow a command like "jump" from working properly,
             # which will give a cryptic the message on setting f_lineno:
             #   f_lineno can only be set by a trace function
-            if self.ignore_filter and self.ignore_filter.is_included(frame):
+            if self.ignore_filter and self.ignore_filter.is_excluded(frame):
                 return self
 
             # if self.debugger.settings["trace"]:
