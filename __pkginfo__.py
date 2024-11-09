@@ -48,10 +48,11 @@ classifiers = [
 author = "Rocky Bernstein"
 author_email = "rb@dustyfeet.com"
 entry_points = {"console_scripts": ["trepan-xpy = trepanxpy.__main__:main"]}
+extras_require = {"dev": ["nose>=1.0.0, <= 1.3.7"]}
+
 ftp_url = None
 install_requires = [
     "decompyle3 >= 3.9.2",
-    "nose>=1.0.0, <= 1.3.7",
     "term-background >= 1.0.1",
     "trepan3k >= 1.3.0.dev",
     "uncompyle6 >= 3.9.2",
