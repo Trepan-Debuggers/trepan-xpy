@@ -21,6 +21,8 @@
 # less elegant than having it here with reduced code, albeit there
 # still is some room for improvement.
 
+import os.path as osp
+
 # Things that change more often go here.
 copyright = """Copyright (C) 2020-2021, 2023-2024 Rocky Bernstein <rb@dustyfeet.com>."""
 classifiers = [
@@ -53,18 +55,16 @@ extras_require = {"dev": ["nose>=1.0.0, <= 1.3.7"]}
 ftp_url = None
 install_requires = [
     "decompyle3 >= 3.9.2",
-    "term-background >= 1.0.1",
-    "trepan3k >= 1.3.0.dev",
+    "term-background >= 1.0.2",
+    "trepan3k >= 1.3.0",
     "uncompyle6 >= 3.9.2",
-    "x-python >= 1.5.1",
+    "x-python >= 1.5.2",
 ]
 license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
 modname = "trepanxpy"
 py_modules = None
 short_desc = "GDB-like Debugger for x-python in the Trepan family"
-
-import os.path as osp
 
 
 def get_srcdir():
