@@ -55,11 +55,7 @@ install_requires = [
     "decompyle3 >= 3.9.2",
     "nose>=1.0.0, <= 1.3.7",
     "term-background >= 1.0.1",
-    "trepan3k >= 1.2.11",
-=======
-    "term-background >= 1.0.1",
     "trepan3k >= 1.3.0.dev",
->>>>>>> master
     "uncompyle6 >= 3.9.2",
     "x-python >= 1.5.1",
 ]

@@ -39,8 +39,6 @@ DEBUGGER_SETTINGS = {
 
     # Run 'list' command every time we enter the debugger?
     "autolist": False,
-    # Run 'info pc' command every time we enter the debugger?
-    "autopc": True,
 
     # Enter IPython every time we enter the debugger?
     # Note: only relevant if we have ipython installed. This takes
