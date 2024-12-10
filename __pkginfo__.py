@@ -41,18 +41,25 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10 ",
+    "Programming Language :: Python :: 3.12 ",
 ]
 
 # The rest in alphabetic order
 author = "Rocky Bernstein"
 author_email = "rb@dustyfeet.com"
 entry_points = {"console_scripts": ["trepan-xpy = trepanxpy.__main__:main"]}
+extras_require = {"dev": ["nose>=1.0.0, <= 1.3.7"]}
+
 ftp_url = None
 install_requires = [
     "decompyle3 >= 3.9.2",
     "nose>=1.0.0, <= 1.3.7",
     "term-background >= 1.0.1",
     "trepan3k >= 1.2.11",
+=======
+    "term-background >= 1.0.1",
+    "trepan3k >= 1.3.0.dev",
+>>>>>>> master
     "uncompyle6 >= 3.9.2",
     "x-python >= 1.5.1",
 ]

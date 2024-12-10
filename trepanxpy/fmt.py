@@ -35,7 +35,7 @@ def format_instruction_with_highlight(
 ):
     """A version of x-python's format_instruction() with terminal highlighting"""
 
-    highlight=settings.get("highlight", False)
+    style=settings.get("style", "none")
     code = frame.f_code if frame else None
     byteCode = opc.opmap.get(byte_name, 0)
     if isinstance(arguments, list) and arguments:
@@ -72,23 +72,23 @@ def format_instruction_with_highlight(
         line_str = LINE_NUMBER_SPACES
     else:
         number_str = format_token(
-            LineNumber, LINE_NUMBER_WIDTH_FMT % line_number, highlight=highlight
+            LineNumber, LINE_NUMBER_WIDTH_FMT % line_number, style=style
         )
         line_str = "L. %s@" % number_str
-        format_token(fmt_type, argrepr),
+        format_token(fmt_type, argrepr, style=style),
 
     mess = "%s%3d: %s%s %s" % (
         line_str,
         offset,
-        format_token(Opcode, byte_name),
+        format_token(Opcode, byte_name, style=style),
         stack_args,
-        format_token(fmt_type, argrepr),
+        format_token(fmt_type, str(argrepr), style=style),
     )
     if extra_debug and frame:
         filename = basename(code.co_filename) if settings["basename"] else code.co_filename
         mess += " %s in %s:%s" % (
-            format_token(Function, code.co_name, highlight=highlight),
-            format_token(Filename, filename, highlight=highlight),
-            format_token(LineNumber, str(frame.f_lineno), highlight=highlight),
+            format_token(Function, code.co_name, style=style),
+            format_token(Filename, filename, style=style),
+            format_token(LineNumber, str(frame.f_lineno), style=style),
         )
     return mess

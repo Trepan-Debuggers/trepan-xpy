@@ -2,8 +2,8 @@
 import sys
 
 SYS_VERSION = sys.version_info[0:2]
-if not ((3, 1) <= SYS_VERSION <= (3, 11)):
-    mess = "Python Versions 3.1 to 3.11 are supported only in this package."
+if not ((3, 1) <= SYS_VERSION <= (3, 12)):
+    mess = "Python Versions 3.1 to 3.12 are supported only in this package."
     if (2, 4) <= SYS_VERSION <= (2, 7):
         mess += "\nFor your Python, version %s, See trepan2" % sys.version[0:3]
     elif SYS_VERSION < (2, 4):
@@ -17,6 +17,7 @@ from __pkginfo__ import (
     author_email,
     classifiers,
     entry_points,
+    extras_require,
     install_requires,
     license,
     long_description,
@@ -40,6 +41,7 @@ setup(
     classifiers=classifiers,
     description=short_desc,
     entry_points=entry_points,
+    extras_require=extras_require,
     install_requires=install_requires,
     license=license,
     long_description=long_description,
