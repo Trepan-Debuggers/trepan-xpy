@@ -29,7 +29,7 @@ import trepan.lib.bytecode as Mbytecode
 import trepan.lib.display as Mdisplay
 from trepan.misc import option_set
 from trepan.lib.thred import current_thread_name
-import trepan.processor.complete as Mcomplete
+import trepan.processor.complete_rl as Mcomplete
 
 from trepan.processor.cmdproc import (
     CommandProcessor,
