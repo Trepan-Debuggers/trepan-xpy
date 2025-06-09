@@ -258,7 +258,7 @@ class TrepanXPyCore(object):
             # Could check code object or decide not to
             # The below could be done as a list comprehension, but
             # I'm feeling in Fortran mood right now.
-            for fn in self.bpmgr.fnlist:
+            for fn in self.bpmgr.code_list:
                 if fn.__name__ == find_name:
                     self.current_bp = bp = self.bpmgr.fnlist[fn][0]
                     if bp.temporary:
