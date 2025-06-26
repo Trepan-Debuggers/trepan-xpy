@@ -42,7 +42,8 @@ See also:
                 info_cmd = self.proc.commands["info"]
                 self.info_stack_cmd = info_cmd.cmds.lookup("stack").run
                 pass
-            self.proc.add_preloop_hook(self.run_infostack, 0)
+            self.proc.add_preloop_hook(self.run_infostack,
+                                       len(self.proc.preloop_hooks))
 
         else:
             self.proc.remove_preloop_hook(self.run_infostack)

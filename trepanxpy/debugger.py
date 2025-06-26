@@ -47,6 +47,7 @@ class TrepanXPy(object):
 
         self.mainpyfile = None
         self.thread = None
+        self.eval_string = None
 
         completer = lambda text, state: self.complete(text, state)
         interface_opts = {
