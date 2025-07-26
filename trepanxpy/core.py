@@ -403,6 +403,11 @@ class TrepanXPyCore(object):
             if self.trace_hook_suspend:
                 return None
 
+            # THINK ABOUT: we might have a mode where we stop on CACHE
+            # intructions.
+            if byte_name == "CACHE":
+                return self
+
             self.event = event
             # FIXME: Understand what's going on here better.
             # When None gets returned, the frame's f_trace seems to get set
