@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import sys
+from setuptools import setup, find_packages
+
 
 SYS_VERSION = sys.version_info[0:2]
 if not ((3, 1) <= SYS_VERSION <= (3, 12)):
-    mess = "Python Versions 3.1 to 3.12 are supported only in this package."
-    if (2, 4) <= SYS_VERSION <= (2, 7):
-        mess += "\nFor your Python, version %s, See trepan2" % sys.version[0:3]
-    elif SYS_VERSION < (2, 4):
-        mess += "\nFor your Python, version %s, see pydb" % sys.version[0:3]
+    mess = "Python Versions 3.1 to 3.12 are supported in this branch this package."
+    if SYS_VERSION == (2, 7):
+        mess += "\nFor your Python, version %s, use branch python-2.7 or a package created from that" % sys.version[0:3]
     print(mess)
     raise Exception(mess)
 
@@ -30,8 +30,6 @@ from __pkginfo__ import (
 )
 
 __import__("pkg_resources")
-
-from setuptools import setup, find_packages
 
 packages = find_packages()
 
