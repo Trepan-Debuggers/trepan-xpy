@@ -7,7 +7,7 @@ from trepanxpy.debugger import TrepanXPy
 
 @click.command()
 @click.version_option(__version__, "-V", "--version")
-@click.option("-x", "--trace", default=False, required=False, flag_value="trace",
+@click.option("-X", "-v", "--trace", default=False, required=False, flag_value="trace",
               help="Run with instruction tracing, no interactive debugging (until post-mortem)")
 @click.option("-c", "--command-to-run",
               help="program passed in as a string", required=False)

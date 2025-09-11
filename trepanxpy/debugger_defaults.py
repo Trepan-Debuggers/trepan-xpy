@@ -120,7 +120,7 @@ DEBUGGER_SETTINGS = {
     "step_ignore": 0,
 
     # Pygments style
-    "style": default_style,
+    "disasmstyle": default_style,
 
     # If value is None, use Python's defaults
     "tempdir": None,

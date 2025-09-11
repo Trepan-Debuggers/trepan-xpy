@@ -1,4 +1,4 @@
-# Copyright (C) 2020-2021, 2023, 2024 Rocky Bernstein <rocky@gnu.org>
+# Copyright (C) 2020-2021, 2023, 2024-2025 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 import os.path as osp
 
 # Things that change more often go here.
-copyright = """Copyright (C) 2020-2021, 2023-2024 Rocky Bernstein <rb@dustyfeet.com>."""
+copyright = """Copyright (C) 2020-2021, 2023-2025 Rocky Bernstein <rb@dustyfeet.com>."""
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
@@ -57,7 +57,7 @@ install_requires = [
     "nose>=1.0.0, <= 1.3.7",
     "trepan3k >= 1.3.0.dev",
     "term-background >= 1.0.2",
-    "trepan3k >= 1.3.0",
+    "trepan3k >= 1.4.0",
     "uncompyle6 >= 3.9.2",
     "x-python >= 1.5.2",
 ]

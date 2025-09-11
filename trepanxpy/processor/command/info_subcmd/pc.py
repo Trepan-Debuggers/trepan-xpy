@@ -67,7 +67,7 @@ See also:
                 cells=code.co_cellvars,
                 freevars=code.co_freevars,
                 line_starts=dict(findlinestarts(code)),
-                style=self.proc.debugger.settings["style"],
+                style=self.proc.debugger.settings["disasmstyle"],
                 end_offset=offset + 10,
                 opc=proc.vm.opc,
             )

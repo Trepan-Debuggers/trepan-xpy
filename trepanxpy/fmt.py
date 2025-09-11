@@ -39,7 +39,7 @@ def format_instruction_with_highlight(
     code = frame.f_code if frame else None
     byteCode = opc.opmap.get(byte_name, 0)
     if isinstance(arguments, list) and arguments:
-        arguments = arguments[0]
+        arguments = str(arguments[0])
     argrepr = arguments
 
     fmt_type = Text
