@@ -4,12 +4,12 @@ from setuptools import setup, find_packages
 
 
 SYS_VERSION = sys.version_info[0:2]
-if not ((3, 6) <= SYS_VERSION <= (3, 10)):
-    mess = "Python Versions 3.6 to 3.10 are supported in this branch this package."
+if not ((3, 2) <= SYS_VERSION < (3, 6)):
+    mess = "Python Versions 3.2 to 3.5 are supported in this branch this package."
     if SYS_VERSION >= (3, 11):
         mess += "\nFor your Python, version %s, use the master branch or a package created from that" % sys.version[0:3]
-    if (3, 2) <= SYS_VERSION < (3, 6):
-        mess += "\nFor your Python, version %s, use the python-3.2-to-3.5 branch or a package created from that" % sys.version[0:3]
+    if (3, 5) <= SYS_VERSION < (3, 11):
+        mess += "\nFor your Python, version %s, use the python-3.6-to-3.10 branch or a package created from that" % sys.version[0:3]
     elif SYS_VERSION == (2, 7):
         mess += "\nFor your Python, version %s, use branch python-2.7 or a package created from that" % sys.version[0:3]
     print(mess)
