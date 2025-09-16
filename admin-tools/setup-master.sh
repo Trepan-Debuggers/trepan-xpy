@@ -11,8 +11,6 @@ fi
 mydir=$(dirname $bs)
 fulldir=$(readlink -f $mydir)
 cd $fulldir/../../../rocky
-pwd
-
 
 (cd ./python-spark && git checkout master && pyenv local $PYTHON_VERSION && git pull)
 (cd ./python-xdis ; git checkout master && pyenv local $PYTHON_VERSION && git pull)
