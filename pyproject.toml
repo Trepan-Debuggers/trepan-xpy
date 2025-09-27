@@ -75,6 +75,7 @@ ignore = ["dist", "docs", "tmp", ".cache"]
 [tool.setuptools]
 packages = [
     "trepanxpy",
+    "trepanxpy.processor",
 ]
 
 [tool.setuptools.dynamic]
