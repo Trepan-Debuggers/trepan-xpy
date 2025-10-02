@@ -43,6 +43,7 @@ from trepan.processor.cmdproc import (
 from trepanxpy.events import EVENT2SHORT
 from trepanxpy.fmt import format_instruction_with_highlight
 
+
 warned_file_mismatches: Set[str] = set()
 
 
@@ -89,8 +90,7 @@ class XPyCommandProcessor(CommandProcessor):
         self.last_command = None  # Initially a no-op
         self.precmd_hooks = []
 
-        # FIXME: can we adjust this to also show the instruction?
-        self.location = lambda: self
+        self.location = lambda: print_location(self)
 
         self.preloop_hooks = []
         self.postcmd_hooks = []
@@ -340,7 +340,7 @@ class XPyCommandProcessor(CommandProcessor):
         self.frame_thread_name = self.thread_name
 
         self.setup()
-        print_location(self)
+        # print_location(self)
         if offset >= 0 and event not in ("call", "return"):
             self.msg(
                 "%s"

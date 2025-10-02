@@ -1,7 +1,7 @@
 """A main program for trepan-xpy."""
 import sys
 import click
-from typing import List
+from typing import List, Optional
 
 from trepanxpy.version import __version__
 from trepanxpy.debugger import TrepanXPy
@@ -12,9 +12,12 @@ from trepanxpy.debugger import TrepanXPy
               help="Run with instruction tracing, no interactive debugging (until post-mortem)")
 @click.option("-c", "--command-to-run",
               help="program passed in as a string", required=False)
+@click.option("--style", required="False",
+              help="Pygments style; 'none' uses 8-color rather than 256-color terminal",
+              )
 @click.argument("path", nargs=1, type=click.Path(readable=True), required=False)
 @click.argument("args", nargs=-1)
-def main(trace: bool, path: str, command_to_run: str, args: List[str]):
+def main(trace: bool, command_to_run: str, style: Optional[str], path: str, args: List[str]):
 
     # FIXME: This seems to be needed for pyficache to work on relative paths.
     # is this a bug?
@@ -32,7 +35,7 @@ def main(trace: bool, path: str, command_to_run: str, args: List[str]):
         print("You must pass either a file name or a command string, neither found.")
         sys.exit(4)
 
-    TrepanXPy(string_or_path, is_file, trace_only=trace, args=args)
+    TrepanXPy(string_or_path, is_file, trace_only=trace, style=style, args=args)
 
 if __name__ == "__main__":
     main(auto_envvar_prefix="XPYTHON")

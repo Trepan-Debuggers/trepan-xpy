@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-#   Copyright (C) 2020 Rocky Bernstein <rocky@gnu.org>
+#   Copyright (C) 2020, 2025 Rocky Bernstein <rocky@gnu.org>
 
-from typing import List, Dict, Any
 import os
 import sys
-from xpython.execfile import run_python_file, run_python_string, NoSourceError
+from typing import Any, Dict, List, Optional
+
+from trepan.exception import DebuggerQuit, DebuggerRestart
+from trepan.interfaces.user import UserInterface
+from trepan.misc import wrapped_lines
+from xpython.execfile import NoSourceError, run_python_file, run_python_string
+
+from trepanxpy.core import TrepanXPyCore
 
 # Default settings used here
 from trepanxpy.debugger_defaults import DEBUGGER_SETTINGS
-from trepan.interfaces.user import UserInterface
-from trepan.misc import wrapped_lines
-from trepan.exception import DebuggerQuit, DebuggerRestart
-
-from trepanxpy.core import TrepanXPyCore
 from trepanxpy.fmt import format_instruction_with_highlight
 from trepanxpy.processor.cmd import XPyCommandProcessor
 from trepanxpy.processor.trace import XPyPrintProcessor
@@ -20,7 +21,12 @@ from trepanxpy.processor.trace import XPyPrintProcessor
 
 class TrepanXPy(object):
     def __init__(
-        self, string_or_path: str, is_file: bool, trace_only: bool, args: List[str]
+        self,
+        string_or_path: str,
+        is_file: bool,
+        trace_only: bool,
+        style: Optional[str],
+        args: List[str],
     ):
         """Create a debugger object. But depending on the value of
         key 'start' inside hash 'opts', we may or may not initially
@@ -29,20 +35,29 @@ class TrepanXPy(object):
         See also TrepanXPy.start and TrepanXPy.stop.
         """
 
-        def instruction_fmt_func(frame, opc, byte_name, int_arg, arguments, offset, line_number,
-                                 extra_debug, vm=None):
+        def instruction_fmt_func(
+            frame,
+            opc,
+            byte_name,
+            int_arg,
+            arguments,
+            offset,
+            line_number,
+            extra_debug,
+            vm=None,
+        ):
             return format_instruction_with_highlight(
                 frame=frame,
                 opc=opc,
                 byte_name=byte_name,
-                int_arg = int_arg,
-                arguments = arguments,
-                offset = offset,
-                line_number = line_number,
-                extra_debug = extra_debug,
+                int_arg=int_arg,
+                arguments=arguments,
+                offset=offset,
+                line_number=line_number,
+                extra_debug=extra_debug,
                 settings=self.settings,
-                vm = vm,
-                show_line = True
+                vm=vm,
+                show_line=True,
             )
 
         self.mainpyfile = None
@@ -62,7 +77,11 @@ class TrepanXPy(object):
         self.main_dirname = os.curdir
 
         self.filename_cache: Dict[str, Any] = {}
-        self.settings = DEBUGGER_SETTINGS
+        self.settings = DEBUGGER_SETTINGS.copy()
+
+        if style is not None:
+            os.environ["TREPAN_PYGMENTS_STYLE"] = self.settings["disasmstyle"] = self.settings["style"] = style
+
         self.core = TrepanXPyCore(self, {})
         if trace_only:
             processor = XPyPrintProcessor(self.core)
