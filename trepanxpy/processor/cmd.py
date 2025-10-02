@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # This file is stripped down from the one in trepan3k
 #
-#   Copyright (C) 2008-2010, 2013-2020 Rocky Bernstein <rocky@gnu.org>
+#   Copyright (C) 2008-2010, 2013-2020, 2025 Rocky Bernstein <rocky@gnu.org>
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -15,34 +15,33 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import linecache, sys, re, inspect
 import importlib
-import pyficache
+import inspect
+import linecache
 import os.path as osp
-
-from typing import Any, Optional, Set
+import re
+import sys
 
 # Note: the module name pre 3.2 is repr
 from reprlib import Repr
+from typing import Any, Optional, Set
 
-from pygments.console import colorize
-
+import pyficache
 import trepan.lib.bytecode as Mbytecode
 import trepan.lib.display as Mdisplay
-from trepan.misc import option_set
-from trepan.lib.thred import current_thread_name
 import trepan.processor.complete_rl as Mcomplete
-
+from pygments.console import colorize
+from trepan.lib.thred import current_thread_name
+from trepan.misc import option_set
 from trepan.processor.cmdproc import (
     CommandProcessor,
     arg_split,
-    resolve_name,
     print_location,
+    resolve_name,
 )
 
 from trepanxpy.events import EVENT2SHORT
 from trepanxpy.fmt import format_instruction_with_highlight
-
 
 warned_file_mismatches: Set[str] = set()
 
@@ -59,6 +58,7 @@ DEFAULT_PROC_OPTS = {
     # front-end sets.
     "initfile_list": []
 }
+
 
 # FIXME: can't figure out how to delegate specific fns so we'll subclass instead.
 class XPyCommandProcessor(CommandProcessor):
@@ -195,7 +195,11 @@ class XPyCommandProcessor(CommandProcessor):
         cmd_instances = []
 
         for mod_name in Mcommand.__modules__:
-            if mod_name in ("info_sub", "set_sub", "show_sub",):
+            if mod_name in (
+                "info_sub",
+                "set_sub",
+                "show_sub",
+            ):
                 pass
             import_name = "%s.%s" % (Mcommand.__name__, mod_name)
             try:
@@ -337,7 +341,7 @@ class XPyCommandProcessor(CommandProcessor):
 
         self.setup()
         print_location(self)
-        if offset >= 0 and event not in ('call', 'return'):
+        if offset >= 0 and event not in ("call", "return"):
             self.msg(
                 "%s"
                 % format_instruction_with_highlight(
@@ -352,7 +356,7 @@ class XPyCommandProcessor(CommandProcessor):
                     settings=self.debugger.settings,
                     show_line=False,  # We show the line number in our location reporting
                     vm=self.vm,
-                    repr=self._repr.repr
+                    repr=self._repr.repr,
                 )
             )
 
@@ -363,7 +367,7 @@ class XPyCommandProcessor(CommandProcessor):
         return self.return_status
 
     def _update_commands(self):
-        """ Create an instance of each of the debugger
+        """Create an instance of each of the debugger
         commands. Commands are found by importing files in the
         directory 'command'. Some files are excluded via an array set
         in __init__.  For each of the remaining files, we import them
@@ -405,8 +409,7 @@ class XPyCommandProcessor(CommandProcessor):
             self.list_lineno = (
                 max(
                     1,
-                    self.frame.line_number()
-                    - int(self.settings("listsize") / 2),
+                    self.frame.line_number() - int(self.settings("listsize") / 2),
                 )
                 - 1
             )
