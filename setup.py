@@ -2,18 +2,21 @@
 import sys
 from setuptools import setup, find_packages
 
+major = sys.version_info[0]
+minor = sys.version_info[1]
 
-SYS_VERSION = sys.version_info[0:2]
-if not ((3, 6) <= SYS_VERSION <= (3, 10)):
-    mess = "Python Versions 3.6 to 3.10 are supported in this branch this package."
-    if SYS_VERSION >= (3, 11):
-        mess += "\nFor your Python, version %s, use the master branch or a package created from that" % sys.version[0:3]
-    if (3, 2) <= SYS_VERSION < (3, 6):
-        mess += "\nFor your Python, version %s, use the python-3.2-to-3.5 branch or a package created from that" % sys.version[0:3]
-    elif SYS_VERSION == (2, 7):
-        mess += "\nFor your Python, version %s, use branch python-2.7 or a package created from that" % sys.version[0:3]
-    print(mess)
-    raise Exception(mess)
+if major != 3 or not 6 <= minor < 11:
+    sys.stderr.write("This installation medium is only for Python 3.6 .. 3.10 and later. You are running Python %s.%s.\n" % (major, minor))
+
+if major == 3 and minor > 10:
+    sys.stderr.write("Please install using trepan-xpy-x.y.z.tar.gz from https://github.com/Trepan-Debugger/trepan-xpy/releases\n")
+    sys.exit(1)
+elif major == 3 and 3 <= minor < 6:
+    sys.stderr.write("Please install using trepan-xpy_33-x.y.z.tar.gz from https://github.com/Trepan-Debugger/trepan-xpy/releases\n")
+    sys.exit(1)
+elif major == 2:
+    sys.stderr.write("Please install using trepan-xpy_2.4-x.y.z.tar.gz from https://github.com/Trepan-Debugger/trepan-xpy/releases\n")
+    sys.exit(1)
 
 # Get the package information used in setup().
 from __pkginfo__ import (
