@@ -6,4 +6,4 @@ cd $(dirname ${BASH_SOURCE[0]})
 if . ./setup-python-3.6.sh; then
     git merge master
 fi
-cd $trepan_merge_36_owd
+cd $trepan_xpy_merge_36_owd

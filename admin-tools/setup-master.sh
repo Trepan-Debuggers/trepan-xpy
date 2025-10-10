@@ -10,7 +10,7 @@ fi
 
 mydir=$(dirname $bs)
 trepan_xpy_fulldir=$(readlink -f $mydir)
-. $mydir/checkout_common.sh
+. $trepan_xpy_fulldir/checkout_common.sh
 
 (
      cd $trepan_xpy_fulldir/../../../rocky && setup_version x-python master && \
