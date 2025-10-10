@@ -9,7 +9,6 @@ build-backend = "setuptools.build_meta"
 authors = [
     {name = "Rocky Bernstein",	email = "rb@dustyfeet.com"},
 ]
-
 name = "trepanxpy"
 description = "GDB-like Debugger for x-python in the Trepan family"
 dependencies = [
@@ -19,7 +18,7 @@ dependencies = [
     "uncompyle6 >= 3.9.3",
     "x-python >= 1.5.3",
 ]
-readme = "README.rst"
+readme = {file = "README.md", content-type = "text/markdown"}
 
 license = "GPL-3.0-or-later"
 keywords = ["Python bytecode", "bytecode", "disassembler"]
