@@ -1,0 +1,143 @@
+--- ChangeLog	2025-10-10 06:23:33.273779217 -0400
++++ ChangeLog-spell-corrected	2025-10-10 06:23:07.379591279 -0400
+@@ -16,7 +16,7 @@
+ 
+ 2025-10-10  rocky <rb@dusytfeet.com>
+ 
+-	* admin-tools/checkout_common.sh, admin-tools/setup-master.sh: 
++	* admin-tools/checkout_common.sh, admin-tools/setup-master.sh:
+ 	Admnistrivia
+ 
+ 2025-10-09  rocky <rb@dusytfeet.com>
+@@ -28,7 +28,7 @@
+ 
+ 2025-10-09  rocky <rb@dusytfeet.com>
+ 
+-	* __pkginfo__.py, admin-tools/setup-master.sh, pyproject.toml: 
++	* __pkginfo__.py, admin-tools/setup-master.sh, pyproject.toml:
+ 	Administrivia
+ 
+ 2025-10-03  rocky <rb@dusytfeet.com>
+@@ -42,8 +42,8 @@
+ 	* .editorconfig, .pre-commit-config.yaml,
+ 	trepanxpy/processor/command/backtrace.py,
+ 	trepanxpy/processor/command/down.py,
+-	trepanxpy/processor/command/up.py, trepanxpy/version.py: 
+-	Administrivia and cleanup Remove unneeded copyies from trepan3k commans Bump version.  Add
++	trepanxpy/processor/command/up.py, trepanxpy/version.py:
++	Administrivia and cleanup Remove unneeded copyies from trepan3k commands. Bump version.  Add
+ 	precommit checking Fix typo in .editorconfig
+ 
+ 2025-10-02  rocky <rb@dusytfeet.com>
+@@ -66,7 +66,7 @@
+ 
+ 2025-09-16  rocky <rb@dusytfeet.com>
+ 
+-	* admin-tools/setup-master.sh, admin-tools/setup-python-3.6.sh: 
++	* admin-tools/setup-master.sh, admin-tools/setup-python-3.6.sh:
+ 	Adjust setup scripts
+ 
+ 2025-09-16  rocky <rb@dusytfeet.com>
+@@ -79,7 +79,7 @@
+ 
+ 2025-09-11  rocky <rb@dusytfeet.com>
+ 
+-	* admin-tools/setup-master.sh, admin-tools/setup-python-3.6.sh: 
++	* admin-tools/setup-master.sh, admin-tools/setup-python-3.6.sh:
+ 	Administrivia
+ 
+ 2025-09-11  rocky <rb@dusytfeet.com>
+@@ -167,7 +167,7 @@
+ 
+ 2022-03-30  rocky <rb@dusytfeet.com>
+ 
+-	* admin-tools/pyenv-versions-newer, trepanxpy/fmt.py: Guard agains
++	* admin-tools/pyenv-versions-newer, trepanxpy/fmt.py: Guard against
+ 	RAISE_VARARGS with no arg
+ 
+ 2021-11-20  rocky <rb@dusytfeet.com>
+@@ -190,7 +190,7 @@
+ 	admin-tools/how-to-make-a-release.md,
+ 	admin-tools/make-dist-newer.sh, admin-tools/make-dist-older.sh,
+ 	admin-tools/pyenv-versions-newer, setup.cfg, setup.py,
+-	trepanxpy/__init__.py, trepanxpy/__main__.py, trepanxpy/version.py: 
++	trepanxpy/__init__.py, trepanxpy/__main__.py, trepanxpy/version.py:
+ 	Get ready for release 1.1.0
+ 
+ 2021-09-12  rocky <rb@dustyfeet.com>
+@@ -251,7 +251,7 @@
+ 
+ 2020-07-22  rocky <rb@dustyfeet.com>
+ 
+-	* trepanxpy/__init__.py: fill out __init__.py Add pydoc friendly VERSON Add introductory docstring Note that we'll
++	* trepanxpy/__init__.py: fill out __init__.py Add pydoc friendly VERSION Add introductory docstring Note that we'll
+ 	use RsT
+ 
+ 2020-07-03  rocky <rocky@gnu.org>
+@@ -286,14 +286,14 @@
+ 	trepanxpy/debugger_defaults.py, trepanxpy/events.py,
+ 	trepanxpy/processor/cmd.py,
+ 	trepanxpy/processor/command/continue.py,
+-	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py: 
++	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py:
+ 	Implemented breakpoints and step counts...  Event flags added to core for such purpose.
+ 
+ 2020-06-15  rocky <rocky@gnu.org>
+ 
+ 	* __pkginfo__.py, trepanxpy/__main__.py, trepanxpy/debugger.py,
+ 	trepanxpy/processor/cmd.py, trepanxpy/version.py: Bump min pkg
+-	versions, start breakpoints.  And start renamin Debugger TrepanXPy
++	versions, start breakpoints.  And start renaming Debugger TrepanXPy
+ 
+ 2020-06-03  rocky <rocky@gnu.org>
+ 
+@@ -482,7 +482,7 @@
+ 	* .gitignore, README.rst, setup.py,
+ 	trepanxpy/processor/command/python.py,
+ 	trepanxpy/processor/command/stepi.py: Add python and step
+-	commmands...  go over docs.
++	commands...  go over docs.
+ 
+ 2020-05-20  rocky <rocky@gnu.org>
+ 
+@@ -495,7 +495,7 @@
+ 	* trepanxpy/processor/command/return.py,
+ 	trepanxpy/processor/command/set_subcmd/pc.py,
+ 	trepanxpy/processor/command/step.py: Add a gdb immediate "return"
+-	statement...  Correct `step` command the more compatable sys.settrace() VMTrace
++	statement...  Correct `step` command the more compatible sys.settrace() VMTrace
+ 	environment.
+ 
+ 2020-05-19  rocky <rocky@gnu.org>
+@@ -574,7 +574,7 @@
+ 
+ 	* trepanxpy/debugger.py, trepanxpy/debugger_defaults.py,
+ 	trepanxpy/processor/cmd.py, trepanxpy/processor/command/set.py,
+-	trepanxpy/processor/command/set_subcmd/{logging.py => logtrace.py}: 
++	trepanxpy/processor/command/set_subcmd/{logging.py => logtrace.py}:
+ 	First "set" command addition
+ 
+ 2020-05-11  rocky <rb@dustyfeet.com>
+@@ -596,7 +596,7 @@
+ 2020-05-11  rocky <rocky@gnu.org>
+ 
+ 	* trepanxpy/debugger.py, trepanxpy/processor/cmd.py,
+-	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py: 
++	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py:
+ 	Add YIELD events Work on termination
+ 
+ 2020-05-10  rocky <rb@dustyfeet.com>
+@@ -634,7 +634,7 @@
+ 	* __pkginfo__.py, trepanxpy/__main__.py, trepanxpy/clifns.py,
+ 	trepanxpy/{lib => }/core.py, trepanxpy/debugger.py,
+ 	trepanxpy/misc.py, trepanxpy/processor/cmd.py, trepanxpy/{lib =>
+-	processor/command}/__init__.py, trepanxpy/processor/trace.py: 
++	processor/command}/__init__.py, trepanxpy/processor/trace.py:
+ 	Something that has a prompt and cmdline interface
+ 
+ 2020-05-09  rocky <rocky@gnu.org>
+@@ -648,4 +648,3 @@
+ 2020-05-08  rocky <rocky@gnu.org>
+ 
+ 	* Much ado about nothing!
+-
