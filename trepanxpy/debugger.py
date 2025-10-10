@@ -83,8 +83,10 @@ class TrepanXPy(object):
             os.environ["TREPAN_PYGMENTS_STYLE"] = self.settings[
                 "disasmstyle"
             ] = self.settings["style"] = style
-        elif style := os.environ.get("TREPAN_PYGMENTS_STYLE", None):
-            self.settings["disasmstyle"] = self.settings["style"] = style
+        else:
+            style = os.environ.get("TREPAN_PYGMENTS_STYLE", None)
+            if style is not None:
+                self.settings["disasmstyle"] = self.settings["style"] = style
 
         self.core = TrepanXPyCore(self, {})
         if trace_only:
