@@ -44,6 +44,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10 ",
     "Programming Language :: Python :: 3.12 ",
+    "Programming Language :: Python :: 3.13 ",
 ]
 
 # The rest in alphabetic order
@@ -62,7 +63,7 @@ install_requires = [
 ]
 mailing_list = "python-debugger@googlegroups.com"
 modname = "trepanxpy"
-py_modules = None
+py_modules = []
 short_desc = "GDB-like Debugger for x-python in the Trepan family"
 
 
@@ -76,7 +77,7 @@ def read(*rnames):
 
 
 # version.py sets variable VERSION.
-__version__ = None
+__version__ = "??"
 exec(read("trepanxpy", "version.py"))
 web = "http://github.com/rocky/python-xpy/"
 
