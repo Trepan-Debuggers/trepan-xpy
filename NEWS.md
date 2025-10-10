@@ -1,3 +1,12 @@
+1.1.2 2054-10-10
+================
+
+* Respect environment variable `TREPAN_PYGMENTS_STYLE` on 	startup
+* Add --style option
+* Track trepan3k 1.4.0 changes. For example style is disasmstyle in trepan3k now
+* Tweak order of showing evaluation stack; it comes after autopc output.
+* Short option change: -X (not -x) is what trepan3k uses for tracing. Allow also "-v" as an alias for "-X".
+
 1.1.1 2024-07-22
 ================
 
@@ -33,7 +42,7 @@ A few bugs in setting the loglevl have been fixed. For example, previously `set 
 
 There have been a few usuablity improvements here, with the help of updated `trepan3k` and `x-python` and `xdis` releases.
 
-Stack operands are now shown for instruciton and we colorize trace output.
+Stack operands are now shown for instruction and we colorize trace output.
 
 New commands:
 
@@ -47,10 +56,10 @@ There are some bugs in `set logtrace`, and `finish`. However, as in the last rel
 1.0.0 2020-04-20 One-oh!
 ========================
 
-I gotta say it that the interaction between this and x-python is pretty cool, and the possibiilities for which direction to go in on both projects are numerous and vast.
+I gotta say it that the interaction between this and x-python is pretty cool, and the possibilities for which direction to go in on both projects are numerous and vast.
 
 How did I get here? Well, I was pouring over trace logs to find bugs in x-python, and then realized, hey, I've written a debugger already for Python that could help here.
 
 So here it is.  I can die now and my life is complete.
 
-Although commands like `next`, `finish` and breakpoints, aren't there yet, rather than sit on it this, I thought I'd release. This is very usuable as is - release early and often!
+Although commands like `next`, `finish` and breakpoints, aren't there yet, rather than sit on it this, I thought I'd release. This is very usable as is - release early and often!
