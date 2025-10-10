@@ -3,6 +3,7 @@
 .mypy_cache
 .python-version
 /.gdb_history
+/ChangeLog-spell-corrected
 /build
 /dist
 /tmp

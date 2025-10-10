@@ -16,4 +16,4 @@ trepan_xpy_fulldir=$(readlink -f $mydir)
      cd $trepan_xpy_fulldir/../../../rocky && setup_version x-python python-3.6 && \
      cd $trepan_xpy_fulldir/../.. && setup_version python3-trepan python-3.6
 )
-checkout_finish python-3.6
+checkout_finish python-3.6-to-3.10
