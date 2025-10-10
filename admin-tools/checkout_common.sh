@@ -2,6 +2,7 @@
 export PATH=$HOME/.pyenv/bin/pyenv:$PATH
 bs=${BASH_SOURCE[0]}
 mydir=$(dirname $bs)
+treapn_xpy_fulldir=$(readlink -f $mydir)
 
 function setup_version {
     local repo=$1
@@ -13,6 +14,7 @@ function setup_version {
 
 function checkout_finish {
     branch=$1
+    cd $trepan_xpy_fulldir/..
     cd $trepan_xpy_owd
     git checkout $branch && pyenv local $PYTHON_VERSION && git pull
     rc=$?
