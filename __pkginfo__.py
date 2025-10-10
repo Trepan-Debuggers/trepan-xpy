@@ -60,7 +60,6 @@ install_requires = [
     "uncompyle6 >= 3.9.2",
     "x-python >= 1.5.2",
 ]
-license = "GPL3"
 mailing_list = "python-debugger@googlegroups.com"
 modname = "trepanxpy"
 py_modules = None

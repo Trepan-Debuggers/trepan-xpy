@@ -1,5 +1,5 @@
 #!/bin/bash
-PYTHON_VERSION=3.11
+PYTHON_VERSION=3.13
 
 trepan_xpy_owd=$(pwd)
 bs=${BASH_SOURCE[0]}
@@ -9,9 +9,20 @@ if [[ $0 == $bs ]] ; then
 fi
 
 mydir=$(dirname $bs)
+trepan_xpy_owd=$(pwd)
 fulldir=$(readlink -f $mydir)
+. $mydir/checkout_common.sh
+
 cd $fulldir/../../../rocky
 
+(cd $mydir/../../../rocky && \
+     setup_version python-spark master && \
+     setup_version python-xdis master && \
+     setup_version python-filecache master && \
+     cd $fulldir/../Trepan-Debugger/python3-trepan && setup_version master && \
+     cd $fulldir && setup_version trepan-xpy master
+)
+checkout_finish master
 (cd ./python-spark && git checkout master && pyenv local $PYTHON_VERSION && git pull)
 (cd ./python-xdis ; git checkout master && pyenv local $PYTHON_VERSION && git pull)
 (cd ../Trepan-Debuggers/python3-trepan && git checkout master && pyenv local $PYTHON_VERSION && git pull)
