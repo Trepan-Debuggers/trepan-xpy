@@ -1,13 +1,22 @@
 #!/bin/bash
 PYTHON_VERSION=3.2
 
-trepan_xpy_owd=$(pwd)
 bs=${BASH_SOURCE[0]}
+if [[ $0 == $bs ]] ; then
+    echo "This script should be *sourced* rather than run directly through bash"
+    exit 1
+fi
+
+
+export PATH=$HOME/.pyenv/bin/pyenv:$PATH
+trepan_xpy_owd=$(pwd)
 mydir=$(dirname $bs)
-fulldir=$(readlink -f $mydir)
-cd $fulldir/..
-(cd ../python3-trepan && ./admin-tools/setup-python-3.2.sh) && \
-    (cd ../x-python && ./admin-tools/setup-python-3.1.sh)
-git checkout python-3.2-to-3.5 && pyenv local $PYTHON_VERSION && git pull
-cd $trepan_xpy_owd
-rm -v */.python-version || true
+. $mydir/checkout_common.sh
+
+(cd $mydir/../../../rocky && \
+     setup_version python-spark python-3.2 && \
+     setup_version python-xdis python-3.2 && \
+     setup_version python-filecache python-3.2 && \
+     cd $fulldir/../Trepan-Debugger/python3-trepan && setup_version python-3.2
+)
+checkout_finish python-3.2

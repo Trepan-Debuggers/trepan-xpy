@@ -14,10 +14,10 @@ name = "trepanxpy"
 description = "GDB-like Debugger for x-python in the Trepan family"
 dependencies = [
     "decompyle3 >= 3.9.2",
-    "term-background >= 1.0.2",
-    "trepan3k >= 1.4.0",
-    "uncompyle6 >= 3.9.2",
-    "x-python >= 1.5.2",
+    "term-background >= 1.0.5",
+    "trepan3k >= 1.5.0",
+    "uncompyle6 >= 3.9.3",
+    "x-python >= 1.5.3",
 ]
 readme = "README.rst"
 

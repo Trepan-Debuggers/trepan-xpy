@@ -9,23 +9,11 @@ if [[ $0 == $bs ]] ; then
 fi
 
 mydir=$(dirname $bs)
-trepan_xpy_owd=$(pwd)
-fulldir=$(readlink -f $mydir)
+trepan_xpy_fulldir=$(readlink -f $mydir)
 . $mydir/checkout_common.sh
 
-cd $fulldir/../../../rocky
-
-(cd $mydir/../../../rocky && \
-     setup_version python-spark master && \
-     setup_version python-xdis master && \
-     setup_version python-filecache master && \
-     cd $fulldir/../Trepan-Debugger/python3-trepan && setup_version master && \
-     cd $fulldir && setup_version trepan-xpy master
+(
+     cd $trepan_xpy_fulldir/../../../rocky && setup_version x-python master && \
+     cd $trepan_xpy_fulldir/../.. && setup_version python3-trepan master
 )
 checkout_finish master
-(cd ./python-spark && git checkout master && pyenv local $PYTHON_VERSION && git pull)
-(cd ./python-xdis ; git checkout master && pyenv local $PYTHON_VERSION && git pull)
-(cd ../Trepan-Debuggers/python3-trepan && git checkout master && pyenv local $PYTHON_VERSION && git pull)
-(cd $fulldir/.. && git checkout master &&  pyenv local $PYTHON_VERSION && git pull)
-cd $trepan_xpy_owd
-rm -v */.python-version || true
