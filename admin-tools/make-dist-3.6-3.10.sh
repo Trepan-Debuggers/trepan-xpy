@@ -13,15 +13,14 @@ trap finish EXIT
 if ! source ./pyenv-3.6-3.10-versions ; then
     exit $?
 fi
+
 if ! source ./setup-python-3.6.sh ; then
     exit $?
 fi
 
-. ./setup-python-3.6.sh
-
 cd ..
 
-source trepan/version.py
+source ${PACKAGE}/version.py
 if [[ ! -n $__version__ ]]; then
     echo "You need to set __version__ first"
     exit 1
