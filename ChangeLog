@@ -1,6 +1,157 @@
+2025-10-10  rocky <rb@dusytfeet.com>
+
+	* .gitignore, ChangeLog, ChangeLog-spell-corrected.diff, Makefile,
+	admin-tools/make-dist-3.6-3.10.sh, trepanxpy/version.py: Get ready
+	for release 1.1.2
+
+2025-10-10  rocky <rb@dusytfeet.com>
+
+	* admin-tools/make-dist-newer.sh, admin-tools/make-dist-newest.sh,
+	admin-tools/pyenv-3.6-3.10-versions,
+	admin-tools/{pyenv-versions-newer => pyenv-newest-versions},
+	admin-tools/pyenv-versions-older: Administrivia
+
+2025-10-10  rocky <rb@dusytfeet.com>
+
+	* admin-tools/merge-for-3.6.sh: Administriva
+
+2025-10-10  rocky <rb@dusytfeet.com>
+
+	* admin-tools/checkout_common.sh, admin-tools/setup-master.sh:
+	Admnistrivia
+
+2025-10-09  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, admin-tools/checkout_common.sh,
+	admin-tools/merge-for-3.6.sh, admin-tools/setup-master.sh,
+	admin-tools/setup-python-2.7.sh, admin-tools/setup-python-3.2.sh,
+	admin-tools/setup-python-3.6.sh, pyproject.toml: Administrivia
+
+2025-10-09  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, admin-tools/setup-master.sh, pyproject.toml:
+	Administrivia
+
+2025-10-03  rocky <rb@dusytfeet.com>
+
+	* .pre-commit-config.yaml, trepanxpy/__main__.py,
+	trepanxpy/debugger.py: Respect env-var TREPAN_PYGMENTS_STYLE on
+	startup
+
+2025-10-03  rocky <rb@dusytfeet.com>
+
+	* .editorconfig, .pre-commit-config.yaml,
+	trepanxpy/processor/command/backtrace.py,
+	trepanxpy/processor/command/down.py,
+	trepanxpy/processor/command/up.py, trepanxpy/version.py:
+	Administrivia and cleanup Remove unneeded copyies from trepan3k commands. Bump version.  Add
+	precommit checking Fix typo in .editorconfig
+
+2025-10-02  rocky <rb@dusytfeet.com>
+
+	* trepanxpy/__main__.py, trepanxpy/debugger.py,
+	trepanxpy/processor/cmd.py, trepanxpy/processor/command/down.py,
+	trepanxpy/processor/command/up.py: Add up and down commands and misc
+	fixes Add --style option.
+
+2025-10-02  rocky <rb@dusytfeet.com>
+
+	* trepanxpy/processor/cmd.py,
+	trepanxpy/processor/command/backtrace.py,
+	trepanxpy/processor/command/info_subcmd/frame.py: Copy "info frame"
+	and "backtrace"
+
+2025-09-27  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #2 from litneet64/master Include trepanxpy.processor module in pyproject for setup
+
+2025-09-16  rocky <rb@dusytfeet.com>
+
+	* admin-tools/setup-master.sh, admin-tools/setup-python-3.6.sh:
+	Adjust setup scripts
+
+2025-09-16  rocky <rb@dusytfeet.com>
+
+	* admin-tools/setup-master.sh: Bang on setup scripts
+
+2025-09-11  rocky <rb@dusytfeet.com>
+
+	* admin-tools/setup-python-3.6.sh: Admnistrivia
+
+2025-09-11  rocky <rb@dusytfeet.com>
+
+	* admin-tools/setup-master.sh, admin-tools/setup-python-3.6.sh:
+	Administrivia
+
+2025-09-11  rocky <rb@dusytfeet.com>
+
+	* admin-tools/merge-for-3.2.sh, admin-tools/merge-for-3.6.sh,
+	admin-tools/setup-python-3.6.sh, pyproject.toml, setup.py: Use
+	pyproject.toml for Python-3.11-3.13
+
+2025-09-11  rocky <rb@dusytfeet.com>
+
+	* setup.py, trepanxpy/debugger_defaults.py,
+	trepanxpy/processor/command/info_subcmd/pc.py: Small changes * "style" -> "disasmstyle" in trepan3k now * version check cut and paste referred to trepan3k not xpython
+
+2025-07-26  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, trepanxpy/core.py: Require trepan3k 1.4.0 or
+	greater
+
+2025-06-26  rocky <rb@dusytfeet.com>
+
+	* trepanxpy/debugger.py,
+	trepanxpy/processor/command/set_subcmd/autostack.py: Show autostack
+	commands as the last hook...  not the first hook.  It should come *after* autopc
+
+2025-06-20  rocky <rb@dusytfeet.com>
+
+	* trepanxpy/__main__.py, trepanxpy/fmt.py: Small fixes __main__.py: -X (not -x) is what trepan3k uses. Also add alias -v
+	             which is what xpython uses.  fmt.py: We need to str() argument in
+	pymgments formatting
+
+2025-06-09  rocky <rb@dusytfeet.com>
+
+	* trepanxpy/core.py: fnlist -> code_list fnlist is obsolete since the last major revision of trepan3k
+
+2024-11-23  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, trepanxpy/processor/cmd.py: Track trepan3k change
+	for completion
+
+2024-11-08  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, setup.py: Put nose in "dev" setup
+
+2024-09-14  rocky <rb@dusytfeet.com>
+
+	* trepanxpy/core.py: trace_fn -> trace_func, included -> excluded
+
+2024-08-26  rocky <rb@dusytfeet.com>
+
+	* trepanxpy/processor/command/info_subcmd/pc.py: Track trepan3k
+	parameter change...  linestarts -> line_starts
+
+2024-08-26  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py: Bump minimum version of trepan3k allowed
+
+2024-08-26  rocky <rb@dusytfeet.com>
+
+	* __pkginfo__.py, admin-tools/how-to-make-a-release.md, setup.py,
+	trepanxpy/debugger_defaults.py, trepanxpy/fmt.py,
+	trepanxpy/processor/command/info_subcmd/pc.py: Track trepan3k
+	changes Highlighting via pygments has changed
+
 2024-07-22  rocky <rb@dusytfeet.com>
 
-	* __pkginfo__.py, trepanxpy/version.py: Get ready for release 1.1.1
+	* ChangeLog, NEWS.md, __pkginfo__.py,
+	admin-tools/{make-dist-older.sh => make-dist-3.2-3.5.sh},
+	admin-tools/merge-for-2.7.sh, admin-tools/merge-for-3.2.sh,
+	admin-tools/pyenv-versions-newer, admin-tools/setup-master.sh,
+	admin-tools/setup-python-2.7.sh, admin-tools/setup-python-3.2.sh,
+	trepanxpy/version.py: Get ready for release 1.1.1
 
 2024-05-06  rocky <rb@dusytfeet.com>
 
@@ -17,7 +168,7 @@
 
 2022-03-30  rocky <rb@dusytfeet.com>
 
-	* admin-tools/pyenv-versions-newer, trepanxpy/fmt.py: Guard agains
+	* admin-tools/pyenv-versions-newer, trepanxpy/fmt.py: Guard against
 	RAISE_VARARGS with no arg
 
 2021-11-20  rocky <rb@dusytfeet.com>
@@ -40,7 +191,7 @@
 	admin-tools/how-to-make-a-release.md,
 	admin-tools/make-dist-newer.sh, admin-tools/make-dist-older.sh,
 	admin-tools/pyenv-versions-newer, setup.cfg, setup.py,
-	trepanxpy/__init__.py, trepanxpy/__main__.py, trepanxpy/version.py: 
+	trepanxpy/__init__.py, trepanxpy/__main__.py, trepanxpy/version.py:
 	Get ready for release 1.1.0
 
 2021-09-12  rocky <rb@dustyfeet.com>
@@ -101,7 +252,7 @@
 
 2020-07-22  rocky <rb@dustyfeet.com>
 
-	* trepanxpy/__init__.py: fill out __init__.py Add pydoc friendly VERSON Add introductory docstring Note that we'll
+	* trepanxpy/__init__.py: fill out __init__.py Add pydoc friendly VERSION Add introductory docstring Note that we'll
 	use RsT
 
 2020-07-03  rocky <rocky@gnu.org>
@@ -136,14 +287,14 @@
 	trepanxpy/debugger_defaults.py, trepanxpy/events.py,
 	trepanxpy/processor/cmd.py,
 	trepanxpy/processor/command/continue.py,
-	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py: 
+	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py:
 	Implemented breakpoints and step counts...  Event flags added to core for such purpose.
 
 2020-06-15  rocky <rocky@gnu.org>
 
 	* __pkginfo__.py, trepanxpy/__main__.py, trepanxpy/debugger.py,
 	trepanxpy/processor/cmd.py, trepanxpy/version.py: Bump min pkg
-	versions, start breakpoints.  And start renamin Debugger TrepanXPy
+	versions, start breakpoints.  And start renaming Debugger TrepanXPy
 
 2020-06-03  rocky <rocky@gnu.org>
 
@@ -332,7 +483,7 @@
 	* .gitignore, README.rst, setup.py,
 	trepanxpy/processor/command/python.py,
 	trepanxpy/processor/command/stepi.py: Add python and step
-	commmands...  go over docs.
+	commands...  go over docs.
 
 2020-05-20  rocky <rocky@gnu.org>
 
@@ -345,7 +496,7 @@
 	* trepanxpy/processor/command/return.py,
 	trepanxpy/processor/command/set_subcmd/pc.py,
 	trepanxpy/processor/command/step.py: Add a gdb immediate "return"
-	statement...  Correct `step` command the more compatable sys.settrace() VMTrace
+	statement...  Correct `step` command the more compatible sys.settrace() VMTrace
 	environment.
 
 2020-05-19  rocky <rocky@gnu.org>
@@ -424,7 +575,7 @@
 
 	* trepanxpy/debugger.py, trepanxpy/debugger_defaults.py,
 	trepanxpy/processor/cmd.py, trepanxpy/processor/command/set.py,
-	trepanxpy/processor/command/set_subcmd/{logging.py => logtrace.py}: 
+	trepanxpy/processor/command/set_subcmd/{logging.py => logtrace.py}:
 	First "set" command addition
 
 2020-05-11  rocky <rb@dustyfeet.com>
@@ -446,7 +597,7 @@
 2020-05-11  rocky <rocky@gnu.org>
 
 	* trepanxpy/debugger.py, trepanxpy/processor/cmd.py,
-	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py: 
+	trepanxpy/processor/command/step.py, trepanxpy/processor/trace.py:
 	Add YIELD events Work on termination
 
 2020-05-10  rocky <rb@dustyfeet.com>
@@ -484,7 +635,7 @@
 	* __pkginfo__.py, trepanxpy/__main__.py, trepanxpy/clifns.py,
 	trepanxpy/{lib => }/core.py, trepanxpy/debugger.py,
 	trepanxpy/misc.py, trepanxpy/processor/cmd.py, trepanxpy/{lib =>
-	processor/command}/__init__.py, trepanxpy/processor/trace.py: 
+	processor/command}/__init__.py, trepanxpy/processor/trace.py:
 	Something that has a prompt and cmdline interface
 
 2020-05-09  rocky <rocky@gnu.org>
@@ -498,4 +649,3 @@
 2020-05-08  rocky <rocky@gnu.org>
 
 	* Much ado about nothing!
-
