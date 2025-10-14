@@ -15,6 +15,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import os.path as osp
 
+from typing import List
 from xpython.vmtrace import PyVMEVENT_ALL
 
 from trepan.processor.command.base_cmd import DebuggerCommand
@@ -54,7 +55,7 @@ class StepICommand(DebuggerCommand):
     need_stack = True
     short_help = "Step instruction (possibly entering called functions)"
 
-    def run(self, args: list[str]) -> bool:
+    def run(self, args: List[str]) -> bool:
         proc = self.proc
         core = self.core
         if len(args) <= 1:

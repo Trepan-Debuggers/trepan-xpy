@@ -15,6 +15,8 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import os.path as osp
 
+from typing import List
+
 from xpython.vmtrace import (
     PyVMEVENT_ALL,
     PyVMEVENT_INSTRUCTION,
@@ -86,7 +88,7 @@ class StepCommand(DebuggerCommand):
 
     DebuggerCommand.setup(locals(), category="running", max_args=1, need_stack=True)
 
-    def run(self, args: list[str]) -> bool:
+    def run(self, args: List[str]) -> bool:
         # event_flags  = []
         # if args[0][-1] == '>':
         #     event_flags  = ['call']
