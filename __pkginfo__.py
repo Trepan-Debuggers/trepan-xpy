@@ -20,11 +20,14 @@
 # which for example requires commas in between parameters, is a little
 # less elegant than having it here with reduced code, albeit there
 # still is some room for improvement.
+from xdis import PYTHON_VERSION_TRIPLE
 
 import os.path as osp
 
 # Things that change more often go here.
-copyright = """Copyright (C) 2020-2021, 2023-2025 Rocky Bernstein <rb@dustyfeet.com>."""
+copyright = (
+    """Copyright (C) 2020-2021, 2023-2025, 2026 Rocky Bernstein <rb@dustyfeet.com>."""
+)
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
@@ -55,12 +58,15 @@ extras_require = {"dev": ["nose>=1.0.0, <= 1.3.7"]}
 
 ftp_url = None
 install_requires = [
-    "decompyle3 >= 3.9.2",
     "term-background >= 1.0.5",
     "trepan3k >= 1.5.0",
     "uncompyle6 >= 3.9.2",
     "x-python >= 1.5.3",
 ]
+
+if (3, 7) <= PYTHON_VERSION_TRIPLE < (3, 9):
+    install_requires.append("decompyle3 >= 3.8.9")
+
 mailing_list = "python-debugger@googlegroups.com"
 modname = "trepanxpy"
 py_modules = []
